@@ -1,0 +1,20 @@
+@use "./../../utils/_color.scss";
+.wrapper-footer {
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  background-color: #eeee;
+
+  list-style-type: none;
+  text-align: center;
+  gap: 10vw;
+  line-height: 2;
+  color: color.$gray;
+  padding-top: 10px;
+  font-size: 0.8rem;
+
+  h3 {
+    color: color.$blue;
+    margin-bottom: 10px;
+  }
+}

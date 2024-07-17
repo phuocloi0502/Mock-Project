@@ -1,0 +1,18 @@
+@use "./../utils//color";
+.admin-container {
+  height: 100%;
+  width: 100%;
+  min-width: 1500px;
+  display: flex;
+  background-color: #f0f1f3;
+
+  .admin-content {
+    flex: 4;
+    min-width: 1235px;
+    .admin-main-content {
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+    }
+  }
+}

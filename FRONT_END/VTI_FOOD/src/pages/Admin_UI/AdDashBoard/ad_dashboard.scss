@@ -1,0 +1,46 @@
+@use "./../../../utils/_color.scss";
+
+.dash-board-wrapper {
+  margin: 0 auto;
+  width: 80%;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .ant-card {
+    border-radius: 8px;
+  }
+
+  .ant-card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .my-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+
+    .icon-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: aquamarine;
+      padding: 20px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+    .card-content-area {
+      text-align: center;
+      h3 {
+        font-size: 2rem;
+      }
+      h5 {
+        color: color.$gray;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}

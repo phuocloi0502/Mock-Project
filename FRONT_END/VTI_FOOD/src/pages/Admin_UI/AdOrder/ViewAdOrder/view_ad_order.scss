@@ -1,0 +1,15 @@
+@use "../../../../utils/color";
+.admin-order-wrap {
+  > h4 {
+    padding: 0;
+  }
+  .header-order-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+}

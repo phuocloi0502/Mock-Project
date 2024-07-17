@@ -1,0 +1,27 @@
+@use "./../../../utils/_color.scss";
+.navigate-wrap {
+  flex: 1;
+  min-width: 265px;
+  max-width: 265px;
+  background-color: white;
+  padding-top: 20px;
+  .nav-area {
+    margin-top: 20px;
+
+    li {
+      padding-left: 60px;
+      padding-top: 15px;
+      padding-bottom: 10px;
+      transition: background-color 0.3s ease-out 100ms;
+      font-weight: 550;
+      font-size: 0.9rem;
+    }
+    ul li:hover {
+      background-color: color.$purple_hover;
+      color: color.$purple;
+      font-weight: 570;
+      border-left: 5px solid color.$purple;
+      padding-left: 55px;
+    }
+  }
+}

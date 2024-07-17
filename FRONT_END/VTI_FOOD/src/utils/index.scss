@@ -1,0 +1,25 @@
+@use "./../utils//color";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+  list-style-type: none;
+}
+
+html {
+  font-size: 20px;
+}
+a {
+  text-decoration: none;
+  color: color.$gray;
+}
+.web-container {
+  background-color: color.$orange;
+}
+
+.main-content {
+  width: 1200px;
+  height: 100%;
+  margin: auto;
+}

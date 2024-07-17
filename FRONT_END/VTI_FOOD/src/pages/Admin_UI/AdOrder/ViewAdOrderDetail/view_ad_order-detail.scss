@@ -1,0 +1,25 @@
+@use "../../../../utils/color";
+.order-detail-wrap {
+  h5 {
+    margin-bottom: 20px;
+    font-size: 0.7rem;
+    color: color.$purple;
+    span {
+      color: color.$gray;
+    }
+  }
+  .order-info-text {
+    padding: 10px;
+    > span {
+      font-weight: 600;
+    }
+    .text-content {
+      color: gray;
+    }
+  }
+}
+.lable-icon {
+  background-color: rgb(210, 210, 218);
+  padding: 10px;
+  border-radius: 50%;
+}

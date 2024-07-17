@@ -1,0 +1,33 @@
+.view-customer-container {
+    padding: 24px;
+    border-radius: 8px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .custom-pagination {
+    .ant-pagination-item-active {
+      border-color: #1890ff;
+    }
+  
+    .ant-pagination-item-active a {
+      color: #1890ff;
+    }
+  }
+  

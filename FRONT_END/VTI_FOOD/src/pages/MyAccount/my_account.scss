@@ -1,0 +1,103 @@
+@use "./../../utils/_color.scss";
+.my-account-wrapper {
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    #bread-crumb{
+        padding: 10px 0px;   
+
+        :where(.css-dev-only-do-not-override-m4timi).ant-breadcrumb li:last-child{
+            color: color.$blue;
+        }            
+    }
+
+    .order-statistics{
+        width: 95%;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .container {
+        padding: 10px;
+        border-radius: 5px;
+        
+    }
+    #icon {
+        text-align: center;
+        margin: auto;
+        font-size: x-large;
+    }
+
+    #number h1{
+        font-size: x-large;
+    }
+    
+    .piRocket-duotone{
+        background-color: color.$blue-light;
+        #icon {
+            color: color.$deepskyblue;
+        }
+    }
+
+    .file-box{
+        background-color: color.$beige-light;
+        #icon {
+            color: color.$orange;
+        }
+    }
+
+    .box-seam{
+        background-color: color.$green-light;
+        #icon {
+            color: color.$green;
+        }
+    }
+
+    .information-wrap {
+        background-color: white;
+        width: 95%;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        .form-warp{
+            margin: auto;
+            padding: 10px;
+            max-width: 50%;
+            padding-top:30px;
+        }
+
+        .avatar label{
+            width: 100%;
+        }
+
+        h3 {
+            color: color.$blue;
+        }
+
+        .title {
+            padding: 10px 0px;
+        }
+
+        .link {
+            text-align: center;
+            a {
+                color: color.$blue;
+            }
+        }
+
+        .btn-edit {
+            margin: auto;
+            text-align: center;
+        }
+
+        .container-end {
+            margin-top: 20px;
+        }
+
+        :where(.css-dev-only-do-not-override-m4timi).ant-form-item{
+            margin-bottom: 10px !important;
+        }
+    }
+    
+}

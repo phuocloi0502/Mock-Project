@@ -1,0 +1,684 @@
+{
+	"info": {
+		"_postman_id": "2048480e-3082-47bb-bb14-f332796ebf9e",
+		"name": "DemoFoodVTI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21441880"
+	},
+	"item": [
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "api/v1/categories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Món ngọt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}categories",
+							"host": [
+								"{{api_prefix}}categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/categories/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Món đặc biệt\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}categories/3",
+							"host": [
+								"{{api_prefix}}categories"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/categories/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}categories/1",
+							"host": [
+								"{{api_prefix}}categories"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}categories",
+							"host": [
+								"{{api_prefix}}categories"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "m",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/categories/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Món ăn chay\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}categories/1",
+							"host": [
+								"{{api_prefix}}categories"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "api/v1/products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Kem dâu tươi sữa trắng\",\r\n    \"price\" : 28965,\r\n    \"abstract\" : \"Mát lạnh , sảng khoái, tan chảy trong miệng \",\r\n    \"quantity\" : 23,\r\n    \"description\": \"Làm từ sữa tuôi nguyên chất, béo ngậy chua lè\",\r\n    \"status\" : \"ACTIVE\",\r\n    \"show\" : true,\r\n    \"category_id\" :1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}products",
+							"host": [
+								"{{api_prefix}}products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/products/{productId}/images",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": [
+										"/C:/Users/Lequoc/Downloads/z5451847605803_93bd694db7be057380f3b314c95a8fa7 (1).jpg",
+										"/C:/Users/Lequoc/Downloads/z4855563459561_29b346500b7e35b86ae418c6628eb05a.jpg",
+										"/C:/Users/Lequoc/Downloads/z5559541506735_2be75cb45926f81d6059438ebda14e08.jpg",
+										"/C:/Users/Lequoc/Downloads/z5298335726701_31ad0f6afd9270474ffceacc21a7a903.jpg",
+										"/C:/Users/Lequoc/Downloads/z5559541509974_a8522e294000cc3cf28871b6705f0f21.jpg",
+										"/C:/Users/Lequoc/Downloads/z5298335726701_31ad0f6afd9270474ffceacc21a7a903.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_prefix}}products/1/images",
+							"host": [
+								"{{api_prefix}}products"
+							],
+							"path": [
+								"1",
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/products/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Pizza hài sản kiếu pháp\",\r\n    \"price\" : 29888,\r\n    \"abstract\" : \"Sốt giòn thơm ngon, nước chấm đậm đà, thịt chín tươi quéo \",\r\n    \"quantity\" : 26,\r\n    \"description\": \"Giá cả bình dân, tặng 2 ly bia\",\r\n    \"status\" : \"PENDING\",\r\n    \"show\" : true,\r\n    \"category_id\" :1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}products/1",
+							"host": [
+								"{{api_prefix}}products"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/products/{id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Pizza hài sản kiếu pháp\",\r\n    \"price\" : 48965,\r\n    \"abstract\" : \"Sốt giòn thơm ngon, nước chấm đậm đà, thịt chín tươi quéo \",\r\n    \"quantity\" : 26,\r\n    \"description\": \"Giá cả bình dân, tặng 2 ly bia\",\r\n    \"status\" : 1,\r\n    \"show\" : true,\r\n    \"category_id\" :2\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}products/1",
+							"host": [
+								"{{api_prefix}}products"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Reami Note 22 Ultra\",\r\n    \"price\" : 24895,\r\n    \"abstract\" : \"Reami Note 22 Ultra bản limit màu ánh kim, bạc nguyên khối\",\r\n    \"quantity\" : 10,\r\n    \"description\": \"Với thiết kế lịch lãm, màu bạc sáng, màn hình 6.5 inch, camera 108MP 1.2f\",\r\n    \"status\" : 1,\r\n    \"show\" : true,\r\n    \"category_id\" :1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}products",
+							"host": [
+								"{{api_prefix}}products"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "pi",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/products/category/{categoryId}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Reami Note 22 Ultra\",\r\n    \"price\" : 24895,\r\n    \"abstract\" : \"Reami Note 22 Ultra bản limit màu ánh kim, bạc nguyên khối\",\r\n    \"quantity\" : 10,\r\n    \"description\": \"Với thiết kế lịch lãm, màu bạc sáng, màn hình 6.5 inch, camera 108MP 1.2f\",\r\n    \"status\" : 1,\r\n    \"show\" : true,\r\n    \"category_id\" :1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}products/category/1",
+							"host": [
+								"{{api_prefix}}products"
+							],
+							"path": [
+								"category",
+								"1"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "pi",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/products/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Reami Note 22 Ultra\",\r\n    \"price\" : 24895,\r\n    \"abstract\" : \"Reami Note 22 Ultra bản limit màu ánh kim, bạc nguyên khối\",\r\n    \"quantity\" : 10,\r\n    \"description\": \"Với thiết kế lịch lãm, màu bạc sáng, màn hình 6.5 inch, camera 108MP 1.2f\",\r\n    \"status\" : 1,\r\n    \"show\" : true,\r\n    \"category_id\" :1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}products/9",
+							"host": [
+								"{{api_prefix}}products"
+							],
+							"path": [
+								"9"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "pi",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "api/v1/users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Lan\",\r\n    \"lastName\" : \"Tran\",\r\n    \"phoneNumber\": \"0987656344\",\r\n    \"username\": \"lantran\",\r\n    \"password\": \"lantran\",\r\n    \"retypePassword\":\"lantran\",\r\n    \"address\": \"Lầu 5 cốc\",\r\n    \"dob\": \"09/10/2001\",\r\n    \"email\": \"nhan@gmail.com\",\r\n    \"role_id\" : 2\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}users/register",
+							"host": [
+								"{{api_prefix}}users"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/users/{userId}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Le Thanh Quoc\",\r\n    \"phoneNumber\": \"0336670983\",\r\n    \"username\": \"abcadmin\",\r\n    \"password\": \"456890\",\r\n    \"address\": \"Lầu 5 cốc\",\r\n    \"dateOfBirth\": \"2001-09-02\",\r\n    \"email\": \"quoc@gmail.com\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}users/1",
+							"host": [
+								"{{api_prefix}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}users/1?status=true",
+							"host": [
+								"{{api_prefix}}users"
+							],
+							"path": [
+								"1"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/users/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}users/1",
+							"host": [
+								"{{api_prefix}}users"
+							],
+							"path": [
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}users",
+							"host": [
+								"{{api_prefix}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/users/{userId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}users/1",
+							"host": [
+								"{{api_prefix}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/users/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"lantran\",\r\n    \"password\": \"lantran\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}users/login",
+							"host": [
+								"{{api_prefix}}users"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carts",
+			"item": [
+				{
+					"name": "api/v1/carts/add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"productId\": 2,\r\n    \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}carts/add",
+							"host": [
+								"{{api_prefix}}carts"
+							],
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/carts/update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1,\r\n  \"productId\": 2,\r\n  \"quantity\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}carts/update",
+							"host": [
+								"{{api_prefix}}carts"
+							],
+							"path": [
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/v1/carts/{productId}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}carts/1/1",
+							"host": [
+								"{{api_prefix}}carts"
+							],
+							"path": [
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "chi tiết giỏ hàng",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}carts/{user_id}",
+							"host": [
+								"{{api_prefix}}carts"
+							],
+							"path": [
+								"{user_id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "api/v1/orders/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"deliveryDate\": \"2024-07-15\",\r\n    \"deliveryAddress\": \"Ba Tri\",\r\n    \"orderStatus\": \"DA_NHAN\",\r\n    \"note\": \"Test\",\r\n    \"paymentMethodId\": 1,\r\n    \"paymentStatus\": \"False\",\r\n    \"paymentDate\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_prefix}}orders/create",
+							"host": [
+								"{{api_prefix}}orders"
+							],
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy tất cả các đơn hàng.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}orders/",
+							"host": [
+								"{{api_prefix}}orders"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lấy đơn hàng theo ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}orders/{id}",
+							"host": [
+								"{{api_prefix}}orders"
+							],
+							"path": [
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cập nhật đơn hàng",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{api_prefix}}orders/{id}",
+							"host": [
+								"{{api_prefix}}orders"
+							],
+							"path": [
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

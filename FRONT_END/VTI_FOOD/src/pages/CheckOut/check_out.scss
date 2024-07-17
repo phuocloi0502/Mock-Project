@@ -1,0 +1,138 @@
+@use "./../../utils/_color.scss";
+.check-out-wrap {
+  background-color: color.$background;
+  padding: 20px;
+
+  > p {
+    color: color.$blue;
+    padding-bottom: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .check-out-area {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+    .check-out-user {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .check-out-form {
+        background-color: color.$white;
+        border-radius: 8px;
+        padding: 30px;
+      }
+
+      .user-info {
+      }
+      .user-payment {
+        .my-date-picker {
+          width: 100%;
+        }
+        .radio-payment-area {
+          width: 60%;
+          margin: 0 auto;
+          padding: 20px;
+          .radio-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            .radio-item {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-self: center;
+              > span {
+                font-size: 0.9rem;
+              }
+              .radio-item-icon {
+                color: color.$orange;
+                font-size: 2rem;
+              }
+            }
+          }
+          .radio-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            .my-radio-button {
+              display: flex;
+              flex-direction: row;
+              gap: 165px;
+            }
+          }
+        }
+      }
+      .user-note {
+      }
+    }
+
+    .check-out-order {
+      flex: 1;
+      background-color: color.$white;
+      border-radius: 8px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      .check-out-order-product {
+        .check-out-order-product-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          span {
+            color: color.$orange;
+          }
+          .product-item-info {
+            display: flex;
+            gap: 30px;
+            font-size: 0.9rem;
+            align-items: center;
+            img {
+              width: 60px;
+              height: 60px;
+            }
+            .product-item-info-text {
+              text-align: left;
+            }
+          }
+        }
+      }
+      .check-out-order-payment {
+        line-height: 1.5;
+        p {
+          color: color.$gray;
+        }
+        span {
+          font-size: 1.1rem;
+        }
+      }
+      .check-out-order-buton {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%);
+        button {
+          width: 200px;
+        }
+      }
+    }
+  }
+}
+h4 {
+  padding-bottom: 20px;
+  color: color.$blue;
+}
+.payment-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

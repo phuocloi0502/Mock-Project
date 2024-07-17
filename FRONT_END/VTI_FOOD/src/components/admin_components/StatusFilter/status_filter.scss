@@ -1,0 +1,16 @@
+.status-filter-wrap {
+  padding: 5px;
+  background-color: white;
+  width: 650px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px rgba(128, 128, 128, 0.273) solid;
+  .ant-btn {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}

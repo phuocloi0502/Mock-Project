@@ -1,0 +1,39 @@
+@use "./../../utils/_color.scss";
+.wish-list-wrapper {
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    .bread-crumb {
+        padding: 10px 0px;   
+
+        :where(.css-dev-only-do-not-override-m4timi).ant-breadcrumb li:last-child{
+            color: color.$blue;
+        }            
+    }
+
+    .container-wrap {
+        background-color: white;
+        width: 95%;
+        height: 100%;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .btn-add-to-cart{
+            margin: auto;
+            margin-bottom:0px !important;
+        }
+
+        :where(.css-dev-only-do-not-override-m4timi).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover{
+            background-color: color.$red-light;
+        }
+        .operation {
+            text-align: center;
+        }
+
+        .ant-table-title{
+            font-size: x-large;
+            font-weight: bold;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+@use "./../../utils/_color.scss";
+.content-container {
+  background-color: color.$background;
+  margin-top: 10px;
+  padding: 20px;
+  > p {
+    color: color.$blue;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+}
+.my-order {
+  h2 {
+    color: color.$blue;
+  }
+}

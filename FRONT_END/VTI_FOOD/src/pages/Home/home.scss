@@ -1,0 +1,72 @@
+@use "./../../utils/_color.scss";
+.banner-wrap {
+  width: 100%;
+  height: fit-content;
+  margin: auto;
+  padding: 30px 0px;
+
+  .title-content {
+    padding: 20px 0px;
+    .text {
+      text-align: center;
+      .content-1 {
+        font-size: small;
+      }
+    }
+  }
+
+  .container-text {
+    padding-left: 10px;
+    height: 70%;
+    .content-1 {
+      margin: auto;
+    }
+  }
+
+  .container-advantage {
+    padding-left: 10px;
+    .advantage {
+      margin: 5px;
+      background: aliceblue;
+      padding: 2px;
+      height: 100%;
+      .advantage-icon {
+        text-align: center;
+        margin-top: 5px;
+        color: color.$red;
+        margin: auto;
+        font-size: large;
+      }
+      .advantage-text {
+        margin: auto;
+      }
+    }
+  }
+
+  h1 {
+    color: color.$blue;
+  }
+}
+
+.products {
+  height: 100%;
+  width: 100%;
+  background-color: color.$background;
+
+  .container {
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  h2 {
+    color: color.$blue;
+    padding-top: 10px;
+  }
+  .pagenumber {
+    padding-top: 10px;
+    text-align: center;
+  }
+}

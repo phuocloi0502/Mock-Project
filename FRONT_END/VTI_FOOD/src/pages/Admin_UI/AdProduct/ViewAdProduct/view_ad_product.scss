@@ -1,0 +1,34 @@
+@use "../../../../utils/color";
+.custom-pagination .ant-pagination-item {
+  border: none;
+  background-color: white;
+  color: #883DCF;
+}
+
+.custom-pagination .ant-pagination-item-active {
+  background-color: #e0d7ff;
+  color: #883DCF;
+}
+
+.custom-pagination .ant-pagination-item:hover {
+  background-color: #f3e8ff;
+  color: #883DCF;
+}
+
+.custom-pagination .ant-pagination-prev,
+.custom-pagination .ant-pagination-next {
+  border: none;
+  background-color: white;
+  color: #883DCF;
+}
+
+.custom-pagination .ant-pagination-prev:hover,
+.custom-pagination .ant-pagination-next:hover {
+  background-color: #f3e8ff;
+  color: #883DCF;
+}
+
+.custom-pagination .ant-pagination-prev .ant-pagination-item-link,
+.custom-pagination .ant-pagination-next .ant-pagination-item-link {
+  color: #883DCF;
+}

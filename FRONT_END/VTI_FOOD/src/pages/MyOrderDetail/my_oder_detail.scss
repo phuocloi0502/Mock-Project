@@ -1,0 +1,204 @@
+@use "./../../utils/_color.scss";
+
+.my-order-detail {
+  hr {
+    margin: 20px 0;
+  }
+  .order-detail-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    position: relative;
+
+    .order-detail-header-rating {
+      color: color.$orange;
+      font-size: 0.9rem;
+    }
+    .icon {
+      font-weight: 500;
+      position: relative;
+      top: 3px;
+    }
+  }
+  .order-detail-info {
+    background-color: #fdfae7;
+    border: 1px #f7e99e solid;
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    .order-id-wrapper {
+      > span {
+        color: color.$gray;
+        font-size: 0.9rem;
+      }
+    }
+    .order-detail-payment-amount {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: color.$blue;
+      font-size: 1.7rem;
+    }
+  }
+  .order-detail-slider {
+    text-align: center;
+    > p {
+      text-align: left;
+      color: color.$gray;
+      font-size: 0.9rem;
+    }
+    .slider-delivery-wrapper {
+      width: 900px;
+      margin: 50px auto;
+
+      .icon {
+        color: color.$orange;
+        font-size: 1.2rem;
+        z-index: 20;
+      }
+
+      .slider-line {
+        width: 100%;
+        height: 8px;
+        position: relative;
+        .slider-step {
+          position: absolute;
+          transform: translate(-50%);
+          top: -8px;
+          z-index: 21;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          .checked {
+            background-color: color.$background;
+            color: green;
+          }
+          .circle {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: color.$background;
+            border: 2px color.$orange solid;
+          }
+          .label {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            .label-icon {
+              color: color.$orange;
+              font-size: 1.3rem;
+            }
+            .label-title {
+              font-size: 0.9rem;
+              width: 200px;
+            }
+          }
+        }
+        .my-opacity {
+          .label {
+            opacity: 0.4;
+          }
+        }
+
+        .slider-rail {
+          width: 100%;
+          height: 8px;
+          background-color: color.$orange;
+          opacity: 0.3;
+        }
+        .slider-track {
+          position: absolute;
+          transform: translate(0%);
+          top: 0;
+          left: 0;
+          z-index: 19;
+          width: 300px;
+          height: 8px;
+          background-color: color.$orange;
+        }
+      }
+    }
+  }
+  .order-detail-delivery-process {
+    margin-top: 120px;
+    hr {
+      margin-bottom: 20px;
+    }
+    .order-action {
+      padding-top: 20px;
+      display: flex;
+      gap: 25px;
+      .order-action-icon {
+        background-color: #eaf7e9;
+        color: #2db224;
+        border: 1px #d5f0d3 solid;
+        border-radius: 5px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+        height: 48px;
+      }
+
+      .order-action-info {
+        > p {
+          font-weight: 400;
+          padding-bottom: 10px;
+          font-size: 0.99rem;
+        }
+        > span {
+          color: color.$gray;
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+  .order-detail-products {
+    .order-detail-product-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      > img {
+        width: 50px;
+        height: 50px;
+      }
+      > span {
+        color: color.$blue;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+    }
+  }
+  .order-detail-user-info {
+    width: 700px;
+    margin: auto;
+    display: flex;
+    gap: 20px;
+    border: 1px rgb(196, 191, 191) solid;
+    padding: 20px;
+    line-height: 1.7;
+    span {
+      color: color.$gray;
+      font-size: 0.95rem;
+    }
+    .user-address {
+      flex: 1;
+      border-right: 1px rgb(196, 191, 191) solid;
+    }
+    .user-note {
+      flex: 1;
+      p {
+        color: color.$gray;
+        font-size: 0.95rem;
+      }
+    }
+  }
+}

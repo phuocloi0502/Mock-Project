@@ -1,0 +1,56 @@
+@use "../../../../utils/color";
+
+.create-product-container {
+  padding: 24px;
+  border-radius: 8px;
+  .create-product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    .create-product-header-title {
+      width: 100%;
+      h5 {
+        margin-bottom: 20px;
+        font-size: 0.7rem;
+        color: color.$purple;
+        span {
+          color: color.$gray;
+        }
+      }
+    }
+    .button-group {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+    }
+  }
+  .create-product-form-container {
+    .create-product-form {
+      display: flex;
+      gap: 20px;
+      .form {
+        background-color: white;
+        padding: 24px;
+        border-radius: 8px;
+      }
+      .left-section {
+        flex: 2;
+        .product-info {
+          h2 {
+            margin-bottom: 20px;
+          }
+        }
+      }
+      .right-section {
+        flex: 1;
+        height: 400px;
+      }
+    }
+  }
+}
+
+.ant-form-item {
+  margin-bottom: 24px;
+}

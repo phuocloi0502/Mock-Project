@@ -1,0 +1,8 @@
+@use "./../../utils/_color.scss";
+@import "@fontsource/montserrat-alternates/index.css"; // Weight 400.
+.form-button-register {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 40px;
+}
