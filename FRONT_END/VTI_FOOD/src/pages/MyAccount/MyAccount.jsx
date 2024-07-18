@@ -19,7 +19,6 @@ import { LuFileBox } from "react-icons/lu";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserById, updateUser } from "../../redux/slide/userSlide";
 import { useState } from "react";
-import bcrypt from "bcryptjs";
 
 const formItemLayout = {
   labelCol: {
@@ -108,36 +107,7 @@ export const MyAccount = (props) => {
   const [open, setOpen] = useState(false);
   const configModal = {};
   const handleChangePassword = async (values) => {
-    try {
-      console.log("values", values);
-      const changPasswordData = {
-        firstName: dataUserById?.firstName,
-        lastName: dataUserById?.lastName,
-        phoneNumber: dataUserById?.phoneNumber,
-        username: dataUserById?.username,
-        password: values.newPassword,
-        retypePassword: values.newPassword,
-        address: dataUserById?.address,
-        dob: "09/10/2001",
-        email: dataUserById?.email,
-        role_id: "2",
-      };
-      console.log(changPasswordData);
-      const mkc = bcrypt.hash(values.currentPassword, 10);
-
-      const isMatch = await bcrypt.compare(
-        values.currentPassword,
-        dataUserById?.username
-      );
-      if (!isMatch) {
-        console.log("Mật khẩu hiện tại không đúng");
-        return;
-      } else {
-        console.log("dung roi");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    console.log("change password");
   };
 
   return (

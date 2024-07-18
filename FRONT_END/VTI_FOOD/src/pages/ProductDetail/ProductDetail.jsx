@@ -5,9 +5,11 @@ import { getById } from "../../redux/slide/productSlide";
 import { getByCategoryId } from "../../redux/slide/productSlide";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
-import { Row, Col, message } from "antd";
+import { Row, Col, message, Spin, Modal, Button, Typography } from "antd";
 import { CardProduct } from "../../components/card_product/CardProduct";
 import { addProductsToCart } from "../../redux/slide/cartSlide";
+const { Text } = Typography;
+
 export const ProductDetail = ({ productRelate }) => {
   //get data =>> product by id
   const { id } = useParams();
@@ -97,16 +99,45 @@ export const ProductDetail = ({ productRelate }) => {
     productId: id,
     quantity: "1",
   };
+  const loading = useSelector((state) => state.cartSlide.loading);
+  const [openModal, setOpenModal] = useState(false);
   const handleAddtoCart = () => {
-    try {
-      dispatch(addProductsToCart(cartData));
-      message.success("Đã thêm");
-    } catch (error) {
-      console.log(error);
+    if (userIdCurrent == "") {
+      setOpenModal(true);
+    } else {
+      try {
+        dispatch(addProductsToCart(cartData));
+      } catch (error) {
+        console.log(error);
+      }
     }
+  };
+  const handleCancel = () => {
+    setOpenModal(false);
   };
   return (
     <div className="product-detail-container">
+      <Spin spinning={loading} fullscreen="true" />
+      <Modal
+        footer={null}
+        title="Thông báo"
+        open={openModal}
+        onCancel={handleCancel}
+      >
+        <Text type="success">
+          {" "}
+          <h5> Bạn chưa đăng nhập, vui lòng đăng nhập để mua hàng !</h5>{" "}
+        </Text>
+        <Link to={"/login"}>
+          <Button type="primary">Đăng nhập</Button>
+        </Link>
+        <Text type="danger"> Nếu chưa có tài khoản </Text>
+        <Link to={"/register"}>
+          <Button danger type="primary">
+            Đăng ký ngay
+          </Button>
+        </Link>
+      </Modal>
       <nav className="nav-link">
         <Link>Thực đơn</Link>
         <span className="separator">{" > "}</span>

@@ -41,6 +41,20 @@
           h2 {
             margin-bottom: 20px;
           }
+          .view-product-image {
+            border: 2px solid rgba(128, 128, 128, 0.306);
+            img {
+              padding: 5px;
+            }
+          }
+          .ant-upload {
+            span {
+              color: rgba(32, 85, 231, 0.598);
+              font-weight: 700;
+              display: flex;
+              flex-direction: column;
+            }
+          }
         }
       }
       .right-section {

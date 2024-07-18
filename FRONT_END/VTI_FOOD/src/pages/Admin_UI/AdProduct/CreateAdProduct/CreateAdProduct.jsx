@@ -52,16 +52,17 @@ export const CreateAdProduct = () => {
     try {
       const createdProduct = await dispatch(createProduct(dataBody)).unwrap();
       const productId = createdProduct.id;
+      console.log("Product id : ", productId);
 
       const formData = new FormData();
       fileList.forEach((file) => {
         formData.append("files", file.originFileObj);
       });
-
+      await new Promise((resolve) => setTimeout(resolve, 500));
       await dispatch(upLoadProductImage({ productId, formData })).unwrap();
       message.success("Sản phẩm đã được thêm thành công!");
       // form.resetFields();
-      //nav("/admin/products/");
+      nav(`/admin/products/${productId}`);
       setFileList([]);
     } catch (error) {
       console.error("Error during form submission: ", error);
@@ -80,7 +81,7 @@ export const CreateAdProduct = () => {
     setFileList(fileList);
   };
   const handleSelectCategory = (value) => {
-    console.log(value);
+    // console.log(value);
   };
   return (
     <div className="create-product-container">

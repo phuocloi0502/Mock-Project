@@ -59,12 +59,17 @@ export const createProduct = createAsyncThunk(
 );
 
 // update
-export const updateCategory = createAsyncThunk(
-  "update",
-  async (body, thunkAPI) => {
-    const data = (await productService.update(body.id, body)).data;
-    thunkAPI.dispatch(getAll({ pageNumber: page }));
-    return data;
+export const updateProduct = createAsyncThunk(
+  "updateProduct",
+  async ({ id, body }, thunkAPI) => {
+    try {
+      const data = (await productService.update(id, body)).data;
+      thunkAPI.dispatch(getById(id));
+      return data;
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
 );
 
@@ -146,7 +151,6 @@ export const productSlide = createSlice({
     });
     builder.addCase(deleteProductById.fulfilled, (state, action) => {
       state.loading = false;
-      // state.listProductByCategoryId = action.payload;
     });
     builder.addCase(deleteProductById.rejected, (state, action) => {
       state.loading = false;
@@ -162,6 +166,18 @@ export const productSlide = createSlice({
       state.createdData = action;
     });
     builder.addCase(createProduct.rejected, (state, action) => {
+      state.loading = false;
+    });
+
+    // update product
+    builder.addCase(updateProduct.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(updateProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      //state.createdData = action;
+    });
+    builder.addCase(updateProduct.rejected, (state, action) => {
       state.loading = false;
     });
   },

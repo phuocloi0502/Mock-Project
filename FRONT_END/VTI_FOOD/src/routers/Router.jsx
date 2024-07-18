@@ -18,18 +18,19 @@ import Admin from "../Admin.jsx";
 
 //page admin
 import { AdDashBoard } from "../pages/Admin_UI/AdDashBoard/AdDashBoard.jsx";
+import UpdateAdCustomer from "../pages/Admin_UI/AdCustomer/UpdateAdCustomer/UpdateAdCustomer.jsx";
 import { ViewAdOrder } from "../pages/Admin_UI/AdOrder/ViewAdOrder/ViewAdOrder.jsx";
 import { ViewAdOrderDetail } from "../pages/Admin_UI/AdOrder/ViewAdOrderDetail/ViewAdOrderDetail.jsx";
 import { ViewAdProduct } from "../pages/Admin_UI/AdProduct/ViewAdProduct/ViewAdProduct.jsx";
 import { CreateAdProduct } from "../pages/Admin_UI/AdProduct/CreateAdProduct/CreateAdProduct.jsx";
-import { UpdateAdProduct } from "../pages/Admin_UI/AdProduct/UpdateAdProduct/UpdateAdProduct.jsx";
+
+import UpdateAdProduct from "../pages/Admin_UI/AdProduct/UpdateAdProduct/UpdateAdProduct.jsx";
 import { ViewAdCategory } from "../pages/Admin_UI/AdCategory/ViewAdCategory/ViewAdCategory.jsx";
 import { CreateAdCategory } from "../pages/Admin_UI/AdCategory/CreateAdCategory/CreateAdCategory.jsx";
 import { UpdateAdCategory } from "../pages/Admin_UI/AdCategory/UpdateAdCategory/UpdateAdCategory.jsx";
 import { ViewAdCustomer } from "../pages/Admin_UI/AdCustomer/ViewAdCustomer/ViewAdCustomer.jsx";
 import { ViewAdCustomerDetail } from "../pages/Admin_UI/AdCustomer/ViewAdCustomerDetail/ViewAdCustomerDetail.jsx";
 import { CreateAdCustomer } from "../pages/Admin_UI/AdCustomer/CreateAdCustomer/CreateAdCustomer.jsx";
-import { UpdateAdCustomer } from "../pages/Admin_UI/AdCustomer/UpdateAdCustomer/UpdateAdCustomer.jsx";
 import { AdminLayout } from "./AdminLayout.jsx";
 const router = createBrowserRouter([
   {
@@ -145,7 +146,7 @@ const router = createBrowserRouter([
         element: <CreateAdProduct />,
       },
       {
-        path: "/admin/products/update",
+        path: "/admin/products/:productId",
         element: <UpdateAdProduct />,
       },
       {

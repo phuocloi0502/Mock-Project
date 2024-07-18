@@ -34,13 +34,41 @@ export const ViewAdProduct = (props) => {
 
   // Xử lý dữ liệu
   const dataSource = dataTable(rawData);
-  console.log(dataSource);
+  // console.log(dataSource);
   const columns = [
+    {
+      title: "#ID",
+      dataIndex: "id",
+      key: "id",
+      sorter: (a, b) => a.id - b.id,
+      defaultSortOrder: "descend",
+      render: (text) => {
+        return <div>{text}</div>;
+      },
+    },
     {
       title: "Sản phẩm",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (_, item) => {
+        return (
+          <div
+            style={{
+              width: "200px",
+              display: "flex",
+              gap: "10px",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={"/uploads/" + item.productImages[0]?.imageUrl}
+              alt=""
+              style={{ width: "50px", height: "50px" }}
+            />
+            {item?.name}
+          </div>
+        );
+      },
     },
     {
       title: "Loại",
@@ -52,6 +80,9 @@ export const ViewAdProduct = (props) => {
       title: "Giá Tiền",
       dataIndex: "price",
       key: "price",
+      render: (text) => {
+        return text.toLocaleString("vi-VN") + " VND";
+      },
     },
     {
       title: "Trạng Thái",
@@ -67,11 +98,11 @@ export const ViewAdProduct = (props) => {
         return <span style={{ color }}>{text}</span>;
       },
     },
-    {
-      title: "Thêm Ngày",
-      dataIndex: "createdAt",
-      key: "createdAt",
-    },
+    // {
+    //   title: "Thêm Ngày",
+    //   dataIndex: "createdAt",
+    //   key: "createdAt",
+    // },
     {
       title: "Hành Động",
       key: "action",
@@ -79,7 +110,7 @@ export const ViewAdProduct = (props) => {
         <span>
           <Button
             onClick={() => {
-              nav("/admin/products/update");
+              nav(`/admin/products/${record.id}`);
             }}
             icon={<EditOutlined />}
             style={{ marginRight: 8 }}
