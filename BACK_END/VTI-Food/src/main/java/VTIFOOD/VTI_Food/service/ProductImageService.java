@@ -7,8 +7,6 @@ import VTIFOOD.VTI_Food.repository.ProductImageRepository;
 import VTIFOOD.VTI_Food.repository.ProductRepository;
 
 import jakarta.validation.Valid;
-
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -35,7 +35,8 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartRepository.findByUserId(cartDto.getUserId());
         if (cart == null) {
             cart = new Cart();
-            cart.setUser(userRepository.findById(cartDto.getUserId()).orElseThrow(() -> new RuntimeException("Không tìm thấy User")));
+            cart.setUser(userRepository.findById(cartDto.getUserId())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy User")));
             cart = cartRepository.save(cart);
         }
 
@@ -45,8 +46,8 @@ public class CartServiceImpl implements CartService {
         } else {
             cartDetail = new CartDetail();
             cartDetail.setCart(cart);
-            cartDetail.setProduct(productRepository.findById(cartDto.getProductId()).orElseThrow(()
-                    -> new RuntimeException("Không tìm thấy sản phẩm")));
+            cartDetail.setProduct(productRepository.findById(cartDto.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm")));
             cartDetail.setQuantity(cartDto.getQuantity());
         }
         cartDetailRepository.save(cartDetail);
@@ -64,12 +65,11 @@ public class CartServiceImpl implements CartService {
             throw new RuntimeException("Không tìm thấy giỏ hàng");
         }
 
-
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm"));
 
         CartDetail cartDetail = cartDetailRepository.findByCartIdAndProductId(cart.getId(), productId);
-        if (cartDetail == null){
+        if (cartDetail == null) {
             throw new RuntimeException("Không tìm thấy sản phẩm trong giỏ hàng");
         }
         cartDetail.setUpdatedAt(LocalDateTime.now());
@@ -86,11 +86,11 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public void removeProductFromCart(Long userId, Long productId) throws ResourceNotFoundException {
-       CartDetail cartDetail = cartDetailRepository.findByCartIdAndProductId(userId, productId);
-       if(cartDetail == null){
-           throw new ResourceNotFoundException("Product not found in cart");
+        CartDetail cartDetail = cartDetailRepository.findByCartIdAndProductId(userId, productId);
+        if (cartDetail == null) {
+            throw new ResourceNotFoundException("Product not found in cart");
 
-       }
-       cartDetailRepository.delete(cartDetail);
+        }
+        cartDetailRepository.delete(cartDetail);
     }
 }
