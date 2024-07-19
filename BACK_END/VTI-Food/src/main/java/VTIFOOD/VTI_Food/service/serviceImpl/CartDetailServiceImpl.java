@@ -1,15 +1,20 @@
 package VTIFOOD.VTI_Food.service.serviceImpl;
 
 import VTIFOOD.VTI_Food.DTO.response.CartDetailDTO;
+import VTIFOOD.VTI_Food.DTO.response.CartDetailsResponseDTO;
 import VTIFOOD.VTI_Food.DTO.response.CartResponse;
 import VTIFOOD.VTI_Food.exception.DataNotFoundException;
 import VTIFOOD.VTI_Food.exception.ResourceNotFoundException;
 import VTIFOOD.VTI_Food.model.CartDetail;
+import VTIFOOD.VTI_Food.model.Product;
 import VTIFOOD.VTI_Food.repository.CartDetailRepository;
+import VTIFOOD.VTI_Food.repository.ProductRepository;
 import VTIFOOD.VTI_Food.service.entityservice.CartDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.List;
 

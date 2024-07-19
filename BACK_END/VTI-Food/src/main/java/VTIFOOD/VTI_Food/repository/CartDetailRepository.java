@@ -2,9 +2,12 @@ package VTIFOOD.VTI_Food.repository;
 
 import VTIFOOD.VTI_Food.DTO.response.CartDetailDTO;
 import VTIFOOD.VTI_Food.model.CartDetail;
+import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import java.util.List;
+
 import java.util.List;
 
 public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
