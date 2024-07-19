@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("${api.prefix}/carts")
+@CrossOrigin("*")
 public class CartController {
 
     @Autowired
@@ -42,12 +43,13 @@ public class CartController {
         CartResponse cartResponse = CartResponse.convertToResponseDTO(cart);
         return ResponseEntity.ok(cartResponse);
     }
-//    public ResponseEntity<?> addProductToCart(@RequestBody CartForm form) {
-//        CartDto dto = CartMapper.map(form);
-//        cartService.addProductToCart(dto.getUserId(), dto.getProductId(), dto.getQuantity());
-//        return ResponseEntity.ok("Thêm sản phẩm vào giỏ hàng thành công");
-//
-//    }
+    // public ResponseEntity<?> addProductToCart(@RequestBody CartForm form) {
+    // CartDto dto = CartMapper.map(form);
+    // cartService.addProductToCart(dto.getUserId(), dto.getProductId(),
+    // dto.getQuantity());
+    // return ResponseEntity.ok("Thêm sản phẩm vào giỏ hàng thành công");
+    //
+    // }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateProductInCart(@RequestBody CartForm form) {
@@ -65,7 +67,8 @@ public class CartController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while removing product from cart");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while removing product from cart");
         }
     }
 }

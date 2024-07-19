@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -18,16 +19,20 @@ public class CartDetailServiceImpl implements CartDetailService {
 
     private final CartDetailRepository cartDetailRepository;
 
-
     @Override
     public CartDetail findByCartDetailById(Long id) throws ResourceNotFoundException, DataNotFoundException {
         return cartDetailRepository.findById(id).orElseThrow(
-                () -> new DataNotFoundException("Cannot find cartDetail with id: " + id)
-        );
+                () -> new DataNotFoundException("Cannot find cartDetail with id: " + id));
     }
 
     @Override
     public Optional<CartDetail> findCartDetailById(Long id) {
         return cartDetailRepository.findById(id);
+    }
+
+    // LOI
+    @Override
+    public List<CartDetailDTO> getCartDetailsByUserId(Long userId) {
+        return cartDetailRepository.findCartDetailsByUserId(userId);
     }
 }

@@ -18,7 +18,6 @@ import Admin from "../Admin.jsx";
 
 //page admin
 import { AdDashBoard } from "../pages/Admin_UI/AdDashBoard/AdDashBoard.jsx";
-import UpdateAdCustomer from "../pages/Admin_UI/AdCustomer/UpdateAdCustomer/UpdateAdCustomer.jsx";
 import { ViewAdOrder } from "../pages/Admin_UI/AdOrder/ViewAdOrder/ViewAdOrder.jsx";
 import { ViewAdOrderDetail } from "../pages/Admin_UI/AdOrder/ViewAdOrderDetail/ViewAdOrderDetail.jsx";
 import { ViewAdProduct } from "../pages/Admin_UI/AdProduct/ViewAdProduct/ViewAdProduct.jsx";
@@ -175,7 +174,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/customer/update",
-        element: <UpdateAdCustomer />,
+        // element: <UpdateAdCustomer />,
       },
     ],
   },

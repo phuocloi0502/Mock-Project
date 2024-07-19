@@ -9,10 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
-
-public interface CartDetailService  {
+public interface CartDetailService {
     CartDetail findByCartDetailById(Long id) throws ResourceNotFoundException, DataNotFoundException;
 
     Optional<CartDetail> findCartDetailById(Long id);
+
+    // LOI
+    List<CartDetailDTO> getCartDetailsByUserId(Long userId);
 }
