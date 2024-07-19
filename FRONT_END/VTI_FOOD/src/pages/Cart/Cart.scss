@@ -1,0 +1,106 @@
+/* Tùy chỉnh CSS cho Drawer */
+.custom-drawer .ant-drawer-body {
+  max-height: 700px; /* Đặt chiều cao tối đa cho phần nội dung của Drawer */
+  overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao */
+  border-radius: 5px;
+}
+
+/* Tùy chỉnh CSS cho nội dung của Drawer */
+.drawer-content {
+  max-height: 100%; /* Đảm bảo nội dung không vượt quá chiều cao của Drawer */
+  overflow-y: auto; /* Thêm thanh cuộn dọc nếu cần */
+}
+
+.custom-drawer .ant-drawer-header {
+  background-color: #ffffffdb;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0px 2px 2px 0px #a7a2a240;
+  padding: 10px 20px;
+}
+.cart-container {
+  .cart {
+  }
+  .title-mathang {
+    font-size: 0.8rem;
+    span {
+      color: blue;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+  }
+
+  .cart-total {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .total-title {
+      color: rgb(19, 91, 142);
+    }
+    .total-price {
+      color: red;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
+  .cart-area {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    hr {
+      margin-top: 10px;
+      color: gray;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .delete-product-wrap {
+        width: 50px;
+      }
+      .info-product {
+        flex: 3;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        .info-product-image {
+          img {
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(128, 128, 128, 0.245);
+            border-radius: 8px;
+          }
+        }
+        .info-product-text {
+          padding-right: 20px;
+          .price-product {
+            font-weight: 600;
+          }
+        }
+      }
+      .item-quantity {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        .ant-input-number {
+          border-radius: 4px;
+          border-color: #d9d9d9;
+        }
+
+        .ant-input-number-handler {
+          background: #f0f0f0;
+          border: 1px solid #d9d9d9;
+        }
+      }
+    }
+  }
+  .cart-footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+}

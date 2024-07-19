@@ -103,24 +103,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .cart {
     position: relative;
-    span {
-      position: absolute;
-      top: -5px;
-      right: -8px;
-      padding: 3px;
-      background: color.$orange;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      color: white;
-      font-size: 0.6rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  }
+  .cart-status {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    padding: 3px;
+    background: color.$orange;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    color: white;
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .cart,
   .like:hover {
@@ -146,27 +144,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin: 0;
   font-family: "Nunito", sans-serif;
-  font-size: 25px;
-  font-weight: 170px;
-  line-height: 55px;
-  color: #411530;
+  font-size: 1.2rem;
+  line-height: 45px;
+  color: color.$orange;
+  .header-title-text {
+    margin-right: 10px;
+    color: color.$blue;
+  }
 }
-.custom-drawer .ant-drawer-body {
-  background-color: #fb9701;
-  border-radius: 5px;
-}
-.custom-drawer .ant-drawer-header {
-  background-color: #ffffffdb;
-  border-radius: 5px 5px 0 0;
-  box-shadow: 0px 4px 4px 0px #00000040;
-  padding: 10px 20px;
-}
+
 .close-icon {
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   position: absolute;
+  color: rgba(242, 56, 56, 0.865);
 }

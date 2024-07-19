@@ -17,15 +17,47 @@ export const addProductsToCart = createAsyncThunk(
     }
   }
 );
+
+// getCartInfoById
 export const getCartInfoById = createAsyncThunk(
   "getCartInfoById",
-  async (id, thunkAPI) => {
+  async (userId, thunkAPI) => {
     try {
-      const data = (await cartService.getCartById(id)).data;
-      console.log(data, "data cart by id");
+      const data = (await cartService.getCartDetailByUserId(userId)).data;
+      //  console.log(data, "data cart by user id");
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+// update cart
+export const updateCart = createAsyncThunk(
+  "updateCart",
+  async (body, thunkAPI) => {
+    try {
+      await cartService.updateCart(body);
+      thunkAPI.dispatch(getCartInfoById(body.userId));
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// deleteProductFromCart
+export const deleteProductFromCart = createAsyncThunk(
+  "deleteProductFromCart",
+  async ({ cartId, productId }, thunkAPI) => {
+    try {
+      await cartService.deleteProductFromCart(cartId, productId);
+      const state = thunkAPI.getState();
+      const userId = state.cartSlide.dataCartByUserId[0].userId;
+      thunkAPI.dispatch(getCartInfoById(userId));
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -34,7 +66,8 @@ export const cartSlide = createSlice({
   name: "cartSlide",
   initialState: {
     loading: false,
-    dataCartById: [],
+    dataCartByUserId: [],
+    addedProduct: [],
   },
   reducers: {
     // changeIsLogin: (state, action) => {
@@ -54,7 +87,7 @@ export const cartSlide = createSlice({
     });
     builder.addCase(addProductsToCart.fulfilled, (state, action) => {
       state.loading = false;
-      //state.userById = action.payload;
+      state.addedProduct = action.payload;
     });
     builder.addCase(addProductsToCart.rejected, (state, action) => {
       state.loading = false;
@@ -66,9 +99,20 @@ export const cartSlide = createSlice({
     });
     builder.addCase(getCartInfoById.fulfilled, (state, action) => {
       state.loading = false;
-      state.dataCartById = action.payload;
+      state.dataCartByUserId = action.payload;
     });
     builder.addCase(getCartInfoById.rejected, (state, action) => {
+      state.loading = false;
+    });
+
+    // deleteProductFromCart
+    builder.addCase(deleteProductFromCart.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteProductFromCart.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(deleteProductFromCart.rejected, (state, action) => {
       state.loading = false;
     });
   },

@@ -21,7 +21,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { getToken } from "../../utils/helpers";
 import { jwtDecode } from "jwt-decode";
-
+import { getCartInfoById } from "../../redux/slide/cartSlide";
 export const Header = () => {
   const { Search } = Input;
   // get category
@@ -73,6 +73,18 @@ export const Header = () => {
   const demo = () => {
     console.log("isLogin", isLogin);
   };
+  // handle cart
+  const userIdCurrent = useSelector((state) => state.userSlide.userId);
+  const dataCartByUserId = useSelector(
+    (state) => state.cartSlide.dataCartByUserId
+  );
+  const addedProduct = useSelector((state) => state.cartSlide.addedProduct);
+  useEffect(() => {
+    if (userIdCurrent) {
+      dispatch(getCartInfoById(userIdCurrent));
+    }
+  }, [userIdCurrent, addedProduct]);
+  console.log(dataCartByUserId?.length, "cart length");
 
   return (
     <div className="wrapper-header">
@@ -81,13 +93,15 @@ export const Header = () => {
         className="custom-drawer"
         title={
           <div className="drawer-title">
-            <p>Giỏ Hàng </p>
+            <div className="header-title-text">Giỏ Hàng </div>
+
             <FaCartPlus />
           </div>
         }
         onClose={onClose}
         open={open}
         closeIcon={<IoIosCloseCircleOutline className="close-icon" />}
+        width={500}
       >
         <Cart />
       </Drawer>
@@ -165,8 +179,12 @@ export const Header = () => {
         <div className="icon like" onClick={demo}>
           <FcLike />
         </div>
-        <div className="icon cart" onClick={showDrawer}>
-          <span>2</span>
+        <div className="icon " onClick={showDrawer}>
+          {dataCartByUserId.length == 0 || dataCartByUserId == undefined ? (
+            <></>
+          ) : (
+            <span className="cart-status">{dataCartByUserId?.length}</span>
+          )}
           <div>
             {" "}
             <FaShoppingCart />

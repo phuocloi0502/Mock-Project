@@ -21,4 +21,5 @@ public interface CartDetailService {
 
     // LOI
     List<CartDetailDTO> getCartDetailsByUserId(Long userId);
+
 }

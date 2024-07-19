@@ -40,4 +40,5 @@ public class CartDetailServiceImpl implements CartDetailService {
     public List<CartDetailDTO> getCartDetailsByUserId(Long userId) {
         return cartDetailRepository.findCartDetailsByUserId(userId);
     }
+
 }

@@ -6,17 +6,14 @@ const cartService = {
     return api.post(ENDPOINT + "/add", body);
   },
 
-  getCartById(id) {
-    return api.get(ENDPOINT + "/" + id);
+  getCartDetailByUserId(userid) {
+    return api.get("/cart_details/" + userid);
   },
-  updateCartById(id, body) {
-    return api.put(ENDPOINT + "/" + id, body);
+  updateCart(body) {
+    return api.put(ENDPOINT + "/update", body);
   },
-  delete(cartId, productId) {
-    return api.delete(ENDPOINT + "/" + cartId + "/product/" + productId);
-  },
-  getAll() {
-    return api.get(ENDPOINT);
+  deleteProductFromCart(cartId, productId) {
+    return api.delete(`carts/${cartId}/product/${productId}`);
   },
 };
 export default cartService;

@@ -25,8 +25,8 @@ export const CardProduct = (props) => {
   }
   let name = props.item.name;
 
-  if (String(name).length > 43) {
-    name = name.substr(0, 42) + "...";
+  if (String(name).length > 39) {
+    name = name.substr(0, 39) + "...";
   }
 
   const for_loop_star = [];
@@ -69,7 +69,7 @@ export const CardProduct = (props) => {
   };
   return (
     <div className="wrapper-card-product">
-      <Spin spinning={loading} fullscreen="true" />
+      {/* <Spin spinning={loading} fullscreen="true" /> */}
       <Modal
         footer={null}
         title="Thông báo"

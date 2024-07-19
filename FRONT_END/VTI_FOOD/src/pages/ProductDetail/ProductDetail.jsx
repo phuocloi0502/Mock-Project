@@ -99,7 +99,7 @@ export const ProductDetail = ({ productRelate }) => {
     productId: id,
     quantity: "1",
   };
-  const loading = useSelector((state) => state.cartSlide.loading);
+  const loading = useSelector((state) => state.productSlide.loading);
   const [openModal, setOpenModal] = useState(false);
   const handleAddtoCart = () => {
     if (userIdCurrent == "") {
