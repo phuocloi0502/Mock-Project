@@ -27,15 +27,16 @@ export const CreateAdProduct = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const categoryData = useSelector((state) => state.categorySlide.listCategory);
+
   useEffect(() => {
     dispatch(getAll());
   }, []);
-  const categoryData = useSelector((state) => state.categorySlide.listCategory);
   const productStatus = ["ACTIVE", "INACTIVE", "OUT_OF_STOCK", "PENDING"];
-  // const createdProduct = useSelector(
-  //   (state) => state.productSlide.createdData
-  // ).payload;
 
+  const handleChange = ({ fileList }) => {
+    setFileList(fileList);
+  };
   const handleSubmit = async (values) => {
     setLoading(true);
     const dataBody = {
@@ -54,16 +55,26 @@ export const CreateAdProduct = () => {
       const productId = createdProduct.id;
       console.log("Product id : ", productId);
 
-      const formData = new FormData();
-      fileList.forEach((file) => {
-        formData.append("files", file.originFileObj);
-      });
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      await dispatch(upLoadProductImage({ productId, formData })).unwrap();
-      message.success("Sản phẩm đã được thêm thành công!");
-      // form.resetFields();
-      nav(`/admin/products/`);
-      setFileList([]);
+      // Kiểm tra xem sản phẩm có được thêm thành công không
+      if (productId && fileList.length > 0) {
+        // Tạo đối tượng FormData và thêm các file
+        const formData = new FormData();
+        fileList.forEach((file) => {
+          formData.append("files", file.originFileObj);
+        });
+
+        // Gọi API tải ảnh sản phẩm và chờ đợi nó hoàn tất
+        await dispatch(upLoadProductImage({ productId, formData })).unwrap();
+
+        // Hiển thị thông báo thành công và điều hướng đến trang quản lý sản phẩm
+        message.success(
+          "Sản phẩm đã được thêm thành công và ảnh đã được tải lên!"
+        );
+        nav(`/admin/products/`);
+        setFileList([]);
+      } else {
+        throw new Error("Không thể thêm sản phẩm");
+      }
     } catch (error) {
       console.error("Error during form submission: ", error);
       message.error("Có lỗi xảy ra khi thêm sản phẩm!");
@@ -75,11 +86,7 @@ export const CreateAdProduct = () => {
   const handleCancel = () => {
     nav("/admin/products/");
   };
-  const token = getToken();
 
-  const handleChange = ({ fileList }) => {
-    setFileList(fileList);
-  };
   const handleSelectCategory = (value) => {
     // console.log(value);
   };

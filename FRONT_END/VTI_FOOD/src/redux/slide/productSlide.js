@@ -170,7 +170,7 @@ export const productSlide = createSlice({
     });
     builder.addCase(createProduct.fulfilled, (state, action) => {
       state.loading = false;
-      state.createdData = action;
+      state.createdData = action.payload;
     });
     builder.addCase(createProduct.rejected, (state, action) => {
       state.loading = false;

@@ -12,25 +12,32 @@ const apiUploadImage = axios.create({
 });
 
 // Can thiệp vào quá trình request lên server
-// apiUploadImage.interceptors.request.use(
-//   function (config) {
-//     if (token) {
-//       config.headers["Authorization"] = "Bearer " + token;
-//     }
-//     return config;
-//   },
-//   function (error) {
-//     return Promise.reject(error);
-//   }
-// );
+apiUploadImage.interceptors.request.use(
+  function (config) {
+    if (token) {
+      config.headers["Authorization"] = "Bearer " + token;
+    }
+    console.log("Request Config:", config);
+    return config;
+  },
+  function (error) {
+    console.error("Request Error:", error);
+    return Promise.reject(error);
+  }
+);
 
-// // Can thiệp vào quá trình response từ server
-// apiUploadImage.interceptors.response.use(
-//   function (response) {
-//     return response;
-//   },
-//   function (error) {
-//     return Promise.reject(error);
-//   }
-// );
+// Can thiệp vào quá trình response từ server
+apiUploadImage.interceptors.response.use(
+  function (response) {
+    console.log("Response Data:", response);
+    return response;
+  },
+  function (error) {
+    console.error(
+      "Response Error:",
+      error.response ? error.response.data : error
+    );
+    return Promise.reject(error);
+  }
+);
 export default apiUploadImage;
