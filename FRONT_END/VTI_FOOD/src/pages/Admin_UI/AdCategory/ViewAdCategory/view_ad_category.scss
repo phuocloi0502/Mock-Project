@@ -1,1 +1,25 @@
 @use "../../../../utils/color";
+.view-category-container {
+    padding: 24px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .add-category-button {
+    background-color: #722ed1;
+    border-color: #722ed1;
+  }
+  
+  .custom-pagination {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  
+  
