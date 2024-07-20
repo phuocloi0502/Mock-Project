@@ -1,11 +1,14 @@
 package VTIFOOD.VTI_Food.service.serviceImpl;
 
+import VTIFOOD.VTI_Food.DTO.OrderDto;
+import VTIFOOD.VTI_Food.DTO.UserDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserRequestDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserUpdateDTO;
 import VTIFOOD.VTI_Food.DTO.response.UserResponseDTO;
 import VTIFOOD.VTI_Food.components.JwtTokenUtils;
 import VTIFOOD.VTI_Food.exception.DataNotFoundException;
 import VTIFOOD.VTI_Food.exception.PermissionDenyException;
+import VTIFOOD.VTI_Food.model.Order;
 import VTIFOOD.VTI_Food.model.Role;
 import VTIFOOD.VTI_Food.model.User;
 import VTIFOOD.VTI_Food.repository.RoleRepository;
@@ -21,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -106,8 +110,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserDTO> getUserById(Long id) {
+        return userRepository.findById(id).map(
+                this::convertToDTO
+        );
+    }
+    private UserDTO convertToDTO(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setFullname(user.getFirstName() + " " + user.getLastName());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setDateOfBirth(user.getDob());
+        dto.setAddress(user.getAddress());
+        dto.setRoleId(user.getRole().getId());
+        dto.setRole(user.getRole());
+
+        // Không set password và retypePassword
+
+        if (user.getOrders() != null && !user.getOrders().isEmpty()) {
+            dto.setOrders(user.getOrders().stream()
+                    .map(this::convertToOrderDto)
+                    .collect(Collectors.toList()));
+        } else {
+            dto.setOrders(Collections.emptyList());
+        }
+
+
+        return dto;
+    }
+    private OrderDto convertToOrderDto(Order order) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setId(order.getId());
+        orderDto.setDeliveryDate(order.getDeliveryDate());
+        orderDto.setDeliveryAddress(order.getDeliveryAddress());
+        orderDto.setOrderStatus(order.getOrderStatus());
+        orderDto.setNote(order.getNote());
+        orderDto.setPaymentStatus(order.getPaymentStatus());
+        orderDto.setPaymentDate(order.getPaymentDate());
+        orderDto.setTotalAmount(order.getTotalAmount());
+
+
+        return orderDto;
     }
 
     @Override

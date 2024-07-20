@@ -1,5 +1,6 @@
 package VTIFOOD.VTI_Food.service.entityservice;
 
+import VTIFOOD.VTI_Food.DTO.UserDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserRequestDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserUpdateDTO;
 import VTIFOOD.VTI_Food.DTO.response.UserResponseDTO;
@@ -19,7 +20,7 @@ public interface UserService {
 
     public UserResponseDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) throws DataNotFoundException;
 
-    public Optional<User> getUserById(Long id);
+    public Optional<UserDTO> getUserById(Long id);
 
     String loginUser(String usn, String pwd ) throws Exception;
 }

@@ -1,5 +1,6 @@
 package VTIFOOD.VTI_Food.controller;
 
+import VTIFOOD.VTI_Food.DTO.UserDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserLoginDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserRequestDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserUpdateDTO;
@@ -74,8 +75,10 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public Optional<User> getUserById(@PathVariable Long userId) {
-        return userService.getUserById(userId);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
+        return userService.getUserById(userId).map(
+                ResponseEntity::ok
+        ).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")

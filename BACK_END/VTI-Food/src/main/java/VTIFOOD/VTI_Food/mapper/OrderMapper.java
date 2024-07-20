@@ -12,7 +12,7 @@ public class OrderMapper {
         dto.setId(order.getId());
         dto.setDeliveryDate(order.getDeliveryDate());
         dto.setDeliveryAddress(order.getDeliveryAddress());
-        dto.setOrderStatus(order.getOrderStatus().getValue());
+        dto.setOrderStatus(Order.OrderStatus.valueOf(order.getOrderStatus().getValue()));
         dto.setNote(order.getNote());
         dto.setPaymentStatus(order.getPaymentStatus());
         dto.setPaymentDate(order.getPaymentDate());

@@ -1,8 +1,8 @@
 package VTIFOOD.VTI_Food.DTO;
 
+import VTIFOOD.VTI_Food.model.Order;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,6 +10,9 @@ import java.util.List;
 
 @Getter
 @Setter
+
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderDto extends BaseDTO{
     private Long id;
 
@@ -17,7 +20,7 @@ public class OrderDto extends BaseDTO{
     private LocalDateTime deliveryDate;
 
     private String deliveryAddress;
-    private String orderStatus;
+    private Order.OrderStatus orderStatus;
     private String note;
     private boolean paymentStatus;
 

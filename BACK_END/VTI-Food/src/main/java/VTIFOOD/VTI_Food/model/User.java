@@ -1,6 +1,7 @@
 package VTIFOOD.VTI_Food.model;
 
 import VTIFOOD.VTI_Food.response.BaseResponse;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
