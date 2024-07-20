@@ -1,7 +1,7 @@
 package VTIFOOD.VTI_Food.DTO;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
@@ -24,13 +24,13 @@ public class BaseDTO implements Serializable {
     @CreationTimestamp
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mma")
     private LocalDateTime createdAt;
 
 
     @Column(name = "updated_at", nullable = false, insertable = false)
     @UpdateTimestamp
     @LastModifiedDate
-    @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mma")
     private LocalDateTime updatedAt;
 }

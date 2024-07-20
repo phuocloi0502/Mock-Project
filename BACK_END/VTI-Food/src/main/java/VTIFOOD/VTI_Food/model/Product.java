@@ -82,8 +82,4 @@ public class Product extends BaseResponse implements Serializable  {
             throw new IllegalArgumentException("Unknown status value: " + value);
         }
     }
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetail> orderDetails;
-
 }
