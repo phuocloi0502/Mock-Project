@@ -1,11 +1,14 @@
 package VTIFOOD.VTI_Food.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -25,7 +28,9 @@ public class Order extends BaseEntity implements Serializable {
     private User user;
 
     @Column(name = "delivery_date", nullable = false)
-    private LocalDate deliveryDate;
+    @CreationTimestamp
+    @JsonIgnore
+    private LocalDateTime deliveryDate;
 
     @Column(name = "delivery_address", length = 255, nullable = false)
     private String deliveryAddress;
@@ -41,7 +46,9 @@ public class Order extends BaseEntity implements Serializable {
     private Boolean paymentStatus;
 
     @Column(name = "payment_date")
-    private LocalDate paymentDate;
+    @CreationTimestamp
+    @JsonIgnore
+    private LocalDateTime paymentDate;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id", referencedColumnName = "id", nullable = false)

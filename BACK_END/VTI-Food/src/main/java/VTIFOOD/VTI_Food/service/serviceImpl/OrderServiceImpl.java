@@ -1,18 +1,25 @@
 package VTIFOOD.VTI_Food.service.serviceImpl;
 
+
+import VTIFOOD.VTI_Food.DTO.OrderDto;
 import VTIFOOD.VTI_Food.form.OrderCreateForm;
+import VTIFOOD.VTI_Food.mapper.OrderMapper;
+import VTIFOOD.VTI_Food.model.Order;
+import VTIFOOD.VTI_Food.repository.OrderRepository;
 import VTIFOOD.VTI_Food.service.entityservice.OrderService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static java.time.LocalDate.now;
+import static java.time.LocalDateTime.now;
 
 @Service
 @AllArgsConstructor
@@ -21,28 +28,30 @@ public class OrderServiceImpl implements OrderService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     public void createOrderFromCart(OrderCreateForm form) {
         try {
-
-            String orderStatus = form.getOrderStatus().getValue();
             Boolean paymentStatus = form.getPaymentStatus();
 
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery("CreateOrder");
             query.registerStoredProcedureParameter(1, Long.class, ParameterMode.IN);
             query.setParameter(1, form.getUserId());
 
-            Timestamp deliveryDate = ConvertLocalDateToTimestamp(now().plusDays((long) 0.5).toString());
+            LocalDateTime deliveryDate = now().plusMinutes(30);
+
             if (form.getDeliveryDate() != null) {
-                deliveryDate = ConvertLocalDateToTimestamp(form.getDeliveryDate().toString());
+                deliveryDate = form.getDeliveryDate();
             }
-            query.registerStoredProcedureParameter(2, Timestamp.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(2, LocalDateTime.class, ParameterMode.IN);
             query.setParameter(2, deliveryDate);
 
             query.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
             query.setParameter(3, form.getDeliveryAddress());
 
             query.registerStoredProcedureParameter(4, String.class, ParameterMode.IN);
-            query.setParameter(4, orderStatus);
+            query.setParameter(4, Order.OrderStatus.XAC_NHAN.getValue());
 
             query.registerStoredProcedureParameter(5, String.class, ParameterMode.IN);
             query.setParameter(5, form.getNote());
@@ -52,12 +61,11 @@ public class OrderServiceImpl implements OrderService {
 
             query.registerStoredProcedureParameter(7, Boolean.class, ParameterMode.IN);
             query.setParameter(7, form.getPaymentStatus());
-
-            Timestamp paymentDate = null;
+            LocalDateTime paymentDate = null;
             if (paymentStatus) {
-                paymentDate = ConvertLocalDateToTimestamp(now().toString());
+                paymentDate = now();
             }
-            query.registerStoredProcedureParameter(8, Timestamp.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(8, LocalDateTime.class, ParameterMode.IN);
             query.setParameter(8, paymentDate);
 
             query.execute();
@@ -66,16 +74,12 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private Timestamp ConvertLocalDateToTimestamp(String stringLocalDate) {
-        // Parse the input string to LocalDate
-        LocalDate date = LocalDate.parse(stringLocalDate);
-
-        // Convert LocalDate to LocalDateTime
-        LocalDateTime localDateTime = date.atStartOfDay();
-
-        // Convert LocalDateTime to Timestamp
-        Timestamp timestamp = Timestamp.valueOf(localDateTime);
-
-        return timestamp;
+    @Transactional(readOnly = true)
+    @Override
+    public List<OrderDto> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream()
+                .map(OrderMapper::map)
+                .collect(Collectors.toList());
     }
 }
