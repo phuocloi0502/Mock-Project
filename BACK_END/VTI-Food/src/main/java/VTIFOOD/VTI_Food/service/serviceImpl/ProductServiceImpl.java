@@ -3,6 +3,7 @@ package VTIFOOD.VTI_Food.service.serviceImpl;
 import VTIFOOD.VTI_Food.DTO.ProductDTO;
 import VTIFOOD.VTI_Food.DTO.ProductImageDTO;
 import VTIFOOD.VTI_Food.exception.DataNotFoundException;
+import VTIFOOD.VTI_Food.exception.ResourceNotFoundException;
 import VTIFOOD.VTI_Food.form.ProductFilterForm;
 import VTIFOOD.VTI_Food.model.Category;
 import VTIFOOD.VTI_Food.model.Product;
@@ -138,6 +139,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(long id) {
         productRepository.deleteById(id);
+    }
+
+    public void deleteProductImage(Long productId, Long imageId) throws ResourceNotFoundException {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        ProductImage image = productImageRepository.findById(imageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Image not found"));
+
+        if (!product.getProductImages().contains(image)) {
+            throw new IllegalArgumentException("Image does not belong to the product");
+        }
+
+        productImageRepository.delete(image);
     }
 
     @Override

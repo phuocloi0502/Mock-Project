@@ -2,6 +2,7 @@ package VTIFOOD.VTI_Food.controller;
 
 import VTIFOOD.VTI_Food.DTO.ProductDTO;
 import VTIFOOD.VTI_Food.exception.DataNotFoundException;
+import VTIFOOD.VTI_Food.exception.ResourceNotFoundException;
 import VTIFOOD.VTI_Food.form.ProductFilterForm;
 import VTIFOOD.VTI_Food.model.Product;
 import VTIFOOD.VTI_Food.service.entityservice.ProductService;
@@ -113,4 +114,9 @@ public class ProductController {
         return ResponseEntity.ok("Delete success product with id: " + id);
     }
 
+    @DeleteMapping("/{productId}/images/{imageId}")
+    public ResponseEntity<String> deleteProductImage(@PathVariable Long productId, @PathVariable Long imageId) throws ResourceNotFoundException {
+        productService.deleteProductImage(productId, imageId);
+        return ResponseEntity.ok("Image deleted successfully");
+    }
 }

@@ -3,6 +3,7 @@ package VTIFOOD.VTI_Food.service.entityservice;
 import VTIFOOD.VTI_Food.DTO.ProductDTO;
 import VTIFOOD.VTI_Food.DTO.ProductImageDTO;
 import VTIFOOD.VTI_Food.exception.DataNotFoundException;
+import VTIFOOD.VTI_Food.exception.ResourceNotFoundException;
 import VTIFOOD.VTI_Food.form.ProductFilterForm;
 import VTIFOOD.VTI_Food.model.Product;
 import VTIFOOD.VTI_Food.model.ProductImage;
@@ -28,4 +29,5 @@ public interface ProductService {
     ProductImage createProductImage(
             Long productId,
             ProductImageDTO productImageDTO) throws Exception;
+    public void deleteProductImage(Long productId, Long imageId) throws ResourceNotFoundException;
 }
