@@ -325,7 +325,7 @@ export const MyAccount = (props) => {
               </Form.Item>
             </Form.Item>
 
-            <Form.Item
+            {/* <Form.Item
               label="Avatar"
               getValueFromEvent={normFile}
               layout="horizontal"
@@ -352,7 +352,7 @@ export const MyAccount = (props) => {
                   </div>
                 </button>
               </Upload>
-            </Form.Item>
+            </Form.Item> */}
             <Row className="title">
               <h3>*Phương Thức Thanh Toán</h3>
             </Row>

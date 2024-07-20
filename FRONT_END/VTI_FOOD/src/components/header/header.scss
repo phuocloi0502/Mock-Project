@@ -113,12 +113,16 @@
         width: 450px;
         max-height: 500px;
         overflow-y: scroll;
+        .my-hr {
+          background-color: rgba(108, 108, 108, 0.181);
+          height: 2px;
+        }
         .product-result-item {
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding: 5px 20px;
-          transition: background-color 0.3s ease, transform 0.3s ease;
+          transition: background-color 0.1s ease, transform 0.1s ease;
           .product-result-item-image {
             display: flex;
             img {
@@ -129,8 +133,14 @@
           }
           .product-result-item-text {
             text-align: right;
+
+            h5 {
+              color: rgb(94, 92, 92);
+              font-weight: 550;
+              padding: 10px 0;
+            }
             strong {
-              font-size: 0.8rem;
+              font-size: 0.7rem;
             }
           }
         }

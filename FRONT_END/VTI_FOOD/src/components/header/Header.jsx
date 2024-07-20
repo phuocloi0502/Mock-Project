@@ -9,7 +9,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import "./header.scss";
 import UserAvatar from "./../../assets/user_avatar.avif";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Cart from "../../pages/Cart/Cart";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { getAll } from "../../redux/slide/categorySlide";
@@ -93,18 +93,30 @@ export const Header = () => {
   // handle search
   const [searchTerm, setSearchTerm] = useState("");
   const [resultProduct, setResultProduct] = useState([]);
+  const searchResultRef = useRef(null);
   const handleSearch = async (value) => {
-    // Xử lý tìm kiếm ở đây
-    console.log("Searching for:", value);
     setSearchTerm(value);
     const data = (await productService.getAll("", searchTerm)).data.content;
     setResultProduct(data);
-    // dispatch(getAllProducts({ pageNumber: "", search: searchTerm }));
   };
   const handleClear = () => {
-    console.log("da clues");
     setResultProduct([]);
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchResultRef.current &&
+        !searchResultRef.current.contains(event.target)
+      ) {
+        setResultProduct([]);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   console.log("resultProduct", resultProduct);
   return (
     <div className="wrapper-header">
@@ -205,28 +217,31 @@ export const Header = () => {
           searchTerm == "" ? (
             <></>
           ) : (
-            <div className="search-result-area">
+            <div ref={searchResultRef} className="search-result-area">
               <div className="product-result-wrap">
                 {resultProduct?.map((item, index) => (
-                  <div
-                    key={index}
-                    className="product-result-item"
-                    onClick={() => {
-                      nav(`/product/${item?.id}`);
-                    }}
-                  >
-                    <div className="product-result-item-image">
-                      <img
-                        src={"/uploads/" + item?.productImages[0]?.imageUrl}
-                        alt=""
-                      />
+                  <div key={index}>
+                    <div
+                      // key={index}
+                      className="product-result-item"
+                      onClick={() => {
+                        nav(`/product/${item?.id}`);
+                      }}
+                    >
+                      <div className="product-result-item-image">
+                        <img
+                          src={"/uploads/" + item?.productImages[0]?.imageUrl}
+                          alt=""
+                        />
+                      </div>
+                      <div className="product-result-item-text">
+                        <h5>{item?.name}</h5>
+                        <strong>
+                          {item?.price.toLocaleString("vi-VN")} VND{" "}
+                        </strong>
+                      </div>
                     </div>
-                    <div className="product-result-item-text">
-                      <h4>{item?.name}</h4>
-                      <strong>
-                        {item?.price.toLocaleString("vi-VN")} VND{" "}
-                      </strong>
-                    </div>
+                    <div className="my-hr" />
                   </div>
                 ))}
               </div>
