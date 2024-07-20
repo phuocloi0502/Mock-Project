@@ -98,9 +98,6 @@
   .button-search-product {
     position: relative;
     .search-result-area {
-      width: 450px;
-      max-height: 300px;
-      overflow-y: scroll;
       background-color: white;
       border: 1px solid rgba(128, 128, 128, 0.287);
       border-radius: 10px;
@@ -109,18 +106,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      box-sizing: border-box;
       .product-result-wrap {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        width: 100%;
-
+        width: 450px;
+        max-height: 500px;
+        overflow-y: scroll;
         .product-result-item {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          padding: 5px 20px;
+          transition: background-color 0.3s ease, transform 0.3s ease;
           .product-result-item-image {
+            display: flex;
             img {
               width: 70px;
               height: 70px;
@@ -133,6 +133,9 @@
               font-size: 0.8rem;
             }
           }
+        }
+        :hover {
+          animation: hoverAnimation 0.6s ease;
         }
       }
     }
@@ -203,4 +206,14 @@
   height: 30px;
   position: absolute;
   color: rgba(242, 56, 56, 0.865);
+}
+@keyframes hoverAnimation {
+  0% {
+    background-color: white; /* Màu nền ban đầu */
+    transform: scale(1); /* Kích thước ban đầu */
+  }
+  100% {
+    background-color: rgba(197, 237, 240, 0.34); /* Màu nền khi hover */
+    transform: scale(1.01); /* Phóng to phần tử khi hover */
+  }
 }

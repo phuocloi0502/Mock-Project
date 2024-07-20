@@ -5,7 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import { FaCartPlus } from "react-icons/fa";
 import { Input, Spin, Drawer, Button } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import "./header.scss";
 import UserAvatar from "./../../assets/user_avatar.avif";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,7 +24,9 @@ import { getToken } from "../../utils/helpers";
 import { jwtDecode } from "jwt-decode";
 import { getCartInfoById } from "../../redux/slide/cartSlide";
 import productService from "../../services/productService";
+import { useNavigate } from "react-router-dom";
 export const Header = () => {
+  const nav = useNavigate();
   const { Search } = Input;
   // get category
   const dispatch = useDispatch();
@@ -206,7 +208,13 @@ export const Header = () => {
             <div className="search-result-area">
               <div className="product-result-wrap">
                 {resultProduct?.map((item, index) => (
-                  <div key={index} className="product-result-item">
+                  <div
+                    key={index}
+                    className="product-result-item"
+                    onClick={() => {
+                      nav(`/product/${item?.id}`);
+                    }}
+                  >
                     <div className="product-result-item-image">
                       <img
                         src={"/uploads/" + item?.productImages[0]?.imageUrl}

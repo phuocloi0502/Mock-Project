@@ -1,7 +1,7 @@
 import React from "react";
 import "./check_out.scss";
 import { Form, Input, Button, Radio, DatePicker, message } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { FaCcVisa } from "react-icons/fa";
 import { IoArrowForward } from "react-icons/io5";
@@ -10,7 +10,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserById, updateUser } from "../../redux/slide/userSlide";
 import { getCartInfoById } from "../../redux/slide/cartSlide";
 import Item from "antd/es/list/Item";
+import { useNavigate } from "react-router-dom";
 export const CheckOut = (props) => {
+  const nav = useNavigate();
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
@@ -31,11 +33,26 @@ export const CheckOut = (props) => {
   // }, []);
 
   // get data cart detail
-  const dataCartByUserId = useSelector(
-    (state) => state.cartSlide.dataCartByUserId
-  );
+  const { dataCartByUserId, loading } = useSelector((state) => state.cartSlide);
+  const prevDataCartByUserId = useRef(dataCartByUserId);
+  useEffect(() => {
+    if (userIdCurrent) {
+      dispatch(getCartInfoById(userIdCurrent));
+    }
+  }, [userIdCurrent]);
 
-  console.log("dataCartByUserId", dataCartByUserId);
+  useEffect(() => {
+    if (
+      !loading &&
+      dataCartByUserId &&
+      dataCartByUserId.length === 0 &&
+      prevDataCartByUserId.current !== dataCartByUserId
+    ) {
+      nav("/product");
+    }
+    prevDataCartByUserId.current = dataCartByUserId;
+  }, [dataCartByUserId, loading]);
+
   // Tính tổng tiền trong giỏ hàng
   const calculateTotal = () => {
     return dataCartByUserId.reduce((total, item) => {
