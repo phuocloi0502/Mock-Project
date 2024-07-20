@@ -8,4 +8,5 @@ import java.util.List;
 public interface OrderService {
     void createOrderFromCart(OrderCreateForm form);
     List<OrderDto> getAllOrders();
+    List<OrderDto> getOrdersByUserId(Long userId);
 }

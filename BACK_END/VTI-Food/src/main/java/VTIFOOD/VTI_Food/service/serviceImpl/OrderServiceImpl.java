@@ -1,6 +1,5 @@
 package VTIFOOD.VTI_Food.service.serviceImpl;
 
-
 import VTIFOOD.VTI_Food.DTO.OrderDto;
 import VTIFOOD.VTI_Food.form.OrderCreateForm;
 import VTIFOOD.VTI_Food.mapper.OrderMapper;
@@ -79,6 +78,13 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
         return orders.stream()
+                .map(OrderMapper::map)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderDto> getOrdersByUserId(Long userId) {
+        return orderRepository.findByUserId(userId).stream()
                 .map(OrderMapper::map)
                 .collect(Collectors.toList());
     }

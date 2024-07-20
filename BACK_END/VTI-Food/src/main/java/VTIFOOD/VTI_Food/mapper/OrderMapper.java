@@ -1,10 +1,7 @@
 package VTIFOOD.VTI_Food.mapper;
 
 import VTIFOOD.VTI_Food.DTO.OrderDto;
-import VTIFOOD.VTI_Food.DTO.PaymentMethodDto;
 import VTIFOOD.VTI_Food.model.Order;
-import VTIFOOD.VTI_Food.model.PaymentMethod;
-import VTIFOOD.VTI_Food.model.User;
 
 public class OrderMapper {
     public static OrderDto map(Order order) {

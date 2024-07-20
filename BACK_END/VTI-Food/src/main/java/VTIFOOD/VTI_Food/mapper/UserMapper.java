@@ -15,6 +15,7 @@ public class UserMapper {
         dto.setEmail(user.getEmail());
         dto.setAddress(user.getAddress());
         dto.setPhoneNumber(user.getPhoneNumber());
+//        dto.setRole(RoleMapper.map(user.getRole()));
         return dto;
     }
 
