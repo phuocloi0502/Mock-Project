@@ -21,7 +21,8 @@ public class ProductImageController {
     public ResponseEntity<?> uploadProductImages(@PathVariable Long productId,
             @RequestParam("files") List<MultipartFile> files) {
         try {
-            productImageService.uploadProductImage(productId, files);
+            productImageService.uploadPro
+        ductImage(productId, files);
             return ResponseEntity.ok("Images uploaded successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
