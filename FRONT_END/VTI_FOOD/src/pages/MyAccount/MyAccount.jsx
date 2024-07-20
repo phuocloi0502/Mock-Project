@@ -62,7 +62,7 @@ export const MyAccount = (props) => {
       dispatch(getUserById(userId));
     }
   }, [userId]);
-
+  console.log(dataUserById, "dataUserById");
   const onFinish = (value) => {
     const dataUpdate = {
       firstName: value.firstname,

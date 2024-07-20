@@ -3,14 +3,15 @@ import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import productService from "../../services/productService";
 import { toast } from "react-hot-toast";
 // get all
-export const getAll = createAsyncThunk(
+export const getAllProducts = createAsyncThunk(
   "getAllProducts",
-  async ({ pageNumber }, thunkAPI) => {
-    const data = (await productService.getAll(pageNumber)).data;
+  async ({ pageNumber, search }, thunkAPI) => {
+    const data = (await productService.getAll(pageNumber, search)).data;
     thunkAPI.dispatch(changeTotalElements(data.totalElements));
     return data.content;
   }
 );
+
 //get by Id
 export const getById = createAsyncThunk("getProductById", async (id) => {
   const data = (await productService.getById(id)).data;
@@ -77,11 +78,16 @@ export const updateProduct = createAsyncThunk(
 export const deleteProductById = createAsyncThunk(
   "deleteProductById",
   async (id, thunkAPI) => {
-    const dataDelete = (await productService.delete(id)).data;
-    const state = thunkAPI.getState();
-    const pageCurrent = state.productSlide.pageCurrent;
-    thunkAPI.dispatch(getAll({ pageNumber: pageCurrent }));
-    return dataDelete;
+    try {
+      const dataDelete = (await productService.delete(id)).data;
+      const state = thunkAPI.getState();
+      const pageCurrent = state.productSlide.pageCurrent;
+      thunkAPI.dispatch(getAllProducts({ pageCurrent }));
+      return dataDelete;
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
 );
 
@@ -95,6 +101,7 @@ export const productSlide = createSlice({
     pageCurrent: 1,
     loading: false,
     createdData: [],
+    resultData: [],
   },
   reducers: {
     changeCategoryId: (state, action) => {
@@ -109,14 +116,14 @@ export const productSlide = createSlice({
   },
   extraReducers: (builder) => {
     // get all product
-    builder.addCase(getAll.pending, (state, action) => {
+    builder.addCase(getAllProducts.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(getAll.fulfilled, (state, action) => {
+    builder.addCase(getAllProducts.fulfilled, (state, action) => {
       state.loading = false;
       state.listProduct = action.payload;
     });
-    builder.addCase(getAll.rejected, (state, action) => {
+    builder.addCase(getAllProducts.rejected, (state, action) => {
       state.loading = false;
     });
     // get product by id

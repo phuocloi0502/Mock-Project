@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import Cart from "../../pages/Cart/Cart";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { getAll } from "../../redux/slide/categorySlide";
+import { getAllProducts } from "../../redux/slide/productSlide";
 import {
   changeIsLogin,
   changeUserName,
@@ -22,6 +23,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { getToken } from "../../utils/helpers";
 import { jwtDecode } from "jwt-decode";
 import { getCartInfoById } from "../../redux/slide/cartSlide";
+import productService from "../../services/productService";
 export const Header = () => {
   const { Search } = Input;
   // get category
@@ -38,7 +40,7 @@ export const Header = () => {
         dispatch(changeIsLogin(true));
 
         const decoded = jwtDecode(token);
-        console.log(decoded); // show decoded
+        // console.log(decoded); // show decoded
         dispatch(changeUserName(decoded?.username));
         dispatch(setUserId(decoded?.userId));
       } catch (error) {
@@ -54,7 +56,7 @@ export const Header = () => {
     if (userName === "") {
       setStyleHide({ display: "none" });
     } else {
-      console.log(userName);
+      //console.log(userName);
       setStyleHide({});
     }
   }, [userName, isLogin]);
@@ -84,8 +86,24 @@ export const Header = () => {
       dispatch(getCartInfoById(userIdCurrent));
     }
   }, [userIdCurrent, addedProduct]);
-  console.log(dataCartByUserId?.length, "cart length");
+  //console.log(dataCartByUserId?.length, "cart length");
 
+  // handle search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [resultProduct, setResultProduct] = useState([]);
+  const handleSearch = async (value) => {
+    // Xử lý tìm kiếm ở đây
+    console.log("Searching for:", value);
+    setSearchTerm(value);
+    const data = (await productService.getAll("", searchTerm)).data.content;
+    setResultProduct(data);
+    // dispatch(getAllProducts({ pageNumber: "", search: searchTerm }));
+  };
+  const handleClear = () => {
+    console.log("da clues");
+    setResultProduct([]);
+  };
+  console.log("resultProduct", resultProduct);
   return (
     <div className="wrapper-header">
       <Spin tip="Loading..." fullscreen spinning={loading} />
@@ -169,12 +187,43 @@ export const Header = () => {
         </div>
       </div>
       <div className="button-area">
-        <div className=" search">
+        <div className="button-search-product">
           <Search
-            placeholder="Tìm kiếm"
+            placeholder="Tìm kiếm sản phẩm"
             allowClear
-            // onSearch={}
+            onSearch={handleSearch}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setResultProduct([]);
+            }}
+            value={searchTerm}
           />
+          {resultProduct == undefined ||
+          resultProduct.length == 0 ||
+          searchTerm == "" ? (
+            <></>
+          ) : (
+            <div className="search-result-area">
+              <div className="product-result-wrap">
+                {resultProduct?.map((item, index) => (
+                  <div key={index} className="product-result-item">
+                    <div className="product-result-item-image">
+                      <img
+                        src={"/uploads/" + item?.productImages[0]?.imageUrl}
+                        alt=""
+                      />
+                    </div>
+                    <div className="product-result-item-text">
+                      <h4>{item?.name}</h4>
+                      <strong>
+                        {item?.price.toLocaleString("vi-VN")} VND{" "}
+                      </strong>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         <div className="icon like" onClick={demo}>
           <FcLike />

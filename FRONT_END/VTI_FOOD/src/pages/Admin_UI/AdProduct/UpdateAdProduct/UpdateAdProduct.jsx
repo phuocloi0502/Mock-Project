@@ -9,12 +9,14 @@ import {
   InputNumber,
   Spin,
   Image,
+  Modal,
 } from "antd";
 import {
   PlusOutlined,
   CloseOutlined,
   InboxOutlined,
   SaveOutlined,
+  ExclamationCircleFilled,
 } from "@ant-design/icons";
 import "../CreateAdProduct/create_ad_product.scss";
 import toast from "react-hot-toast";
@@ -25,9 +27,11 @@ import {
   getById,
   updateProduct,
   upLoadProductImage,
+  deleteProductById,
 } from "../../../../redux/slide/productSlide";
 const { TextArea } = Input;
 const { Option } = Select;
+const { confirm } = Modal;
 
 const UpdateAdProduct = () => {
   const nav = useNavigate();
@@ -88,32 +92,51 @@ const UpdateAdProduct = () => {
       console.log(error);
       toast.error("Đã xảy ra lỗi khi cập nhật sản phẩm!");
     } finally {
-      setIsUploading(false); // Kết thúc quá trình upload
-      setShouldRender(true); // Cho phép render lại component sau khi hoàn thành
+      setIsUploading(false);
+      setShouldRender(true);
     }
     setFileList([]);
   };
-  // Sử dụng useEffect để delay 0.5 giây trước khi render lại component
+
   useEffect(() => {
     if (shouldRender) {
       const timeout = setTimeout(() => {
-        setShouldRender(false); // Reset state để ngăn không render lại liên tục
-      }, 1000); // 0.5 giây
+        setShouldRender(false);
+      }, 1000);
 
       return () => {
-        clearTimeout(timeout); // Clear timeout nếu component unmount trước khi kết thúc delay
+        clearTimeout(timeout);
       };
     }
   }, [shouldRender]);
   const handleCancel = () => {
-    // Redirect to product list or previous page
-
     nav("/admin/products/");
   };
   const handleChange = ({ fileList }) => {
     setFileList(fileList);
   };
-
+  // handle delete
+  const showDeleteConfirm = (productId) => {
+    confirm({
+      title: "Are you sure delete this task?",
+      icon: <ExclamationCircleFilled />,
+      content: "Some descriptions",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        handleDeleteProduct(productId);
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+  const handleDeleteProduct = (productId) => {
+    dispatch(deleteProductById(productId));
+    toast.success("Đã xóa");
+    nav("/admin/products/");
+  };
   const maxLengListImage = 5 - productData?.productImages?.length;
   const validateFileListLength = (rule, value) => {
     if (fileList.length > maxLengListImage) {
@@ -125,7 +148,6 @@ const UpdateAdProduct = () => {
   };
   return (
     <div className="create-product-container">
-      {console.log("redn")}
       <Spin spinning={loading} fullscreen="true"></Spin>
       <div className="create-product-header">
         <div className="create-product-header-title">
@@ -148,8 +170,20 @@ const UpdateAdProduct = () => {
             htmlType="submit"
             form="createProductForm"
             icon={<PlusOutlined />}
+            style={{ marginRight: "8px" }}
           >
             Lưu sản phẩm
+          </Button>
+          <Button
+            type="primary"
+            danger
+            form="createProductForm"
+            style={{ marginRight: "8px" }}
+            onClick={() => {
+              showDeleteConfirm(productId);
+            }}
+          >
+            Xóa sản phẩm
           </Button>
         </div>
       </div>

@@ -1,20 +1,20 @@
 import api from "./axiosClient";
 
-const ENDPOINT = "/carts";
+const ENDPOINT = "/orders";
 const orderService = {
   create(body) {
-    return api.post(ENDPOINT + "/add", body);
+    return api.post(ENDPOINT + "/create", body);
   },
-  //   getAll() {
-  //     return api.get(ENDPOINT);
-  //   },
-  //   getById(id) {
-  //     return api.get(ENDPOINT + "/" + id);
-  //   },
+  getAll() {
+    return api.get(ENDPOINT);
+  },
+  getById(id) {
+    return api.get(ENDPOINT + "/" + id);
+  },
 
-  //   update(id, body) {
-  //     return api.put(ENDPOINT + id, body);
-  //   },
+  update(id, body) {
+    return api.put(ENDPOINT + id, body);
+  },
   //   delete(id) {
   //     return api.delete(ENDPOINT + id);
   //   },

@@ -7,7 +7,7 @@ import { dataTable } from "../../../../utils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
-  getAll,
+  getAllProducts,
   deleteProductById,
   changePageCurrent,
 } from "../../../../redux/slide/productSlide";
@@ -22,7 +22,7 @@ export const ViewAdProduct = (props) => {
   const rawData = useSelector((state) => state.productSlide.listProduct);
 
   useEffect(() => {
-    dispatch(getAll({ pageNumber: current }));
+    dispatch(getAllProducts({ pageNumber: current, search: "" }));
   }, [current, dispatch]);
   const totalElements = useSelector(
     (state) => state.productSlide.totalElements

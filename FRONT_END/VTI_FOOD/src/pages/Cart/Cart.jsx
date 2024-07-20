@@ -8,50 +8,44 @@ import {
   deleteProductFromCart,
   updateCart,
 } from "../../redux/slide/cartSlide";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 import { MdAdd } from "react-icons/md";
 import { HiMinusSm } from "react-icons/hi";
 import { MdDeleteForever } from "react-icons/md";
 import { toast } from "react-hot-toast";
+import { createOrder } from "../../redux/slide/orderSlide";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const nav = useNavigate();
   const dispatch = useDispatch();
-  const initialCartItems = [
-    { id: 1, name: "Gà Rán", price: 2.5, quantity: 1 },
-    { id: 2, name: "Gà Rán", price: 2.5, quantity: 1 },
-    { id: 3, name: "Gà Rán", price: 2.5, quantity: 2 },
-  ];
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-  const [cartItems, setCartItems] = useState(initialCartItems);
-
-  const calculateTotalPrice = () => {
-    return cartItems
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
   const userIdCurrent = useSelector((state) => state.userSlide.userId);
   const dataCartByUserId = useSelector(
     (state) => state.cartSlide.dataCartByUserId
   );
   const addedProduct = useSelector((state) => state.cartSlide.addedProduct);
-
+  // data cart detail
   useEffect(() => {
     dispatch(getCartInfoById(userIdCurrent));
   }, [userIdCurrent, addedProduct]);
-  console.log(dataCartByUserId, "data cart by user id");
-
-  const handleDeleteProductFromCart = (cartId, productId) => {
-    dispatch(deleteProductFromCart({ cartId, productId }));
-    toast.success("Đã xóa sản phẩm !");
+  //console.log(dataCartByUserId, "data cart by user id");
+  // modal xóa sản phẩm trong giỏ
+  const { confirm } = Modal;
+  const showDeleteConfirm = (cartId, productId) => {
+    confirm({
+      title: "Bạn có chắc chắn muốn xóa mục này?",
+      okText: "Xóa",
+      okType: "danger",
+      cancelText: "Hủy",
+      onOk() {
+        dispatch(deleteProductFromCart({ cartId, productId }));
+        toast.success("Đã xóa sản phẩm !");
+      },
+      onCancel() {
+        //console.log("Hủy xóa");
+      },
+    });
   };
 
   // tang so luong
@@ -74,7 +68,31 @@ const Cart = () => {
     dispatch(updateCart(dataUpdateCart));
     //console.log(dataUpdateCart, "giam");
   };
+  // Tính tổng tiền trong giỏ hàng
+  const calculateTotal = () => {
+    return dataCartByUserId.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
+  };
 
+  // tao don hang
+  const handleOrderNow = () => {
+    nav("/checkout");
+    //  console.log("da dat hang");
+    // const dataCreateOrder = {
+    //   userId: userIdCurrent,
+    //   deliveryDate: "2024-07-15",
+    //   deliveryAddress: "Ba Tri",
+    //   orderStatus: "DA_NHAN",
+    //   note: "Test",
+    //   paymentMethodId: 1,
+    //   paymentStatus: "False",
+    //   paymentDate: "",
+    // };
+    // try {
+    //    dispatch(createOrder(userIdCurrent));
+    // } catch (error) {}
+  };
   return (
     <div className="cart-container">
       <div className="cart">
@@ -85,7 +103,9 @@ const Cart = () => {
         </p>
         <div className="cart-total">
           <h3 className="total-title">Tổng tiền: </h3>
-          <span className="total-price">1000</span>
+          <span className="total-price">
+            {calculateTotal().toLocaleString("vi-VN")} VND
+          </span>
         </div>
         <div className="cart-area">
           {dataCartByUserId?.map((item, index) => (
@@ -94,7 +114,7 @@ const Cart = () => {
                 <div className="delete-product-wrap">
                   <Button
                     onClick={() => {
-                      handleDeleteProductFromCart(item.cartId, item.productId);
+                      showDeleteConfirm(item.cartId, item.productId);
                     }}
                     danger
                     type="primary"
@@ -105,12 +125,14 @@ const Cart = () => {
                 <div className="info-product">
                   <div className="info-product-image">
                     {" "}
-                    <img src={img} alt={item.name} />
+                    <img src={"/uploads/" + item.images[0]} />
                   </div>
                   <div className="info-product-text">
                     {" "}
                     <h4 className="name-product">{item.productName}</h4>
-                    <p className="price-product">12000</p>
+                    <p className="price-product">
+                      {item?.price?.toLocaleString("vi-VN") + " VND"}
+                    </p>
                   </div>
                 </div>
                 <div className="item-quantity">
@@ -141,7 +163,14 @@ const Cart = () => {
             </>
           ) : (
             <>
-              <Button danger type="primary" className="order-button">
+              <Button
+                danger
+                type="primary"
+                className="order-button"
+                onClick={() => {
+                  handleOrderNow();
+                }}
+              >
                 Đặt Hàng Ngay
               </Button>
             </>

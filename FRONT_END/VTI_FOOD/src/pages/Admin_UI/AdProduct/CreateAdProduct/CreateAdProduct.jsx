@@ -62,7 +62,7 @@ export const CreateAdProduct = () => {
       await dispatch(upLoadProductImage({ productId, formData })).unwrap();
       message.success("Sản phẩm đã được thêm thành công!");
       // form.resetFields();
-      nav(`/admin/products/${productId}`);
+      nav(`/admin/products/`);
       setFileList([]);
     } catch (error) {
       console.error("Error during form submission: ", error);

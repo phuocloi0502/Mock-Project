@@ -4,13 +4,13 @@ import "../ProductByCategory/product_by_category.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { CardProduct } from "../../components/card_product/CardProduct";
-import { getAll } from "../../redux/slide/productSlide";
+import { getAllProducts } from "../../redux/slide/productSlide";
 
 export const Products = () => {
   const [current, setCurrent] = useState(1);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAll({ pageNumber: current }));
+    dispatch(getAllProducts({ pageNumber: current }));
   }, [current]);
 
   const listProduct = useSelector((state) => state.productSlide.listProduct);
@@ -18,7 +18,7 @@ export const Products = () => {
   const totalElements = useSelector(
     (state) => state.productSlide.totalElements
   );
-  console.log(totalElements, "tong item");
+  //console.log(totalElements, "tong item");
 
   const onChange = (page) => {
     setCurrent(page);

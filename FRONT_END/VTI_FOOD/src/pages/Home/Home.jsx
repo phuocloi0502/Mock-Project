@@ -7,12 +7,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { CardProduct } from "../../components/card_product/CardProduct";
 import { BannerImage } from "../../components/banner_image/BannerImage";
-import { getAll } from "../../redux/slide/productSlide";
+import { getAllProducts } from "../../redux/slide/productSlide";
 
 export const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAll({ pageNumber: 1 }));
+    dispatch(getAllProducts({ pageNumber: 1 }));
   }, []);
 
   const listProduct = useSelector((state) => state.productSlide.listProduct);

@@ -85,8 +85,8 @@
       position: relative;
       .check-out-order-product {
         .check-out-order-product-item {
-          display: flex;
-          justify-content: space-between;
+          // display: flex;
+          // justify-content: space-between;
           align-items: center;
           span {
             color: color.$orange;
@@ -104,24 +104,53 @@
               text-align: left;
             }
           }
+          .payment-sub-amount {
+            text-align: right;
+            margin-bottom: 20px;
+            span {
+              color: color.$blue;
+              font-weight: 600;
+            }
+          }
         }
       }
       .check-out-order-payment {
         line-height: 1.5;
-        p {
-          color: color.$gray;
+        .payment-text {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          p {
+            color: color.$gray;
+          }
         }
-        span {
-          font-size: 1.1rem;
+        .total-amount-text {
+          strong {
+            color: color.$red;
+          }
         }
       }
       .check-out-order-buton {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translate(-50%);
+        margin-top: 20px;
         button {
           width: 200px;
+          height: 50px;
+          font-size: 1.1rem;
+          padding: 20px;
+          font-weight: 700;
+        }
+      }
+      .check-out-order-payment-amount {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        strong {
+          font-size: 1.3rem;
+          color: white;
+          background-color: rgb(244, 40, 40);
+          padding: 10px;
+          border-radius: 5px;
         }
       }
     }
@@ -130,9 +159,4 @@
 h4 {
   padding-bottom: 20px;
   color: color.$blue;
-}
-.payment-text {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }

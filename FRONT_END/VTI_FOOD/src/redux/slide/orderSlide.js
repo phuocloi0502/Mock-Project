@@ -1,37 +1,55 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import orderService from "../../services/orderService";
-//create cart
+//createOrder
+export const createOrder = createAsyncThunk(
+  "createOrder",
+  async (body, thunkAPI) => {
+    try {
+      const data = (await orderService.create(body)).data;
+      console.log(data, "created order");
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+//getAllOrder
 export const getAllOrder = createAsyncThunk("getAllOrder", async (thunkAPI) => {
   try {
-    const data = (await orderService.create(body)).data;
-    console.log(data, "data cart added");
+    const data = (await orderService.getAll()).data;
+
     return data;
   } catch (error) {
     console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
+//getOrderById
 export const getOrderById = createAsyncThunk(
   "getOrderById",
   async (id, thunkAPI) => {
     try {
-      const data = (await orderService.getCartById(id)).data;
-      console.log(data, "data cart by id");
+      const data = (await orderService.getById(id)).data;
+
       return data;
     } catch (error) {
       console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
-
+//updateOrder
 export const updateOrder = createAsyncThunk(
   "updateOrder",
-  async (id, thunkAPI) => {
+  async ({ id, body }, thunkAPI) => {
     try {
-      const data = (await orderService.getCartById(id)).data;
-      console.log(data, "data cart by id");
+      const data = (await orderService.update(id, body)).data;
+
       return data;
     } catch (error) {
       console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -55,6 +73,18 @@ export const orderSlide = createSlice({
     // },
   },
   extraReducers: (builder) => {
+    // createOrder
+    builder.addCase(createOrder.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(createOrder.fulfilled, (state, action) => {
+      state.loading = false;
+      //state.listOrder = action.payload;
+    });
+    builder.addCase(createOrder.rejected, (state, action) => {
+      state.loading = false;
+    });
+
     // get all order
     builder.addCase(getAllOrder.pending, (state, action) => {
       state.loading = true;

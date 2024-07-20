@@ -3,10 +3,11 @@ import apiUploadImage from "./uploadClient";
 
 const ENDPOINT = "/products";
 const productService = {
-  getAll(pageNumber) {
+  getAll(pageNumber, search) {
     return api.get(ENDPOINT, {
       params: {
         pageNumber: pageNumber,
+        search: search,
       },
     });
   },
