@@ -6,11 +6,11 @@ export const StatusFilter = () => {
 
   const statuses = [
     "Tất cả trạng thái",
-    "Đã xác nhận",
-    "Đã đóng gói",
+    "Xác nhận",
+    "Đóng gói",
     "Đang giao",
     "Đã nhận",
-    "Đã huỷ",
+    "Huỷ",
   ];
 
   const handleStatusChange = (status) => {

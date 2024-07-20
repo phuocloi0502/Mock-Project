@@ -6,11 +6,16 @@ import { useNavigate } from "react-router-dom";
 import testImage from "../../../../assets/test.jpg";
 import { FaEdit } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { StatusFilter } from "../../../../components/admin_components/StatusFilter/StatusFilter";
+import { getAllOrder } from "../../../../redux/slide/orderSlide";
+import { dataTable } from "../../../../utils/constant";
+
 export const ViewAdOrder = (props) => {
   const { Search } = Input;
   const nav = useNavigate();
+  const dispatch = useDispatch();
   // const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   // const onSelectChange = (newSelectedRowKeys) => {
   //   console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -24,19 +29,25 @@ export const ViewAdOrder = (props) => {
   //const onSearch = (value, _e, info) => console.log(info?.source, value);
   const [search, setSearch] = useState("");
   console.log(search);
+  const rawData = useSelector((state) => state.orderSlide.listOrder);
+  const dataSource = dataTable(rawData);
+  useEffect(() => {
+    dispatch(getAllOrder());
+  }, []);
+  console.log(rawData);
   const columns = [
     {
       title: "ID Đặt hàng",
-      dataIndex: "orderId",
-      key: "orderId",
-      width: 200,
-      render: (text) => <a>{text}</a>,
+      dataIndex: "id",
+      key: "id",
+      width: 100,
+      render: (text) => <a>#00{text}</a>,
     },
     {
       title: "TRẠNG THÁI",
       dataIndex: "orderStatus",
       key: "orderStatus",
-      width: 200,
+      width: 150,
       render: (_, { orderStatus }) => {
         let color;
         switch (orderStatus) {
@@ -76,273 +87,55 @@ export const ViewAdOrder = (props) => {
       title: "THỜI GIAN ĐẶT",
       dataIndex: "createdAt",
       key: "createdAt",
+      width: 200,
     },
     {
       title: "KHÁCH HÀNG",
-      key: "userName",
-      dataIndex: "userName",
+      key: "user",
+      dataIndex: "user",
+      width: 200,
+      render: (_, item) => {
+        const fullName = item?.user?.lastName + " " + item?.user?.firstName;
+
+        return <>{fullName}</>;
+      },
     },
     {
       title: "THÀNH TIỀN",
-      key: "paymentAmount",
-      dataIndex: "paymentAmount",
+      key: "totalAmount",
+      dataIndex: "totalAmount",
+      render: (text) => <>{text.toLocaleString("vi-VN") + " VND"}</>,
     },
     {
       title: "THANH TOÁN",
       key: "paymentMethod",
       dataIndex: "paymentMethod",
+      render: (_, item) => {
+        const paymentMethod = item?.paymentMethod?.name;
+
+        return <>{paymentMethod}</>;
+      },
     },
     {
       title: "HÀNH ĐỘNG",
       key: "action",
-      render: (_, { orderId }) => (
+      render: (_, { id }) => (
         <div className="action-buttons">
-          <Link to={`/admin/order/${orderId}`}>
+          <Link to={`/admin/order/${id}`}>
             <Button>
               <FaEdit />
             </Button>
           </Link>
-          <Link to={`/admin/order/${orderId}`}>
+          {/* <Link to={`/admin/order/${orderId}`}>
             <Button>
               <GrView />
             </Button>
-          </Link>
+          </Link> */}
         </div>
       ),
     },
   ];
-  const data = [
-    {
-      key: 1,
-      orderId: "2123121",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "ĐÃ XÁC NHẬN",
-    },
-    {
-      key: 2,
-      orderId: "2123122",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "ĐÃ ĐÓNG GÓI",
-    },
-    {
-      key: 3,
-      orderId: "2123123",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "ĐANG GIAO",
-    },
-    {
-      key: 4,
-      orderId: "2123124",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "ĐÃ GIAO",
-    },
-    {
-      key: 5,
-      orderId: "2123125",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "ĐÃ HỦY",
-    },
-    {
-      key: 6,
-      orderId: "2123126",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "HOÀN THÀNH",
-    },
-    {
-      key: 7,
-      orderId: "2123127",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "HOÀN THÀNH",
-    },
-    {
-      key: 8,
-      orderId: "2123128",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "HOÀN THÀNH",
-    },
-    {
-      key: 9,
-      orderId: "2123129",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "HOÀN THÀNH",
-    },
-    {
-      key: 10,
-      orderId: "2123110",
-      products: [
-        {
-          productName: "Hamburger",
-          productImage: testImage,
-        },
-        {
-          productName: "Pizza",
-          productImage: testImage,
-        },
-        {
-          productName: "Kem",
-          productImage: testImage,
-        },
-      ],
-      createdAt: "2024/7/3",
-      userName: "Vo Phuoc Loi",
-      paymentAmount: 100000,
-      paymentMethod: "COD",
-      orderStatus: "HOÀN THÀNH",
-    },
-  ];
+
   return (
     <div className="admin-order-wrap">
       <Divider orientation="center">
@@ -362,7 +155,7 @@ export const ViewAdOrder = (props) => {
       <Table
         //  rowSelection={rowSelection}
         columns={columns}
-        dataSource={data}
+        dataSource={dataSource}
         pagination={{ pageSize: 10 }}
         scroll={{
           y: 500,
