@@ -1,11 +1,13 @@
 package VTIFOOD.VTI_Food.service.serviceImpl;
 
+import VTIFOOD.VTI_Food.DTO.UserDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserRequestDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserUpdateDTO;
 import VTIFOOD.VTI_Food.DTO.response.UserResponseDTO;
 import VTIFOOD.VTI_Food.components.JwtTokenUtils;
 import VTIFOOD.VTI_Food.exception.DataNotFoundException;
 import VTIFOOD.VTI_Food.exception.PermissionDenyException;
+import VTIFOOD.VTI_Food.mapper.UserMapper;
 import VTIFOOD.VTI_Food.model.Role;
 import VTIFOOD.VTI_Food.model.User;
 import VTIFOOD.VTI_Food.repository.RoleRepository;
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-   private  final JwtTokenUtils jwtTokenUtils;
+    private  final JwtTokenUtils jwtTokenUtils;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -105,10 +107,10 @@ public class UserServiceImpl implements UserService {
         return UserResponseDTO.convertToResponseDTO(updatedUser);
     }
 
-    @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
+//    @Override
+//    public Optional<User> getUserById(Long id) {
+//        return userRepository.findById(id);
+//    }
 
     @Override
     public String loginUser(String usn, String pwd) throws Exception {
@@ -128,4 +130,11 @@ public class UserServiceImpl implements UserService {
 
 
     }
+
+    @Override
+    public Optional<UserDTO> getUserById(Long id) {
+        return userRepository.findById(id).map(UserMapper::mapUserDto);
+    }
+
+
 }

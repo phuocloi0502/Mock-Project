@@ -473,15 +473,25 @@
 				{
 					"name": "api/v1/users/{userId}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsInVzZXJJZCI6MiwidXNlcm5hbWUiOiJ0cmFuZHV5ZW4iLCJzdWIiOiJ0cmFuZHV5ZW4iLCJleHAiOjE3MjM5OTcyMDB9.IEolWfD8gaTcEYiLnr0YeeMEMBbdDNBSQiVHEdjOjVc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api_prefix}}users/1",
+							"raw": "{{api_prefix}}users/2",
 							"host": [
 								"{{api_prefix}}users"
 							],
 							"path": [
-								"1"
+								"2"
 							]
 						}
 					},
@@ -713,7 +723,7 @@
 					"response": []
 				},
 				{
-					"name": "api/v1/orders/order-statuses",
+					"name": "api/v1/orders/{orderId}",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -728,12 +738,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api_prefix}}orders/order-statuses",
+							"raw": "{{api_prefix}}orders/3",
 							"host": [
 								"{{api_prefix}}orders"
 							],
 							"path": [
-								"order-statuses"
+								"3"
 							]
 						}
 					},

@@ -1,5 +1,6 @@
 package VTIFOOD.VTI_Food.controller;
 
+import VTIFOOD.VTI_Food.DTO.UserDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserLoginDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserRequestDTO;
 import VTIFOOD.VTI_Food.DTO.request.UserUpdateDTO;
@@ -14,7 +15,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,6 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -73,10 +72,10 @@ public class UserController {
         return ResponseEntity.ok(userResponseDTOS);
     }
 
-    @GetMapping("/{userId}")
-    public Optional<User> getUserById(@PathVariable Long userId) {
-        return userService.getUserById(userId);
-    }
+//    @GetMapping("/{userId}")
+//    public Optional<User> getUserById(@PathVariable Long userId) {
+//        return userService.getUserById(userId);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO userUpdateDTO)
@@ -95,5 +94,12 @@ public class UserController {
     public String deleteUser(@Min(1) @PathVariable int userId) {
         System.out.println("User deleted success with id: " + userId);
         return "User deleted ok";
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

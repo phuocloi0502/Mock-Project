@@ -1,5 +1,6 @@
 package VTIFOOD.VTI_Food.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -14,9 +15,13 @@ import java.time.LocalDate;
 public class UserDTO {
     private Integer id;
 
-    @NotBlank(message = "Fullname is required")
-    @Size(max = 100, message = "Fullname must not exceed 100 characters")
-    private String fullname;
+    @NotBlank(message = "FirstName is required")
+    @Size(max = 100, message = "FirstName must not exceed 100 characters")
+    private String firstName;
+
+    @NotBlank(message = "LastName is required")
+    @Size(max = 100, message = "LastName must not exceed 100 characters")
+    private String lastName;
 
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
@@ -38,6 +43,7 @@ public class UserDTO {
     private String retypePassword;
 
     @Past(message = "Date of birth must be in the past")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     @Size(max = 200, message = "Address must not exceed 200 characters")
@@ -45,8 +51,10 @@ public class UserDTO {
 
     private boolean isActive = true;
 
-    @NotNull(message = "Role ID is required")
-    private Integer roleId;
+//    @NotNull(message = "Role ID is required")
+//    private Integer roleId;
+
+    private RoleDto role;
 
     // Getters and setters
 }
