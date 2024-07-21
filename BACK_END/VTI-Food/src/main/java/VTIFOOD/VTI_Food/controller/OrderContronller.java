@@ -3,6 +3,9 @@ package VTIFOOD.VTI_Food.controller;
 import VTIFOOD.VTI_Food.DTO.OrderDetailDto;
 import VTIFOOD.VTI_Food.DTO.OrderDto;
 import VTIFOOD.VTI_Food.form.OrderCreateForm;
+import VTIFOOD.VTI_Food.form.OrderUpdateForm;
+import VTIFOOD.VTI_Food.mapper.OrderMapper;
+import VTIFOOD.VTI_Food.model.Order;
 import VTIFOOD.VTI_Food.service.entityservice.OrderDetailService;
 import VTIFOOD.VTI_Food.service.entityservice.OrderService;
 import lombok.AllArgsConstructor;
@@ -43,5 +46,11 @@ public class OrderContronller {
     @GetMapping("/{orderId}")
     public List<OrderDetailDto> getOrderDetailsByOrderId(@PathVariable Long orderId) {
         return orderDetailService.getOrderDetailsByOrderId(orderId);
+    }
+
+    @PutMapping("/{id}")
+    public OrderDto updateOrder(@PathVariable Long id, @RequestBody OrderUpdateForm form) {
+        Order order = orderService.updateOrder(id, form);
+        return OrderMapper.map(order);
     }
 }

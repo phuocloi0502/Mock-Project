@@ -1,16 +1,21 @@
 package VTIFOOD.VTI_Food.service.serviceImpl;
 
 import VTIFOOD.VTI_Food.DTO.OrderDto;
+import VTIFOOD.VTI_Food.exception.ResourceNotFoundException;
 import VTIFOOD.VTI_Food.form.OrderCreateForm;
+import VTIFOOD.VTI_Food.form.OrderUpdateForm;
 import VTIFOOD.VTI_Food.mapper.OrderMapper;
 import VTIFOOD.VTI_Food.model.Order;
+import VTIFOOD.VTI_Food.model.PaymentMethod;
 import VTIFOOD.VTI_Food.repository.OrderRepository;
+import VTIFOOD.VTI_Food.repository.PaymentMethodRepository;
 import VTIFOOD.VTI_Food.service.entityservice.OrderService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentMethodRepository paymentMethodRepository;
 
     public void createOrderFromCart(OrderCreateForm form) {
         try {
@@ -87,5 +95,23 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByUserId(userId).stream()
                 .map(OrderMapper::map)
                 .collect(Collectors.toList());
+    }
+
+    @SneakyThrows
+    @Override
+    public Order updateOrder(Long id, OrderUpdateForm form) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy đơn hàng"));
+
+        order.setDeliveryDate(form.getDeliveryDate());
+        order.setDeliveryAddress(form.getDeliveryAddress());
+        order.setOrderStatus(form.getOrderStatus());
+        order.setNote(form.getNote());
+        order.setPaymentStatus(form.getPaymentStatus());
+        order.setPaymentDate(form.getPaymentDate());
+
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(form.getPaymentMethodId())
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy phương thức thanh toán"));
+        order.setPaymentMethod(paymentMethod);
+        return orderRepository.save(order);
     }
 }

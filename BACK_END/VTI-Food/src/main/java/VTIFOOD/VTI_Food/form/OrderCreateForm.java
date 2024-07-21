@@ -24,7 +24,6 @@ public class OrderCreateForm extends BaseForm{
     private String note;
     private Boolean paymentStatus;
 
-    @NotNull
     @PastOrPresent
     @CreationTimestamp
     @JsonIgnore
