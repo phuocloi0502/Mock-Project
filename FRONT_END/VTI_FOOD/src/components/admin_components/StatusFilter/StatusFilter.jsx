@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { Button, Space } from "antd";
 import "./status_filter.scss";
+import { changeStatusOrder } from "../../../redux/slide/orderSlide";
+import { useDispatch } from "react-redux";
 export const StatusFilter = () => {
+  const dispatch = useDispatch();
   const [selectedStatus, setSelectedStatus] = useState("Tất cả trạng thái");
 
   const statuses = [
     "Tất cả trạng thái",
-    "Xác nhận",
-    "Đóng gói",
-    "Đang giao",
-    "Đã nhận",
-    "Huỷ",
+    "XÁC NHẬN",
+    "ĐÓNG GÓI",
+    "ĐANG GIAO",
+    "ĐÃ NHẬN",
+    "HỦY",
   ];
 
   const handleStatusChange = (status) => {
     setSelectedStatus(status);
+    dispatch(changeStatusOrder(status));
   };
 
   return (

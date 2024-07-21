@@ -25,6 +25,8 @@ export const getCartInfoById = createAsyncThunk(
     try {
       const data = (await cartService.getCartDetailByUserId(userId)).data;
       //  console.log(data, "data cart by user id");
+      console.log("changeCartNumber", data.length);
+      thunkAPI.dispatch(changeCartNumber(data.length));
       return data;
     } catch (error) {
       console.error(error);
@@ -68,14 +70,15 @@ export const cartSlide = createSlice({
     loading: false,
     dataCartByUserId: [],
     addedProduct: [],
+    cartNumber: 0,
   },
   reducers: {
-    // changeIsLogin: (state, action) => {
-    //   state.isLogin = action.payload;
-    // },
-    // changeUserName: (state, action) => {
-    //   state.userName = action.payload;
-    // },
+    changeCartNumber: (state, action) => {
+      state.cartNumber = action.payload;
+    },
+    changeDataCartByUserId: (state, action) => {
+      state.dataCartByUserId = action.payload;
+    },
     // setUserId: (state, action) => {
     //   state.userId = action.payload;
     // },
@@ -117,5 +120,5 @@ export const cartSlide = createSlice({
     });
   },
 });
-export const {} = cartSlide.actions;
+export const { changeCartNumber, changeDataCartByUserId } = cartSlide.actions;
 export default cartSlide.reducer;

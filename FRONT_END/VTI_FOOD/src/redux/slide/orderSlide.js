@@ -74,7 +74,6 @@ export const updateOrder = createAsyncThunk(
   async ({ id, body }, thunkAPI) => {
     try {
       const data = (await orderService.update(id, body)).data;
-
       return data;
     } catch (error) {
       console.log(error);
@@ -91,14 +90,16 @@ export const orderSlide = createSlice({
     listOrderByUserId: [],
     listOrderDetailByOderId: [],
     dataOrderById: {},
+    showDrawer: false,
+    statusOrder: "",
   },
   reducers: {
-    // changeIsLogin: (state, action) => {
-    //   state.isLogin = action.payload;
-    // },
-    // changeUserName: (state, action) => {
-    //   state.userName = action.payload;
-    // },
+    changeShowDrawer: (state, action) => {
+      state.showDrawer = action.payload;
+    },
+    changeStatusOrder: (state, action) => {
+      state.statusOrder = action.payload;
+    },
     // setUserId: (state, action) => {
     //   state.userId = action.payload;
     // },
@@ -151,6 +152,18 @@ export const orderSlide = createSlice({
       state.loading = false;
     });
 
+    // update order
+    builder.addCase(updateOrder.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(updateOrder.fulfilled, (state, action) => {
+      state.loading = false;
+      // state.listOrderDetailByOderId = action.payload;
+    });
+    builder.addCase(updateOrder.rejected, (state, action) => {
+      state.loading = false;
+    });
+
     // get order by id
     // builder.addCase(getOrderById.pending, (state, action) => {
     //   state.loading = true;
@@ -164,5 +177,5 @@ export const orderSlide = createSlice({
     // });
   },
 });
-export const {} = orderSlide.actions;
+export const { changeShowDrawer, changeStatusOrder } = orderSlide.actions;
 export default orderSlide.reducer;

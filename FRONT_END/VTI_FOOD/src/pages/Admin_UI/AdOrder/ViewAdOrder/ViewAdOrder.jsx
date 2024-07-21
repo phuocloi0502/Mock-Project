@@ -16,21 +16,21 @@ export const ViewAdOrder = (props) => {
   const { Search } = Input;
   const nav = useNavigate();
   const dispatch = useDispatch();
-  // const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  // const onSelectChange = (newSelectedRowKeys) => {
-  //   console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-  //   setSelectedRowKeys(newSelectedRowKeys);
-  // };
 
-  // const rowSelection = {
-  //   selectedRowKeys,
-  //   onChange: onSelectChange,
-  // };
-  //const onSearch = (value, _e, info) => console.log(info?.source, value);
   const [search, setSearch] = useState("");
-  console.log(search);
+  const status = useSelector((state) => state.orderSlide.statusOrder);
   const rawData = useSelector((state) => state.orderSlide.listOrder);
-  const dataSource = dataTable(rawData);
+  const data = dataTable(rawData);
+  const [dataSource, setDataSource] = useState(data);
+  useEffect(() => {
+    if (status == "" || status == "Tất cả trạng thái") {
+      setDataSource(data);
+    } else {
+      //dataOderByUserId.filter((item) => item.id == orderId)
+      setDataSource(data.filter((item) => item.orderStatus == status));
+    }
+  }, [status, rawData]);
+
   useEffect(() => {
     dispatch(getAllOrder());
   }, []);
@@ -51,24 +51,24 @@ export const ViewAdOrder = (props) => {
       render: (_, { orderStatus }) => {
         let color;
         switch (orderStatus) {
-          case "ĐÃ HỦY": {
+          case "HỦY": {
             color = "red";
             break;
           }
-          case "ĐÃ XÁC NHẬN": {
+          case "XÁC NHẬN": {
             color = "blue";
             break;
           }
-          case "ĐÃ GIAO": {
-            color = "green";
+          case "ĐÓNG GÓI": {
+            color = "orange";
             break;
           }
           case "ĐANG GIAO": {
             color = "yellow";
             break;
           }
-          case "ĐÃ ĐÓNG GÓI": {
-            color = "orange";
+          case "ĐÃ NHẬN": {
+            color = "green";
             break;
           }
           default: {
@@ -135,6 +135,9 @@ export const ViewAdOrder = (props) => {
       ),
     },
   ];
+  // handle filter
+
+  console.log("status", status);
 
   return (
     <div className="admin-order-wrap">

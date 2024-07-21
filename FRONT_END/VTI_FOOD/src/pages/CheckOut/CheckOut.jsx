@@ -8,7 +8,11 @@ import { IoArrowForward } from "react-icons/io5";
 import productImg from "../../assets/image.png";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserById, updateUser } from "../../redux/slide/userSlide";
-import { getCartInfoById } from "../../redux/slide/cartSlide";
+import {
+  getCartInfoById,
+  changeCartNumber,
+  changeDataCartByUserId,
+} from "../../redux/slide/cartSlide";
 import Item from "antd/es/list/Item";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -46,14 +50,11 @@ export const CheckOut = (props) => {
   }, [dataUserById, form]);
 
   const onFinish = (value) => {
-    //console.log("Received values of form: ", values);
     const dataUpdate = {
       firstName: dataUserById?.firstName,
       lastName: dataUserById?.lastName,
       phoneNumber: value.phoneNumber,
       username: dataUserById?.username,
-      // password: dataUserById?.password,
-      // retypePassword: dataUserById?.password,
       address: value.address,
       dob: "09/10/2001",
       email: value.email,
@@ -110,10 +111,11 @@ export const CheckOut = (props) => {
       paymentDate: "",
     };
 
-    console.log("dataCreateOrder", dataCreateOrder);
     dispatch(createOrder(dataCreateOrder));
     toast.success("Đã đặt hàng thành công");
-    nav("/");
+    nav("/my_order");
+    dispatch(changeCartNumber(0));
+    dispatch(changeDataCartByUserId([]));
   };
   return (
     <div className="check-out-wrap">

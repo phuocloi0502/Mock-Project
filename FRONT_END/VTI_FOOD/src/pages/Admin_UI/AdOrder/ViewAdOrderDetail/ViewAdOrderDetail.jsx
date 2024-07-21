@@ -17,9 +17,12 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getAllOrder,
   getOrderDetailByOrderId,
+  updateOrder,
 } from "../../../../redux/slide/orderSlide";
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import moment from "moment";
 const getSelectClass = (value) => {
   switch (value) {
     case "XÁC NHẬN":
@@ -50,8 +53,8 @@ const options = [
     lable: "ĐANG GIAO",
   },
   {
-    value: "ĐÃ GIAO",
-    lable: "ĐÃ GIAO",
+    value: "ĐÃ NHẬN",
+    lable: "ĐÃ NHẬN",
   },
   {
     value: "HỦY",
@@ -99,8 +102,33 @@ export const ViewAdOrderDetail = () => {
   const dispatch = useDispatch();
   const { orderId } = useParams();
   const [orderStatus, setOrderStatus] = useState("ĐÃ GIAO");
+
+  // handle update order
   const handleChange = (value) => {
     setOrderStatus(value);
+    let paymentStatus = false;
+    let paymentDate = "";
+    const today = moment().format("YYYY-MM-DDTHH:mm:ss");
+    if (value == "ĐÃ GIAO") {
+      paymentStatus = true;
+      const now = moment();
+      paymentDate = now.add(30, "minutes").format("YYYY-MM-DDTHH:mm:ss");
+    }
+    console.log("today", today);
+    const dataUpdate = {
+      deliveryDate: today,
+      deliveryAddress: dataOrder[0]?.user?.address,
+      orderStatus: value,
+      note: dataOrder[0]?.note,
+      paymentStatus: paymentStatus,
+      paymentDate: paymentDate,
+      paymentMethodId: 1,
+    };
+    console.log("dataUpdate", dataUpdate);
+    try {
+      dispatch(updateOrder({ id: orderId, body: dataUpdate }));
+      toast.success("Đã chuyển trạng thái");
+    } catch (error) {}
   };
   console.log(orderStatus);
   const CustomSelect = styled(Select)`
@@ -144,10 +172,12 @@ export const ViewAdOrderDetail = () => {
     }`,
     ...item,
   }));
-  console.log("dataAllOrder", dataAllOrder);
-  console.log("dataOrderDetailByOderId", dataOrderDetailByOderId);
+  // console.log("dataAllOrder", dataAllOrder);
+  // console.log("dataOrderDetailByOderId", dataOrderDetailByOderId);
+
+  // console.log("orderTitle", orderTitle);
   console.log("dataOrder", dataOrder);
-  console.log("orderTitle", orderTitle);
+
   return (
     <div className="order-detail-wrap">
       <Link to={"/admin/order"}>

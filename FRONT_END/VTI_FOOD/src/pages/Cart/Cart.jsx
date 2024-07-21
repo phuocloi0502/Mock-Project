@@ -15,7 +15,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { createOrder } from "../../redux/slide/orderSlide";
 import { useNavigate } from "react-router-dom";
-
+import { changeShowDrawer } from "../../redux/slide/orderSlide";
 const Cart = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -78,6 +78,7 @@ const Cart = () => {
   // tao don hang
   const handleOrderNow = () => {
     nav("/checkout");
+    dispatch(changeShowDrawer(false));
     //  console.log("da dat hang");
     // const dataCreateOrder = {
     //   userId: userIdCurrent,

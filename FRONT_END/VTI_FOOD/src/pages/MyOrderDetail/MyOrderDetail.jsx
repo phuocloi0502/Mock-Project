@@ -10,7 +10,7 @@ import { FaShippingFast } from "react-icons/fa";
 import { PiHandshake } from "react-icons/pi";
 import { BiCheckDouble } from "react-icons/bi";
 import { Table } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useState, useEffect } from "react";
@@ -19,6 +19,7 @@ import {
   getOrderByUserId,
 } from "../../redux/slide/orderSlide";
 export const MyOrderDetail = (props) => {
+  const nav = useNavigate();
   const { orderId } = useParams();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userSlide.userId);
@@ -49,7 +50,7 @@ export const MyOrderDetail = (props) => {
     setOrderStatus(dataOrder[0]?.orderStatus);
     // setOrderStatus("HỦY");
   }, [dataOrder]);
-
+  console.log("dataOrder", dataOrder);
   const dataSource = dataOrderDetailByOderId.map((item) => ({
     key: item.id,
     subtotal: `${
@@ -127,14 +128,20 @@ export const MyOrderDetail = (props) => {
       title: "SẢN PHẨM",
       dataIndex: "name",
       key: "name",
-      width: 200,
+      width: 300,
       render: (_, item) => {
         return (
           <div className="order-detail-product-wrap">
             <img
               src={"/uploads/" + item?.product?.productImages[0]?.imageUrl}
             />
-            <span>{item?.product?.name}</span>
+            <span
+              onClick={() => {
+                nav("/product/" + item?.product?.id);
+              }}
+            >
+              {item?.product?.name}
+            </span>
           </div>
         );
       },
@@ -152,6 +159,7 @@ export const MyOrderDetail = (props) => {
       title: "SỐ LƯỢNG",
       dataIndex: "quantity",
       key: "quantity",
+      width: 200,
     },
     {
       title: "TỔNG PHỤ",
@@ -185,7 +193,6 @@ export const MyOrderDetail = (props) => {
           <span>
             {dataOrderDetailByOderId?.length} sản phẩm. Đặt hàng vào{" "}
             {dataOrderDetailByOderId[0]?.createdAt}
-            7:32AM
           </span>
         </div>
         <div className="order-detail-payment-amount">
@@ -198,7 +205,7 @@ export const MyOrderDetail = (props) => {
         </>
       ) : (
         <div className="order-detail-slider">
-          <p>Đơn hàng dự kiến đến lúc 2024/7/03 8:32AM</p>
+          <p>Đơn hàng dự kiến đến lúc {dataOrder[0]?.deliveryDate}</p>
           <div className="slider-delivery-wrapper">
             <div className="slider-line">
               <div className="slider-rail"></div>

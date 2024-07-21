@@ -29,8 +29,11 @@
     display: flex;
     justify-content: space-between;
     .order-id-wrapper {
+      p {
+        font-size: 1.2rem;
+      }
       > span {
-        color: color.$gray;
+        color: rgb(72, 70, 70);
         font-size: 0.9rem;
       }
     }
@@ -46,8 +49,10 @@
     text-align: center;
     > p {
       text-align: left;
-      color: color.$gray;
-      font-size: 0.9rem;
+      color: rgb(22, 17, 156);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-left: 20px;
     }
     .slider-delivery-wrapper {
       width: 900px;
@@ -176,6 +181,9 @@
         font-weight: 500;
         font-size: 0.9rem;
       }
+      :hover {
+        cursor: pointer;
+      }
     }
   }
   .order-detail-user-info {
@@ -185,9 +193,12 @@
     gap: 20px;
     border: 1px rgb(196, 191, 191) solid;
     padding: 20px;
-    line-height: 1.7;
-    span {
+    line-height: 2;
+    li {
       color: color.$gray;
+    }
+    span {
+      color: black;
       font-size: 0.95rem;
     }
     .user-address {
@@ -197,7 +208,7 @@
     .user-note {
       flex: 1;
       p {
-        color: color.$gray;
+        color: black;
         font-size: 0.95rem;
       }
     }

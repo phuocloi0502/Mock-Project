@@ -22,9 +22,10 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { getToken } from "../../utils/helpers";
 import { jwtDecode } from "jwt-decode";
-import { getCartInfoById } from "../../redux/slide/cartSlide";
+import { getCartInfoById, changeCartNumber } from "../../redux/slide/cartSlide";
 import productService from "../../services/productService";
 import { useNavigate } from "react-router-dom";
+import { changeShowDrawer } from "../../redux/slide/orderSlide";
 export const Header = () => {
   const nav = useNavigate();
   const { Search } = Input;
@@ -67,12 +68,14 @@ export const Header = () => {
     dispatch(getAll());
   }, []);
 
+  // handle Drawer
   const [open, setOpen] = useState(false);
+  const isShowDrawer = useSelector((state) => state.orderSlide.showDrawer);
   const showDrawer = () => {
-    setOpen(true);
+    dispatch(changeShowDrawer(true));
   };
   const onClose = () => {
-    setOpen(false);
+    dispatch(changeShowDrawer(false));
   };
   const demo = () => {
     console.log("isLogin", isLogin);
@@ -88,7 +91,10 @@ export const Header = () => {
       dispatch(getCartInfoById(userIdCurrent));
     }
   }, [userIdCurrent, addedProduct]);
-  //console.log(dataCartByUserId?.length, "cart length");
+  useEffect(() => {
+    dispatch(changeCartNumber(dataCartByUserId.length));
+  }, [dataCartByUserId]);
+  const cartNumber = useSelector((state) => state.cartSlide.cartNumber);
 
   // handle search
   const [searchTerm, setSearchTerm] = useState("");
@@ -131,7 +137,7 @@ export const Header = () => {
           </div>
         }
         onClose={onClose}
-        open={open}
+        open={isShowDrawer}
         closeIcon={<IoIosCloseCircleOutline className="close-icon" />}
         width={500}
       >
@@ -252,10 +258,10 @@ export const Header = () => {
           <FcLike />
         </div>
         <div className="icon " onClick={showDrawer}>
-          {dataCartByUserId.length == 0 || dataCartByUserId == undefined ? (
+          {cartNumber == 0 ? (
             <></>
           ) : (
-            <span className="cart-status">{dataCartByUserId?.length}</span>
+            <span className="cart-status">{cartNumber}</span>
           )}
           <div>
             {" "}

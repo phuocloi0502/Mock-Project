@@ -38,20 +38,28 @@ export const MyOrder = (props) => {
       render: (_, { orderStatus }) => {
         let color;
         switch (orderStatus) {
-          case "ĐÃ HỦY": {
+          case "HỦY": {
             color = "red";
             break;
           }
-          case "TRONG TIẾN TRÌNH": {
+          case "XÁC NHẬN": {
             color = "blue";
             break;
           }
-          case "HOÀN THÀNH": {
+          case "ĐÓNG GÓI": {
+            color = "orange";
+            break;
+          }
+          case "ĐANG GIAO": {
+            color = "yellow";
+            break;
+          }
+          case "ĐÃ NHẬN": {
             color = "green";
             break;
           }
           default: {
-            color = "green";
+            color = "blue";
           }
         }
 
