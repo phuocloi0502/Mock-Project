@@ -28,7 +28,16 @@ export const CreateAdProduct = () => {
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
   const categoryData = useSelector((state) => state.categorySlide.listCategory);
-
+  useEffect(() => {
+    // Kiểm tra xem trang đã được tải lại chưa
+    if (!window.sessionStorage.getItem("reloaded")) {
+      window.sessionStorage.setItem("reloaded", "true");
+      window.location.reload();
+    } else {
+      // Xóa giá trị khi trang đã được tải lại để không tải lại lại nữa
+      window.sessionStorage.removeItem("reloaded");
+    }
+  }, []);
   useEffect(() => {
     dispatch(getAll());
   }, []);
