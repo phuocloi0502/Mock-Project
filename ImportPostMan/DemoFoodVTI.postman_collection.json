@@ -78,6 +78,16 @@
 				{
 					"name": "api/v1/categories",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsInVzZXJJZCI6MiwidXNlcm5hbWUiOiJ0cmFuZHV5ZW4iLCJzdWIiOiJ0cmFuZHV5ZW4iLCJleHAiOjE3MjM5OTcyMDB9.IEolWfD8gaTcEYiLnr0YeeMEMBbdDNBSQiVHEdjOjVc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -188,6 +198,16 @@
 				{
 					"name": "api/v1/products/{id}",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImV4cCI6MTcyNDEzODUwOX0.Flh7n4USrWaaIyTNXXFYsfrKJ12eL_VPvXjSaA4R5Lc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -567,6 +587,16 @@
 				{
 					"name": "api/v1/carts/update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImV4cCI6MTcyNDEzODUwOX0.Flh7n4USrWaaIyTNXXFYsfrKJ12eL_VPvXjSaA4R5Lc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -750,27 +780,42 @@
 					"response": []
 				},
 				{
-					"name": "Cập nhật đơn hàng",
+					"name": "api/v1/orders/{orderId}",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InRyYW5kdXllbiIsInN1YiI6InRyYW5kdXllbiIsImV4cCI6MTcyMzgxOTYyNn0.S_iNcHt_cZWT_vuSl8eeUNE9ATAIXb9uDA64yJiqF9Y",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImV4cCI6MTcyNDEzODUwOX0.Flh7n4USrWaaIyTNXXFYsfrKJ12eL_VPvXjSaA4R5Lc",
 									"type": "string"
 								}
 							]
 						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"deliveryDate\": \"2024-07-25T10:00:00\",\r\n    \"deliveryAddress\": \"New Address\",\r\n    \"orderStatus\": \"ĐÃ NHẬN\",\r\n    \"note\": \"Updated note\",\r\n    \"paymentStatus\": true,\r\n    \"paymentDate\": \"2024-07-20T10:00:00\",\r\n    \"paymentMethodId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{api_prefix}}orders/{id}",
+							"raw": "{{api_prefix}}orders/2",
 							"host": [
 								"{{api_prefix}}orders"
 							],
 							"path": [
-								"{id}"
+								"2"
 							]
 						}
 					},
