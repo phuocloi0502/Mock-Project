@@ -161,9 +161,10 @@
     }
   }
   .order-detail-products {
+    margin-top: 150px;
     .order-detail-product-wrap {
       display: flex;
-      justify-content: center;
+
       align-items: center;
       gap: 20px;
       > img {

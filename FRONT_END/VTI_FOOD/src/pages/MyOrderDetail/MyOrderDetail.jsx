@@ -11,34 +11,76 @@ import { PiHandshake } from "react-icons/pi";
 import { BiCheckDouble } from "react-icons/bi";
 import { Table } from "antd";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import productImg from "../../assets/image.png";
+import { useState, useEffect } from "react";
+import {
+  getOrderDetailByOrderId,
+  getOrderByUserId,
+} from "../../redux/slide/orderSlide";
 export const MyOrderDetail = (props) => {
-  const { order_id } = useParams();
+  const { orderId } = useParams();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.userSlide.userId);
+
+  const dataOrderDetailByOderId = useSelector(
+    (state) => state.orderSlide.listOrderDetailByOderId
+  );
+  const dataOderByUserId = useSelector(
+    (state) => state.orderSlide.listOrderByUserId
+  );
+  const [dataOrder, setDataOrder] = useState([]);
+  const [orderStatus, setOrderStatus] = useState(""); //"XÁC NHẬN"
+
+  useEffect(() => {
+    if (orderId) {
+      dispatch(getOrderDetailByOrderId(orderId));
+    }
+    if (userId) {
+      dispatch(getOrderByUserId(userId));
+    }
+  }, [userId, orderId]);
+
+  useEffect(() => {
+    setDataOrder(dataOderByUserId.filter((item) => item.id == orderId));
+  }, [dataOderByUserId]);
+  useEffect(() => {
+    // 'XÁC NHẬN','ĐÓNG GÓI','ĐANG GIAO','ĐÃ NHẬN','HỦY'
+    setOrderStatus(dataOrder[0]?.orderStatus);
+    // setOrderStatus("HỦY");
+  }, [dataOrder]);
+
+  const dataSource = dataOrderDetailByOderId.map((item) => ({
+    key: item.id,
+    subtotal: `${
+      (item?.price * item?.quantity).toLocaleString("vi-VN") + " VND"
+    }`,
+    ...item,
+  }));
 
   const sliderData = [
     {
       iconSlider: <FaCircleCheck />,
       iconLabel: <PiNotebook />,
-      label: "Đã đặt hàng",
+      label: "XÁC NHẬN",
     },
     {
       iconSlider: null,
       iconLabel: <BsBoxSeam />,
-      label: "Đóng gói",
+      label: "ĐÓNG GÓI",
     },
     {
       iconSlider: null,
       iconLabel: <FaShippingFast />,
-      label: "Trên đường giao",
+      label: "ĐANG GIAO",
     },
     {
       iconSlider: null,
       iconLabel: <PiHandshake />,
-      label: "Đã giao hàng",
+      label: "ĐÃ NHẬN",
     },
   ];
-  const status_order = "Đóng gói";
+
   const sliderShow = [];
   let dots_left = 0;
   let slider_icon;
@@ -53,7 +95,7 @@ export const MyOrderDetail = (props) => {
   };
 
   for (let i = 0; i < sliderData.length; i++) {
-    if (sliderData[i].label == status_order) {
+    if (sliderData[i].label == orderStatus) {
       slider_track = 300 * i;
       status_current = i;
     }
@@ -83,14 +125,16 @@ export const MyOrderDetail = (props) => {
   const columns = [
     {
       title: "SẢN PHẨM",
-      dataIndex: "order_detail_product",
-      key: "order_detail_product",
+      dataIndex: "name",
+      key: "name",
       width: 200,
-      render: (props) => {
+      render: (_, item) => {
         return (
           <div className="order-detail-product-wrap">
-            <img src={props.productImg} />
-            <span>{props.productName}</span>
+            <img
+              src={"/uploads/" + item?.product?.productImages[0]?.imageUrl}
+            />
+            <span>{item?.product?.name}</span>
           </div>
         );
       },
@@ -100,6 +144,9 @@ export const MyOrderDetail = (props) => {
       dataIndex: "price",
       key: "price",
       width: 200,
+      render: (_, item) => {
+        return <>{item?.price.toLocaleString("vi-VN") + " VND"}</>;
+      },
     },
     {
       title: "SỐ LƯỢNG",
@@ -112,28 +159,6 @@ export const MyOrderDetail = (props) => {
       dataIndex: "subtotal",
     },
   ];
-  const data = [
-    {
-      key: 1,
-      order_detail_product: {
-        productImg: productImg,
-        productName: "Gà rán",
-      },
-      price: "12.000",
-      quantity: 2,
-      subtotal: "24.000 ",
-    },
-    {
-      key: 2,
-      order_detail_product: {
-        productImg: productImg,
-        productName: "Gà rán",
-      },
-      price: "12.000",
-      quantity: 2,
-      subtotal: "24.000 ",
-    },
-  ];
 
   return (
     <div className="my-order-detail content-container">
@@ -143,7 +168,7 @@ export const MyOrderDetail = (props) => {
       </p>
       <hr />
       <div className="order-detail-header">
-        <Link>
+        <Link to={"/my_order"}>
           <div>
             <FaArrowLeft className=" icon" /> CHI TIẾT ĐƠN HÀNG
           </div>
@@ -156,26 +181,38 @@ export const MyOrderDetail = (props) => {
       <hr />
       <div className="order-detail-info">
         <div className="order-id-wrapper">
-          <p>#{order_id}</p>
-          <span>4 sản phẩm. Đặt hàng vào 2024/7/03 7:32AM</span>
+          <p>#00{orderId}</p>
+          <span>
+            {dataOrderDetailByOderId?.length} sản phẩm. Đặt hàng vào{" "}
+            {dataOrderDetailByOderId[0]?.createdAt}
+            7:32AM
+          </span>
         </div>
-        <div className="order-detail-payment-amount">100.000 VND</div>
+        <div className="order-detail-payment-amount">
+          {dataOrder[0]?.totalAmount.toLocaleString("vi-VN") + " VND"}
+        </div>
       </div>
-      <div className="order-detail-slider">
-        <p>Đơn hàng dự kiến đến lúc 2024/7/03 8:32AM</p>
-        <div className="slider-delivery-wrapper">
-          <div className="slider-line">
-            <div className="slider-rail"></div>
-            {sliderShow}
-            <div
-              className="slider-track"
-              style={{ width: `${slider_track}px` }}
-            ></div>
+      {orderStatus == "HỦY" ? (
+        <>
+          <h3 style={{ textAlign: "center", color: "red" }}>Đã Bị Hủy</h3>
+        </>
+      ) : (
+        <div className="order-detail-slider">
+          <p>Đơn hàng dự kiến đến lúc 2024/7/03 8:32AM</p>
+          <div className="slider-delivery-wrapper">
+            <div className="slider-line">
+              <div className="slider-rail"></div>
+              {sliderShow}
+              <div
+                className="slider-track"
+                style={{ width: `${slider_track}px` }}
+              ></div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="order-detail-delivery-process">
+      {/* <div className="order-detail-delivery-process">
         <hr />
         <h4>Hoạt động đặt hàng</h4>
         <div className="order-action">
@@ -208,16 +245,15 @@ export const MyOrderDetail = (props) => {
             <span>2024/7/03 7:32AM</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="order-detail-products">
-        <hr />
         <h4>Sản phẩm</h4>
-        <hr />
+
         <Table
           columns={columns}
-          dataSource={data}
-          pagination={{ pageSize: 10 }}
+          dataSource={dataSource}
+          pagination={{ pageSize: 4 }}
           scroll={{
             y: 500,
           }}
@@ -229,27 +265,27 @@ export const MyOrderDetail = (props) => {
           <h4>Địa chỉ giao hàng</h4>
           <ul>
             <li>
-              Tên: <span>Dương Minh Hiếu</span>
+              Tên:{" "}
+              <span>
+                {dataOrder[0]?.user?.lastName +
+                  " " +
+                  dataOrder[0]?.user?.firstName}
+              </span>
             </li>
             <li>
-              Địa chỉ:{" "}
-              <span>193 Nguyễn Lương Bằng, Liên Chiểu, Thành Phố Đà Nẵng</span>
+              Địa chỉ: <span>{dataOrder[0]?.user?.address}</span>
             </li>
             <li>
-              Phone: <span>0905.543.467</span>
+              Phone: <span>{dataOrder[0]?.user?.phoneNumber}</span>
             </li>
             <li>
-              Email: <span>hieuduong@mail.com</span>
+              Email: <span>{dataOrder[0]?.user?.email}</span>
             </li>
           </ul>
         </div>
         <div className="user-note">
           <h4>Ghi chú đặt hàng</h4>
-          <p>
-            Ghi chú đặt hàngGhi chú đặt hàngGhi chú đặt hàngGhi chú đặt hàngGhi
-            chú đặt hàngGhi chú đặt hàngGhi chú đặt hàngGhi chú đặt hàngGhi chú
-            đặt hàngGhi chú đặt hàng
-          </p>
+          <p>{dataOrder[0]?.note}</p>
         </div>
       </div>
     </div>

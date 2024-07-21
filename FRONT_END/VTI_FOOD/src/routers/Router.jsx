@@ -77,7 +77,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/my_order/:order_id",
+        path: "/my_order/:orderId",
         element: (
           <AuthLayout isPublic={false}>
             <MyOrderDetail />

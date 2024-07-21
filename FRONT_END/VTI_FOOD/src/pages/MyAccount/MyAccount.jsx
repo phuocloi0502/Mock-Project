@@ -58,6 +58,7 @@ export const MyAccount = (props) => {
   const dataUserById = useSelector((state) => state.userSlide.userById);
 
   useEffect(() => {
+    console.log(userId);
     if (userId) {
       dispatch(getUserById(userId));
     }

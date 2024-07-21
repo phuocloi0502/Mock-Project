@@ -17,6 +17,21 @@
       color: gray;
     }
   }
+  .order-detail-product-wrap {
+    display: flex;
+
+    align-items: center;
+    gap: 20px;
+    > img {
+      width: 50px;
+      height: 50px;
+    }
+    > span {
+      color: color.$blue;
+      font-weight: 500;
+      font-size: 0.7rem;
+    }
+  }
 }
 .lable-icon {
   background-color: rgb(210, 210, 218);

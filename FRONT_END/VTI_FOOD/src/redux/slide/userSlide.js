@@ -5,8 +5,8 @@ import { message } from "antd";
 export const getUserById = createAsyncThunk(
   "getUserById",
   async (id, thunkAPI) => {
-    const data = await userService.getById(id);
-    //  console.log(data);
+    const data = (await userService.getById(id)).data;
+    // console.log(data);
     return data;
   }
 );

@@ -14,7 +14,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class UserUpdateDTO {
     private String username;
-    private String password;
+    // private String password;
     private String firstName;
     private String lastName;
 

@@ -1,5 +1,6 @@
 package VTIFOOD.VTI_Food.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class OrderCreateForm extends BaseForm{
+public class OrderCreateForm extends BaseForm {
 
     private Long userId;
 
@@ -18,6 +19,7 @@ public class OrderCreateForm extends BaseForm{
     @PastOrPresent
     @CreationTimestamp
     @JsonIgnore
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime deliveryDate;
 
     private String deliveryAddress;
@@ -30,4 +32,5 @@ public class OrderCreateForm extends BaseForm{
     @JsonIgnore
     private LocalDateTime paymentDate;
     private Long paymentMethodId;
+
 }

@@ -37,11 +37,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-    private  final JwtTokenUtils jwtTokenUtils;
+    private final JwtTokenUtils jwtTokenUtils;
 
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
+
     @Override
     public User createUser(UserRequestDTO requestDTO) throws DataNotFoundException, PermissionDenyException {
         String username = requestDTO.getUsername();
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
         }
         Role role = roleRepository.findById(requestDTO.getRoleId())
                 .orElseThrow(() -> new DataNotFoundException(("Role not found")));
-        if(role.getName().toUpperCase().equals(Role.ADMIN)){
+        if (role.getName().toUpperCase().equals(Role.ADMIN)) {
             throw new PermissionDenyException("You can not register user because you is admin");
         }
         User user = User.builder()
@@ -74,8 +75,7 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDTO> getALLUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(
-                UserResponseDTO::convertToResponseDTO
-        ).collect(Collectors.toList());
+                UserResponseDTO::convertToResponseDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -84,9 +84,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
 
         user.setUsername(userUpdateDTO.getUsername());
-        String password = userUpdateDTO.getPassword();
-        String encodePWD = passwordEncoder.encode(password);
-        user.setPassword(encodePWD);
+        // String password = userUpdateDTO.getPassword();
+        // String encodePWD = passwordEncoder.encode(password);
+        // user.setPassword(encodePWD);
 
         user.setFirstName(userUpdateDTO.getFirstName());
         user.setLastName(userUpdateDTO.getLastName());
@@ -107,27 +107,25 @@ public class UserServiceImpl implements UserService {
         return UserResponseDTO.convertToResponseDTO(updatedUser);
     }
 
-//    @Override
-//    public Optional<User> getUserById(Long id) {
-//        return userRepository.findById(id);
-//    }
+    // @Override
+    // public Optional<User> getUserById(Long id) {
+    // return userRepository.findById(id);
+    // }
 
     @Override
     public String loginUser(String usn, String pwd) throws Exception {
         Optional<User> users = userRepository.findUserByUsername(usn);
-        if(users.isEmpty()){
-            throw  new DataNotFoundException("invalid username or password");
+        if (users.isEmpty()) {
+            throw new DataNotFoundException("invalid username or password");
         }
         User existingUser = users.get();
-        if(!passwordEncoder.matches(pwd, existingUser.getPassword())){
+        if (!passwordEncoder.matches(pwd, existingUser.getPassword())) {
             throw new BadCredentialsException("wrong username or password");
         }
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                usn, pwd
-        );
+                usn, pwd);
         authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         return jwtTokenUtils.generateToken(users.get());
-
 
     }
 
@@ -135,6 +133,5 @@ public class UserServiceImpl implements UserService {
     public Optional<UserDTO> getUserById(Long id) {
         return userRepository.findById(id).map(UserMapper::mapUserDto);
     }
-
 
 }

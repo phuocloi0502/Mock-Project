@@ -25,6 +25,20 @@ export const getAllOrder = createAsyncThunk("getAllOrder", async (thunkAPI) => {
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
+//getOrderByUserId
+export const getOrderByUserId = createAsyncThunk(
+  "getOrderByUserId",
+  async (id, thunkAPI) => {
+    try {
+      const data = (await orderService.getOrderByUserId(id)).data;
+      console.log(data, "getOrderByUserId");
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 //getOrderById
 export const getOrderById = createAsyncThunk(
   "getOrderById",
@@ -32,6 +46,21 @@ export const getOrderById = createAsyncThunk(
     try {
       const data = (await orderService.getById(id)).data;
 
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+//getOrderDetailByOrderId
+export const getOrderDetailByOrderId = createAsyncThunk(
+  "getOrderById",
+  async (id, thunkAPI) => {
+    try {
+      const data = (await orderService.getOrderDetailByOrderId(id)).data;
+      //  console.log(data, "getOrderDetailByOrderId");
       return data;
     } catch (error) {
       console.log(error);
@@ -59,6 +88,8 @@ export const orderSlide = createSlice({
   initialState: {
     loading: false,
     listOrder: [],
+    listOrderByUserId: [],
+    listOrderDetailByOderId: [],
     dataOrderById: {},
   },
   reducers: {
@@ -96,18 +127,41 @@ export const orderSlide = createSlice({
     builder.addCase(getAllOrder.rejected, (state, action) => {
       state.loading = false;
     });
-
-    // get order by id
-    builder.addCase(getOrderById.pending, (state, action) => {
+    // get order by User id
+    builder.addCase(getOrderByUserId.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(getOrderById.fulfilled, (state, action) => {
+    builder.addCase(getOrderByUserId.fulfilled, (state, action) => {
       state.loading = false;
-      state.dataOrderById = action.payload;
+      state.listOrderByUserId = action.payload;
     });
-    builder.addCase(getOrderById.rejected, (state, action) => {
+    builder.addCase(getOrderByUserId.rejected, (state, action) => {
       state.loading = false;
     });
+
+    // get order detail by order id
+    builder.addCase(getOrderDetailByOrderId.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getOrderDetailByOrderId.fulfilled, (state, action) => {
+      state.loading = false;
+      state.listOrderDetailByOderId = action.payload;
+    });
+    builder.addCase(getOrderDetailByOrderId.rejected, (state, action) => {
+      state.loading = false;
+    });
+
+    // get order by id
+    // builder.addCase(getOrderById.pending, (state, action) => {
+    //   state.loading = true;
+    // });
+    // builder.addCase(getOrderById.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.dataOrderById = action.payload;
+    // });
+    // builder.addCase(getOrderById.rejected, (state, action) => {
+    //   state.loading = false;
+    // });
   },
 });
 export const {} = orderSlide.actions;

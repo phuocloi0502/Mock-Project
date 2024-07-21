@@ -9,19 +9,28 @@ import {
   CarOutlined,
   EnvironmentOutlined,
 } from "@ant-design/icons";
+import { FaArrowLeft } from "react-icons/fa6";
 import "./view_ad_order-detail.scss";
+import "../../../MyOrderDetail/my_oder_detail.scss";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getAllOrder,
+  getOrderDetailByOrderId,
+} from "../../../../redux/slide/orderSlide";
+import { useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 const getSelectClass = (value) => {
   switch (value) {
-    case "ĐÃ XÁC NHẬN":
+    case "XÁC NHẬN":
       return ["#0958d9", "#e6f4ff", "#91caff"];
-    case "ĐÃ ĐÓNG GÓI":
+    case "ĐÓNG GÓI":
       return ["#d46b08", "#fff7e6", "#ffd591"];
     case "ĐANG GIAO":
       return ["#d4b106", "#feffe6", "#fffb8f"];
     case "ĐÃ GIAO":
       return ["#389e0d", "#f6ffed", "#b7eb8f"];
-    case "ĐÃ HỦY":
+    case "HỦY":
       return ["#cf1322", "#fff1f0", "#ffa39e"];
     default:
       return ["#0958d9", "#e6f4ff", "#91caff"]; // Nếu không có giá trị nào khớp, trả về chuỗi rỗng
@@ -29,12 +38,12 @@ const getSelectClass = (value) => {
 };
 const options = [
   {
-    value: "ĐÃ XÁC NHẬN",
-    lable: "ĐÃ XÁC NHẬN",
+    value: "XÁC NHẬN",
+    lable: "XÁC NHẬN",
   },
   {
-    value: "ĐÃ ĐÓNG GÓI",
-    lable: "ĐÃ ĐÓNG GÓI",
+    value: "ĐÓNG GÓI",
+    lable: "ĐÓNG GÓI",
   },
   {
     value: "ĐANG GIAO",
@@ -45,87 +54,119 @@ const options = [
     lable: "ĐÃ GIAO",
   },
   {
-    value: "ĐÃ HỦY",
-    lable: "ĐÃ HỦY",
+    value: "HỦY",
+    lable: "HỦY",
   },
 ];
+
 const columns = [
   {
-    title: "Sản phẩm",
-    dataIndex: "product",
-    key: "product",
-    render: (text) => (
-      <div>
-        <img
-          src="https://via.placeholder.com/40"
-          alt="product"
-          style={{ marginRight: 10 }}
-        />
-        <span>{text}</span>
-      </div>
-    ),
+    title: "SẢN PHẨM",
+    dataIndex: "name",
+    key: "name",
+    width: 300,
+    render: (_, item) => {
+      return (
+        <div className="order-detail-product-wrap">
+          <img src={"/uploads/" + item?.product?.productImages[0]?.imageUrl} />
+          <span>{item?.product?.name}</span>
+        </div>
+      );
+    },
   },
   {
-    title: "Tổng cộng",
+    title: "GIÁ TIỀN",
+    dataIndex: "price",
+    key: "price",
+    width: 200,
+    render: (_, item) => {
+      return <>{item?.price.toLocaleString("vi-VN") + " VND"}</>;
+    },
+  },
+  {
+    title: "SỐ LƯỢNG",
     dataIndex: "quantity",
     key: "quantity",
   },
   {
-    title: "Giá tiền",
-    dataIndex: "price",
-    key: "price",
-  },
-  {
-    title: "Thành tiền",
-    dataIndex: "total",
-    key: "total",
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    product: "Hamburger",
-    quantity: "1 pcs",
-    price: "$121.00",
-    total: "$121.00",
-  },
-  {
-    key: "2",
-    product: "Hamburger",
-    quantity: "1 pcs",
-    price: "$590.00",
-    total: "$590.00",
+    title: "TỔNG PHỤ",
+    key: "subtotal",
+    dataIndex: "subtotal",
   },
 ];
 
 export const ViewAdOrderDetail = () => {
-  const [optionValue, setOptionValue] = useState("ĐÃ GIAO");
+  const dispatch = useDispatch();
+  const { orderId } = useParams();
+  const [orderStatus, setOrderStatus] = useState("ĐÃ GIAO");
   const handleChange = (value) => {
-    setOptionValue(value);
+    setOrderStatus(value);
   };
-  console.log(optionValue);
+  console.log(orderStatus);
   const CustomSelect = styled(Select)`
     .ant-select-selector {
-      color: ${getSelectClass(optionValue)[0]} !important;
-      background-color: ${getSelectClass(optionValue)[1]} !important;
-      border-color: ${getSelectClass(optionValue)[2]} !important;
+      color: ${getSelectClass(orderStatus)[0]} !important;
+      background-color: ${getSelectClass(orderStatus)[1]} !important;
+      border-color: ${getSelectClass(orderStatus)[2]} !important;
     }
   `;
 
+  // handle data
+  const [dataOrder, setDataOrder] = useState([]);
+  const [orderTitle, setOrderTitle] = useState(""); //"XÁC NHẬN"
+
+  const dataAllOrder = useSelector((state) => state.orderSlide.listOrder);
+  const dataOrderDetailByOderId = useSelector(
+    (state) => state.orderSlide.listOrderDetailByOderId
+  );
+
+  useEffect(() => {
+    dispatch(getAllOrder());
+    if (orderId) {
+      dispatch(getOrderDetailByOrderId(orderId));
+    }
+  }, [orderId]);
+  useEffect(() => {
+    setDataOrder(dataAllOrder.filter((item) => item.id == orderId));
+  }, [dataAllOrder]);
+  useEffect(() => {
+    setOrderTitle("#00" + dataOrder[0]?.id);
+  }, [dataOrder]);
+  useEffect(() => {
+    // 'XÁC NHẬN','ĐÓNG GÓI','ĐANG GIAO','ĐÃ NHẬN','HỦY'
+    setOrderStatus(dataOrder[0]?.orderStatus);
+    // setOrderStatus("HỦY");
+  }, [dataOrder]);
+  const dataSource = dataOrderDetailByOderId.map((item) => ({
+    key: item.id,
+    subtotal: `${
+      (item?.price * item?.quantity).toLocaleString("vi-VN") + " VND"
+    }`,
+    ...item,
+  }));
+  console.log("dataAllOrder", dataAllOrder);
+  console.log("dataOrderDetailByOderId", dataOrderDetailByOderId);
+  console.log("dataOrder", dataOrder);
+  console.log("orderTitle", orderTitle);
   return (
     <div className="order-detail-wrap">
-      <h4>Chi tiết đặt hàng</h4>
+      <Link to={"/admin/order"}>
+        <div style={{ display: "flex" }}>
+          <FaArrowLeft className=" icon" />
+          <h4>Chi tiết đặt hàng</h4>
+        </div>
+      </Link>
+
       <h5>
         Danh sách đặt hàng <span>/ Chi tiết đặt hàng</span>
       </h5>
       <Row gutter={16}>
         <Col span={12}>
           <Card
-            title="Đơn hàng #302011"
+            title={"Đơn hàng " + orderTitle}
             extra={
               <CustomSelect
-                defaultValue={optionValue}
+                defaultValue={orderStatus}
                 options={options}
                 style={{
                   width: "150px",
@@ -139,9 +180,11 @@ export const ViewAdOrderDetail = () => {
                 <Flex justify="space-between" className="order-info-text">
                   <span>
                     {" "}
-                    <CalendarOutlined className="lable-icon" /> Ngày thêm:
+                    <CalendarOutlined className="lable-icon" /> Ngày tạo đơn:
                   </span>{" "}
-                  <span className="text-content">12 Dec 2022</span>
+                  <span className="text-content">
+                    {dataOrder[0]?.createdAt}
+                  </span>
                 </Flex>
 
                 <Flex justify="space-between" className="order-info-text">
@@ -150,7 +193,10 @@ export const ViewAdOrderDetail = () => {
                     <CreditCardOutlined className="lable-icon" /> Phương thức
                     thanh toán:
                   </span>{" "}
-                  <span className="text-content"> Visa</span>
+                  <span className="text-content">
+                    {" "}
+                    {dataOrder[0]?.paymentMethod?.name}
+                  </span>
                 </Flex>
                 <Flex justify="space-between" className="order-info-text">
                   <span>
@@ -171,21 +217,29 @@ export const ViewAdOrderDetail = () => {
                 {" "}
                 <UserOutlined className="lable-icon" /> Khách Hàng:
               </span>{" "}
-              <span className="text-content"> Josh Adam</span>
+              <span className="text-content">
+                {" "}
+                {dataOrder[0]?.user?.lastName +
+                  " " +
+                  dataOrder[0]?.user?.firstName}
+              </span>
             </Flex>
             <Flex justify="space-between" className="order-info-text">
               <span>
                 {" "}
                 <MailOutlined className="lable-icon" /> Email:
               </span>{" "}
-              <span className="text-content"> joshadam@mail.com</span>
+              <span className="text-content"> {dataOrder[0]?.user?.email}</span>
             </Flex>
             <Flex justify="space-between" className="order-info-text">
               <span>
                 {" "}
                 <PhoneOutlined className="lable-icon" /> Số Điện Thoại:
               </span>{" "}
-              <span className="text-content"> 0909 427 2910</span>
+              <span className="text-content">
+                {" "}
+                {dataOrder[0]?.user?.phoneNumber}
+              </span>
             </Flex>
           </Card>
         </Col>
@@ -193,29 +247,37 @@ export const ViewAdOrderDetail = () => {
       <Row gutter={16} style={{ marginTop: 16 }}>
         <Col span={16}>
           <Card title="Danh sách đặt hàng">
-            <Table
-              columns={columns}
-              dataSource={data}
-              pagination={false}
-              summary={() => (
-                <Table.Summary>
-                  <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={3}>
-                      Giá vận chuyển
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell>$20.00</Table.Summary.Cell>
-                  </Table.Summary.Row>
-                  <Table.Summary.Row>
-                    <Table.Summary.Cell colSpan={3}>
-                      <strong>Tổng Cộng</strong>
-                    </Table.Summary.Cell>
-                    <Table.Summary.Cell>
-                      <strong>$731.00</strong>
-                    </Table.Summary.Cell>
-                  </Table.Summary.Row>
-                </Table.Summary>
-              )}
-            />
+            <div className="order-detail-products">
+              <Table
+                columns={columns}
+                dataSource={dataSource}
+                pagination={{ pageSize: 4 }}
+                scroll={{
+                  y: 300,
+                }}
+                summary={() => (
+                  <Table.Summary>
+                    <Table.Summary.Row>
+                      <Table.Summary.Cell colSpan={3}>
+                        Giá vận chuyển
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell>0 VND</Table.Summary.Cell>
+                    </Table.Summary.Row>
+                    <Table.Summary.Row>
+                      <Table.Summary.Cell colSpan={3}>
+                        <strong>Tổng Cộng</strong>
+                      </Table.Summary.Cell>
+                      <Table.Summary.Cell>
+                        <strong>
+                          {dataOrder[0]?.totalAmount.toLocaleString("vi-VN") +
+                            " VND"}
+                        </strong>
+                      </Table.Summary.Cell>
+                    </Table.Summary.Row>
+                  </Table.Summary>
+                )}
+              />
+            </div>
           </Card>
         </Col>
         <Col span={8}>
@@ -223,7 +285,7 @@ export const ViewAdOrderDetail = () => {
             <p>
               <EnvironmentOutlined className="lable-icon" /> Địa chỉ giao hàng
             </p>
-            <p>1833 Bel Meadow Drive, Fontana, California 92335, USA</p>
+            <p style={{ marginTop: 5 }}>{dataOrder[0]?.user?.address}</p>
           </Card>
 
           <Card title="Tình trạng đặt hàng" style={{ marginTop: "20px" }}>

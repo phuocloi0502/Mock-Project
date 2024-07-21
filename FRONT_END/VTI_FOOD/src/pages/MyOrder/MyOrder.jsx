@@ -4,24 +4,40 @@ import "./my_order.scss";
 import { Table, Divider, Tag, Button } from "antd";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { dataTable } from "../../utils/constant";
+import { getOrderByUserId } from "../../redux/slide/orderSlide";
 export const MyOrder = (props) => {
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.userSlide.userId);
+
+  const rawData = useSelector((state) => state.orderSlide.listOrderByUserId);
+  const dataSource = dataTable(rawData);
+  useEffect(() => {
+    console.log("userId", userId);
+    if (userId) {
+      dispatch(getOrderByUserId(userId));
+    }
+  }, [userId]);
+  console.log(dataSource, "dataSource");
   const columns = [
     {
       title: "ID ĐƠN HÀNG",
-      dataIndex: "order_id",
-      key: "order_id",
+      dataIndex: "id",
+      key: "id",
       width: 200,
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a>#00{text}</a>,
     },
     {
       title: "TRẠNG THÁI",
-      dataIndex: "delivery_status",
-      key: "delivery_status",
+      dataIndex: "orderStatus",
+      key: "orderStatus",
       width: 200,
-      render: (_, { delivery_status }) => {
+      render: (_, { orderStatus }) => {
         let color;
-        switch (delivery_status) {
+        switch (orderStatus) {
           case "ĐÃ HỦY": {
             color = "red";
             break;
@@ -40,29 +56,30 @@ export const MyOrder = (props) => {
         }
 
         return (
-          <Tag color={color} key={delivery_status}>
-            {delivery_status.toUpperCase()}
+          <Tag color={color} key={orderStatus}>
+            {orderStatus.toUpperCase()}
           </Tag>
         );
       },
     },
     {
       title: "THỜI GIAN ĐẶT",
-      dataIndex: "created_at",
-      key: "created_at",
+      dataIndex: "createdAt",
+      key: "createdAt",
     },
     {
       title: "THÀNH TIỀN",
-      key: "payment_amount",
-      dataIndex: "payment_amount",
+      key: "totalAmount",
+      dataIndex: "totalAmount",
+      render: (text) => <>{text.toLocaleString("vi-VN") + " VND"}</>,
     },
     {
       title: "HÀNH ĐỘNG",
       key: "action",
-      render: (_, { order_id }) => (
-        <Link to={`/my_order/${order_id}`}>
+      render: (_, { id }) => (
+        <Link to={`/my_order/${id}`}>
           <Button>Xem chi tiết</Button>
-          {console.log(order_id)}
+          {/* {console.log(order_id)} */}
         </Link>
       ),
     },
@@ -150,8 +167,8 @@ export const MyOrder = (props) => {
       </Divider>
       <Table
         columns={columns}
-        dataSource={data}
-        pagination={{ pageSize: 10 }}
+        dataSource={dataSource}
+        pagination={{ pageSize: 5 }}
         scroll={{
           y: 500,
         }}

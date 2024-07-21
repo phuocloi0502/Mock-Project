@@ -11,11 +11,12 @@ import { getUserById, updateUser } from "../../redux/slide/userSlide";
 import { getCartInfoById } from "../../redux/slide/cartSlide";
 import Item from "antd/es/list/Item";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import moment from "moment";
+import { createOrder } from "../../redux/slide/orderSlide";
 export const CheckOut = (props) => {
   const nav = useNavigate();
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-  };
+
   const [payMethod, setPayMethod] = useState(1);
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
@@ -26,12 +27,47 @@ export const CheckOut = (props) => {
   const userIdCurrent = useSelector((state) => state.userSlide.userId);
   const dataUserById = useSelector((state) => state.userSlide.userById);
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     dispatch(getUserById(userId));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (userIdCurrent) {
+      dispatch(getUserById(userIdCurrent));
+    }
+  }, [userIdCurrent]);
+  console.log(dataUserById);
 
+  const [form] = Form.useForm();
+  useEffect(() => {
+    if (dataUserById) {
+      form.setFieldsValue({
+        ...dataUserById,
+        fullname: dataUserById?.lastName + " " + dataUserById?.firstName,
+        //show: productData.show?.toString() ?? "",
+      });
+    }
+  }, [dataUserById, form]);
+
+  const onFinish = (value) => {
+    //console.log("Received values of form: ", values);
+    const dataUpdate = {
+      firstName: dataUserById?.firstName,
+      lastName: dataUserById?.lastName,
+      phoneNumber: value.phoneNumber,
+      username: dataUserById?.username,
+      // password: dataUserById?.password,
+      // retypePassword: dataUserById?.password,
+      address: value.address,
+      dob: "09/10/2001",
+      email: value.email,
+      role_id: "2",
+    };
+    if (userIdCurrent) {
+      try {
+        dispatch(updateUser({ id: userIdCurrent, body: dataUpdate }));
+        toast.success("Cập nhật thông tin thành công");
+      } catch (error) {
+        console.error("Failed to dispatch update:", error);
+      }
+    }
+  };
   // get data cart detail
   const { dataCartByUserId, loading } = useSelector((state) => state.cartSlide);
   const prevDataCartByUserId = useRef(dataCartByUserId);
@@ -59,6 +95,26 @@ export const CheckOut = (props) => {
       return total + item.price * item.quantity;
     }, 0);
   };
+  // handle note
+  const [note, setNote] = useState("");
+  const handleCreateOrder = () => {
+    const today = moment().format("YYYY-MM-DD");
+
+    const dataCreateOrder = {
+      userId: userIdCurrent,
+      deliveryDate: today,
+      deliveryAddress: dataUserById?.address,
+      note: note,
+      paymentMethodId: 1,
+      paymentStatus: false,
+      paymentDate: "",
+    };
+
+    console.log("dataCreateOrder", dataCreateOrder);
+    dispatch(createOrder(dataCreateOrder));
+    toast.success("Đã đặt hàng thành công");
+    nav("/");
+  };
   return (
     <div className="check-out-wrap">
       <p>
@@ -70,6 +126,7 @@ export const CheckOut = (props) => {
           <div className="check-out-form user-info">
             <h4>Thông tin giao hàng</h4>
             <Form
+              form={form}
               name="checkount-form"
               className="login-form"
               labelCol={{ span: 6 }}
@@ -81,7 +138,7 @@ export const CheckOut = (props) => {
             >
               <Form.Item
                 label="Name"
-                name="name"
+                name="fullname"
                 rules={[
                   {
                     required: true,
@@ -93,7 +150,7 @@ export const CheckOut = (props) => {
                   },
                 ]}
               >
-                <Input placeholder="Name" autoFocus />
+                <Input disabled={true} placeholder="Name" />
               </Form.Item>
               <Form.Item
                 label="Email"
@@ -121,11 +178,11 @@ export const CheckOut = (props) => {
                   },
                 ]}
               >
-                <Input placeholder="Name" autoFocus />
+                <Input placeholder="Address" />
               </Form.Item>
               <Form.Item
                 label="Phone"
-                name="phone"
+                name="phoneNumber"
                 rules={[
                   {
                     required: true,
@@ -278,7 +335,14 @@ export const CheckOut = (props) => {
           </div>
           <div className="check-out-form user-note">
             <h4>Ghi chú đặt hàng</h4>
-            <Input.TextArea rows={5} placeholder="Ghi chú"></Input.TextArea>
+            <Input.TextArea
+              name="note"
+              rows={5}
+              placeholder="Ghi chú"
+              onChange={(e) => {
+                setNote(e.target.value);
+              }}
+            ></Input.TextArea>
           </div>
         </div>
         <div className="check-out-order">
@@ -328,7 +392,7 @@ export const CheckOut = (props) => {
           </div>
 
           <div className="check-out-order-buton">
-            <Button danger type="primary">
+            <Button danger type="primary" onClick={() => handleCreateOrder()}>
               ĐẶT HÀNG <IoArrowForward />
             </Button>
           </div>

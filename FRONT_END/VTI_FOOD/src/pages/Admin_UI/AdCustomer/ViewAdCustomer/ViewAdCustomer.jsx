@@ -55,7 +55,9 @@ export const ViewAdCustomer = (props) => {
   }, []);
   const rawData = useSelector((state) => state.userSlide.listUser);
   // Xử lý dữ liệu
-  const dataSource = dataTable(rawData);
+  const dataSource = dataTable(rawData).filter(
+    (item) => item.roleName != "admin"
+  );
   return (
     <div className="view-customer-container">
       <div className="header">
@@ -73,13 +75,6 @@ export const ViewAdCustomer = (props) => {
         //   type: "checkbox",
         // }}
       />
-      {/* <div className="pagination-container">
-        <Pagination
-          className="custom-pagination"
-          defaultCurrent={1}
-          total={50}
-        />
-      </div> */}
     </div>
   );
 };
