@@ -12,6 +12,7 @@ import {
 import { PlusOutlined, CloseOutlined, InboxOutlined } from "@ant-design/icons";
 import "./create_ad_product.scss";
 import { useNavigate } from "react-router-dom";
+
 const { TextArea } = Input;
 const { Option } = Select;
 import api from "../../../../services/axiosClient";
@@ -20,7 +21,10 @@ import { getToken } from "../../../../utils/helpers";
 import { useSelector, useDispatch } from "react-redux";
 import { upLoadProductImage } from "../../../../redux/slide/productSlide";
 import { getAll } from "../../../../redux/slide/categorySlide";
-import { createProduct } from "../../../../redux/slide/productSlide";
+import {
+  createProduct,
+  getAllProducts,
+} from "../../../../redux/slide/productSlide";
 export const CreateAdProduct = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -42,7 +46,13 @@ export const CreateAdProduct = () => {
     dispatch(getAll());
   }, []);
   const productStatus = ["ACTIVE", "INACTIVE", "OUT_OF_STOCK", "PENDING"];
-
+  const totalElements = useSelector(
+    (state) => state.productSlide.totalElements
+  );
+  useEffect(() => {
+    dispatch(getAllProducts({ pageNumber: 1, search: "" }));
+  }, [dispatch]);
+  console.log(totalElements, "totalElements");
   const handleChange = ({ fileList }) => {
     setFileList(fileList);
   };
@@ -79,7 +89,7 @@ export const CreateAdProduct = () => {
         message.success(
           "Sản phẩm đã được thêm thành công và ảnh đã được tải lên!"
         );
-        nav(`/admin/products/`);
+        nav(`/admin/products?productId=${productId}`);
         setFileList([]);
       } else {
         throw new Error("Không thể thêm sản phẩm");
@@ -98,6 +108,12 @@ export const CreateAdProduct = () => {
 
   const handleSelectCategory = (value) => {
     // console.log(value);
+  };
+  const validateFileListLength = (rule, value) => {
+    if (fileList.length > 5) {
+      return Promise.reject(`Số lượng hình ảnh vượt quá giới hạn là 5`);
+    }
+    return Promise.resolve();
   };
   return (
     <div className="create-product-container">
@@ -156,6 +172,9 @@ export const CreateAdProduct = () => {
                 label="Hình ảnh"
                 rules={[
                   { required: true, message: "Vui lòng chọn ảnh sản phẩm!" },
+                  {
+                    validator: validateFileListLength,
+                  },
                 ]}
               >
                 <Upload.Dragger

@@ -102,6 +102,7 @@
             }
             .product-item-info-text {
               text-align: left;
+              line-height: 1.5;
             }
           }
           .payment-sub-amount {
@@ -146,10 +147,10 @@
         justify-content: space-between;
         align-items: center;
         strong {
-          font-size: 1.3rem;
+          font-size: 1.1rem;
           color: white;
-          background-color: rgb(244, 40, 40);
-          padding: 10px;
+          background-color: rgb(52, 48, 231);
+          padding: 8px;
           border-radius: 5px;
         }
       }

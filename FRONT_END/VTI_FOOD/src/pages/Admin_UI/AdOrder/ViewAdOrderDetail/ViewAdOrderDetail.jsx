@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Col, Row, Table, Tag, Timeline, Flex, Select } from "antd";
+import { Card, Col, Row, Table, Tag, Timeline, Flex, Select, Spin } from "antd";
 import {
   MailOutlined,
   PhoneOutlined,
@@ -31,7 +31,7 @@ const getSelectClass = (value) => {
       return ["#d46b08", "#fff7e6", "#ffd591"];
     case "ĐANG GIAO":
       return ["#d4b106", "#feffe6", "#fffb8f"];
-    case "ĐÃ GIAO":
+    case "ĐÃ NHẬN":
       return ["#389e0d", "#f6ffed", "#b7eb8f"];
     case "HỦY":
       return ["#cf1322", "#fff1f0", "#ffa39e"];
@@ -101,7 +101,7 @@ const columns = [
 export const ViewAdOrderDetail = () => {
   const dispatch = useDispatch();
   const { orderId } = useParams();
-  const [orderStatus, setOrderStatus] = useState("ĐÃ GIAO");
+  const [orderStatus, setOrderStatus] = useState();
 
   // handle update order
   const handleChange = (value) => {
@@ -109,12 +109,11 @@ export const ViewAdOrderDetail = () => {
     let paymentStatus = false;
     let paymentDate = "";
     const today = moment().format("YYYY-MM-DDTHH:mm:ss");
-    if (value == "ĐÃ GIAO") {
+    if (value == "ĐÃ NHẬN") {
       paymentStatus = true;
-      const now = moment();
-      paymentDate = now.add(30, "minutes").format("YYYY-MM-DDTHH:mm:ss");
+      paymentDate = moment().format("YYYY-MM-DDTHH:mm:ss");
     }
-    console.log("today", today);
+
     const dataUpdate = {
       deliveryDate: today,
       deliveryAddress: dataOrder[0]?.user?.address,
@@ -124,13 +123,13 @@ export const ViewAdOrderDetail = () => {
       paymentDate: paymentDate,
       paymentMethodId: 1,
     };
-    console.log("dataUpdate", dataUpdate);
+    //console.log("dataUpdate", dataUpdate);
     try {
       dispatch(updateOrder({ id: orderId, body: dataUpdate }));
       toast.success("Đã chuyển trạng thái");
     } catch (error) {}
   };
-  console.log(orderStatus);
+  // console.log(orderStatus);
   const CustomSelect = styled(Select)`
     .ant-select-selector {
       color: ${getSelectClass(orderStatus)[0]} !important;
@@ -140,10 +139,11 @@ export const ViewAdOrderDetail = () => {
   `;
 
   // handle data
-  const [dataOrder, setDataOrder] = useState([]);
-  const [orderTitle, setOrderTitle] = useState(""); //"XÁC NHẬN"
-
+  //const [dataOrder, setDataOrder] = useState([]);
+  // const [orderTitle, setOrderTitle] = useState(""); //"XÁC NHẬN"
+  const [paymentDate, setPaymentDate] = useState("");
   const dataAllOrder = useSelector((state) => state.orderSlide.listOrder);
+  const loading = useSelector((state) => state.orderSlide.loading);
   const dataOrderDetailByOderId = useSelector(
     (state) => state.orderSlide.listOrderDetailByOderId
   );
@@ -153,18 +153,17 @@ export const ViewAdOrderDetail = () => {
     if (orderId) {
       dispatch(getOrderDetailByOrderId(orderId));
     }
-  }, [orderId]);
+  }, [orderId, orderStatus]);
+  let dataOrder = dataAllOrder.filter((item) => item.id == orderId);
+  let orderTitle = "#00" + dataOrder[0]?.id;
+  // useEffect(() => {
+  //   setDataOrder();
+  // }, [dataAllOrder]);
   useEffect(() => {
-    setDataOrder(dataAllOrder.filter((item) => item.id == orderId));
-  }, [dataAllOrder]);
-  useEffect(() => {
-    setOrderTitle("#00" + dataOrder[0]?.id);
-  }, [dataOrder]);
-  useEffect(() => {
-    // 'XÁC NHẬN','ĐÓNG GÓI','ĐANG GIAO','ĐÃ NHẬN','HỦY'
+    //setOrderTitle();
     setOrderStatus(dataOrder[0]?.orderStatus);
-    // setOrderStatus("HỦY");
   }, [dataOrder]);
+
   const dataSource = dataOrderDetailByOderId.map((item) => ({
     key: item.id,
     subtotal: `${
@@ -172,21 +171,17 @@ export const ViewAdOrderDetail = () => {
     }`,
     ...item,
   }));
-  // console.log("dataAllOrder", dataAllOrder);
-  // console.log("dataOrderDetailByOderId", dataOrderDetailByOderId);
-
-  // console.log("orderTitle", orderTitle);
-  console.log("dataOrder", dataOrder);
 
   return (
     <div className="order-detail-wrap">
+      {/* <Spin spinning={loading} fullscreen="true"></Spin>
+      {console.log("laod  ")} */}
       <Link to={"/admin/order"}>
         <div style={{ display: "flex" }}>
           <FaArrowLeft className=" icon" />
           <h4>Chi tiết đặt hàng</h4>
         </div>
       </Link>
-
       <h5>
         Danh sách đặt hàng <span>/ Chi tiết đặt hàng</span>
       </h5>
@@ -321,9 +316,9 @@ export const ViewAdOrderDetail = () => {
           <Card title="Tình trạng đặt hàng" style={{ marginTop: "20px" }}>
             <Timeline>
               <Timeline.Item color="green">
-                Đã đặt hàng 12/12/2022, 03:00
+                Đã đặt hàng {dataOrder[0]?.createdAt}
               </Timeline.Item>
-              <Timeline.Item color="orange">
+              {/* <Timeline.Item color="orange">
                 Đang xử lý 12/12/2022, 03:30
               </Timeline.Item>
               <Timeline.Item color="blue">
@@ -331,9 +326,9 @@ export const ViewAdOrderDetail = () => {
               </Timeline.Item>
               <Timeline.Item color="blue">
                 Đang vận chuyển DD/MM/YY, 00:00
-              </Timeline.Item>
+              </Timeline.Item> */}
               <Timeline.Item color="gray">
-                Đã giao thành công DD/MM/YY, 00:00
+                Đã giao thành công {dataOrder[0]?.paymentDate}
               </Timeline.Item>
             </Timeline>
           </Card>

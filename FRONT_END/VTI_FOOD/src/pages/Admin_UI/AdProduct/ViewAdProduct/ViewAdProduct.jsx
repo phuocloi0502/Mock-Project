@@ -2,10 +2,10 @@ import React from "react";
 import { Table, Button, Input, Checkbox, Pagination, Modal } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./view_ad_product.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { dataTable } from "../../../../utils/constant";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   getAllProducts,
   deleteProductById,
@@ -17,31 +17,38 @@ const { confirm } = Modal;
 
 export const ViewAdProduct = (props) => {
   const nav = useNavigate();
-  const [current, setCurrent] = useState();
+  const rowRefs = useRef({});
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const newProductId = searchParams.get("productId");
+  console.log(newProductId, "productId");
+  const pageCurrent = useSelector((state) => state.productSlide.pageCurrent);
   const dispatch = useDispatch();
   const rawData = useSelector((state) => state.productSlide.listProduct);
-
+  const loading = useSelector((state) => state.productSlide.loading);
   useEffect(() => {
-    dispatch(getAllProducts({ pageNumber: current, search: "" }));
-  }, [current, dispatch]);
+    // console.log("pageCurrent", pageCurrent);
+    dispatch(getAllProducts({ pageNumber: pageCurrent, search: "" }));
+  }, [pageCurrent, dispatch, dispatch]);
   const totalElements = useSelector(
     (state) => state.productSlide.totalElements
   );
-  const loading = useSelector((state) => state.productSlide.loading);
+
   const onChange = (page) => {
-    setCurrent(page);
+    dispatch(changePageCurrent(page));
   };
 
   // Xử lý dữ liệu
   const dataSource = dataTable(rawData);
-  // console.log(dataSource);
+  console.log(dataSource);
   const columns = [
     {
       title: "#ID",
       dataIndex: "id",
       key: "id",
-      sorter: (a, b) => a.id - b.id,
-      defaultSortOrder: "descend",
+      width: 70,
+      // sorter: (a, b) => a.id - b.id,
+      // defaultSortOrder: "descend",
       render: (text) => {
         return <div>{text}</div>;
       },
@@ -143,9 +150,16 @@ export const ViewAdProduct = (props) => {
     });
   };
   const handleDelete = (productId) => {
-    dispatch(changePageCurrent(current));
     dispatch(deleteProductById(productId));
   };
+  useEffect(() => {
+    if (newProductId && rowRefs.current[newProductId]) {
+      rowRefs.current[newProductId].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [rawData, newProductId]);
   return (
     <div>
       <div
@@ -177,8 +191,18 @@ export const ViewAdProduct = (props) => {
         pagination={false} // Disable default pagination
         // pagination={{ pageSize: 8 }}
         scroll={{
-          y: 500,
+          y: 700,
         }}
+        rowClassName={(record) =>
+          record.id === newProductId ? "highlight-row" : ""
+        }
+        onRow={(record) => ({
+          ref: (node) => {
+            if (node) {
+              rowRefs.current[record.id] = node; // Gán ref cho hàng
+            }
+          },
+        })}
         // rowSelection={{
         //   type: "checkbox",
         // }}
@@ -187,8 +211,7 @@ export const ViewAdProduct = (props) => {
         <Pagination
           className="custom-pagination"
           pageSize={8}
-          defaultCurrent={1}
-          current={current}
+          current={pageCurrent}
           onChange={onChange}
           total={totalElements}
         />

@@ -99,23 +99,25 @@ export const CheckOut = (props) => {
   // handle note
   const [note, setNote] = useState("");
   const handleCreateOrder = () => {
-    const today = moment().format("YYYY-MM-DD");
+    try {
+      const dataCreateOrder = {
+        userId: userIdCurrent,
+        deliveryDate: "",
+        deliveryAddress: dataUserById?.address,
+        note: note,
+        paymentMethodId: 1,
+        paymentStatus: false,
+        paymentDate: "",
+      };
 
-    const dataCreateOrder = {
-      userId: userIdCurrent,
-      deliveryDate: today,
-      deliveryAddress: dataUserById?.address,
-      note: note,
-      paymentMethodId: 1,
-      paymentStatus: false,
-      paymentDate: "",
-    };
-
-    dispatch(createOrder(dataCreateOrder));
-    toast.success("Đã đặt hàng thành công");
-    nav("/my_order");
-    dispatch(changeCartNumber(0));
-    dispatch(changeDataCartByUserId([]));
+      dispatch(createOrder(dataCreateOrder));
+      toast.success("Đã đặt hàng thành công");
+      nav("/my_order");
+      dispatch(changeCartNumber(0));
+      dispatch(changeDataCartByUserId([]));
+    } catch (error) {
+      message.error(error);
+    }
   };
   return (
     <div className="check-out-wrap">

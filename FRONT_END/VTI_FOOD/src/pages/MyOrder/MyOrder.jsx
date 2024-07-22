@@ -27,8 +27,10 @@ export const MyOrder = (props) => {
       title: "ID ĐƠN HÀNG",
       dataIndex: "id",
       key: "id",
-      width: 200,
+      width: 150,
       render: (text) => <a>#00{text}</a>,
+      sorter: (a, b) => a.id - b.id,
+      defaultSortOrder: "descend",
     },
     {
       title: "TRẠNG THÁI",

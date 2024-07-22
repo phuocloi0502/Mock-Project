@@ -37,6 +37,13 @@ export const upLoadProductImage = createAsyncThunk(
         await productService.uploadProductImage(productId, formData)
       ).data;
       console.log(data);
+      const state = thunkAPI.getState();
+      const totalElements = state.productSlide.totalElements;
+      console.log(totalElements, "totalElements");
+      const page = Math.floor(totalElements / 8) + 1;
+      thunkAPI.dispatch(changePageCurrent(page));
+      console.log("page", page);
+      thunkAPI.dispatch(getAllProducts({ pageNumber: page, search: "" }));
       return data;
     } catch (error) {
       console.error(error);
@@ -66,6 +73,7 @@ export const updateProduct = createAsyncThunk(
     try {
       const data = (await productService.update(id, body)).data;
       thunkAPI.dispatch(getById(id));
+
       return data;
     } catch (error) {
       console.error(error);
@@ -81,8 +89,23 @@ export const deleteProductById = createAsyncThunk(
     try {
       const dataDelete = (await productService.delete(id)).data;
       const state = thunkAPI.getState();
-      const pageCurrent = state.productSlide.pageCurrent;
-      thunkAPI.dispatch(getAllProducts({ pageCurrent }));
+      let pageCurrent = state.productSlide.pageCurrent;
+
+      thunkAPI.dispatch(
+        getAllProducts({ pageNumber: pageCurrent, search: "" })
+      );
+      const listProduct = state.productSlide.listProduct;
+      console.log(listProduct, "listProduct");
+      if (listProduct.length == 1) {
+        pageCurrent = pageCurrent - 1;
+        thunkAPI.dispatch(
+          getAllProducts({ pageNumber: pageCurrent, search: "" })
+        );
+      }
+
+      thunkAPI.dispatch(
+        getAllProducts({ pageNumber: pageCurrent, search: "" })
+      );
       return dataDelete;
     } catch (error) {
       console.error(error);

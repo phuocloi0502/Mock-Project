@@ -205,7 +205,7 @@ export const MyOrderDetail = (props) => {
         </>
       ) : (
         <div className="order-detail-slider">
-          <p>Đơn hàng dự kiến đến lúc {dataOrder[0]?.deliveryDate}</p>
+          <p>Đơn hàng dự kiến giao trong vòng 1 giờ kể từ ngày tạo</p>
           <div className="slider-delivery-wrapper">
             <div className="slider-line">
               <div className="slider-rail"></div>

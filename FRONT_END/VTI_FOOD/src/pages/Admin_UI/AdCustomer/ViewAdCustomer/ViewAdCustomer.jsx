@@ -14,6 +14,8 @@ const columns = [
     title: "ID",
     dataIndex: "id",
     key: "id",
+    sorter: (a, b) => a.id - b.id,
+    defaultSortOrder: "descend",
   },
   {
     title: "Họ và tên",
