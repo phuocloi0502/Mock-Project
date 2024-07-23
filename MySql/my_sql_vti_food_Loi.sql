@@ -39,12 +39,17 @@ CHANGE COLUMN `show` `is_show` BOOLEAN;
 -- Query: SELECT * FROM vtifood.products
 LIMIT 0, 1000
 
--- Date: 2024-07-16 23:48
+-- Date: 2024-07-23 20:14
 */
--- INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (2,'Chân gà rút xương',10,22432,'Chân gà rút xương rất là ngon đó nhen quý dị','mo ta san pham','2024-07-16 11:25:32',NULL,1,'ACTIVE',1);
--- INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (3,'Kem không tan',10,100000,'Kem không tan, không ăn không tan','Mo ta san pham','2024-07-16 11:27:21',NULL,3,'ACTIVE',1);
--- INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (6,'Chân gà ',2,50000,'Chân gà tuyệt ngon','Mô tả sản phẩm','2024-07-16 12:14:37',NULL,1,'ACTIVE',1);
--- INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (7,'Trà sữa mật ong',10,30000,'Trà sữa mật ong ngon tuyệt','Đây là mô tả sản phẩm','2024-07-16 12:17:13',NULL,2,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (99,'Chân gà sả tắc',10,50000,'Món ăn vặt hấp dẫn','Chân gà sả tắc là món ăn khoái khẩu được rất nhiều người yêu thích. Những chiếc chân gà ngâm với gia vị, dai ngon, sần sật, ngấm vị chua cay, mặn ngọt tạo nên mùi vị càng hấp dẫn. Món ăn này thích hợp là món ăn vặt hoặc món nhậu lai rai của nhiều người.','2024-07-23 10:16:46',NULL,1,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (100,'Trà ô long mật ong',10,20000,'Đậm vị mật ong, ngon khó cưỡng','Trà ô long mật ong là thức uống được yêu thích vào mùa nóng này','2024-07-23 10:19:15',NULL,2,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (101,'Kem blueberry',10,20000,'Đã là hè thì phải có Kem blueberry ','Kem blueberry làm từ  blueberry nguyên chất','2024-07-23 10:20:44',NULL,3,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (102,'Gà chiên giòn',20,30000,'Giòn giòn giòn !!!','Gà chiên giòn được chiên bằng loại bột hảo hạn','2024-07-23 10:22:07',NULL,1,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (103,'Chè thái',10,20000,'Chè Thái nhưng đến từ Việt Nam','Chè Thái còn được gọi là “Chong” hoặc chè giun hay chè bánh lọt theo cách gọi của người miền Nam. Đây là một món ăn vặt nổi tiếng sẽ khiến du khách ngây ngất ngay từ cái nhìn.','2024-07-23 10:24:02',NULL,2,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (104,'Kem ngũ vị',20,15000,'Kem ngon khó cưỡng','Kem 5 vị từ 10 lọai trái cây khác nhau','2024-07-23 10:25:10',NULL,3,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (105,'Bánh kẹp phô mai',10,30000,'Đậm vị thơm khi còn nóng','Bánh kẹp phô mai, bên trong là phô mai','2024-07-23 10:26:25',NULL,1,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (106,'Chè Thái Sầu Riêng',10,20000,'Đặc trưng của mùa hè','Chè Thái Sầu Riêng thơm mùi sầu riêng','2024-07-23 10:29:25',NULL,2,'ACTIVE',1);
+INSERT INTO `products` (`id`,`name`,`quantity`,`price`,`abstract`,`description`,`created_at`,`updated_at`,`category_id`,`status`,`is_show`) VALUES (107,'Kem dâu',10,20000,'Kem thật Dâu thật','Kem dâu với màu sắc đa dạng','2024-07-23 10:30:33','2024-07-23 10:32:13',3,'ACTIVE',1);
 
 
 CREATE TABLE `product_images` (
@@ -59,19 +64,24 @@ CREATE TABLE `product_images` (
 -- Query: SELECT * FROM vtifood.product_images
 LIMIT 0, 1000
 
--- Date: 2024-07-16 23:48
+-- Date: 2024-07-23 20:16
 */
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (1,2,'99b401a1-aa69-4ccf-9a8d-55a44d4f2f30_29351737_2152446668377854_356570745477300982_o_2152446668377854.jpg');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (2,2,'f3231c47-d941-4f98-a356-4618d40c939c_Blueberry-ice-cream-5-500x500.webp');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (3,2,'9b85db89-32a9-4ed1-a7c4-8602385f2617_chan ga.jpeg');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (4,2,'ec896501-a158-4c68-8ea2-655687915f26_combo.jpeg');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (5,3,'6a9f97c7-abca-4cba-977a-d659e2a370cd_146677-ngay-hoi-kem-tuoi-an-kem-thoa-thich-tai-halloween-ice-cream.jpg');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (6,3,'30f28940-5190-4abb-bd23-5674f1134912_banh_oc_que_hinh_tho_89c871bc25124b178bdbd87f90054c47.webp');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (7,6,'2d05f304-fef3-46f9-b178-eead3a98e365_chan ga.jpeg');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (8,7,'f0cea4f5-4487-46d5-8218-70e9a871144b_vn-11134517-7r98o-lr462kesj7h55d@resize_ss400x400!@crop_w400_h400_cT.jpeg');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (9,7,'94b8ce02-f20c-44f4-b96a-8c67c3dc9390_vn-11134517-7r98o-lr0768nm4tl078@resize_ss400x400!@crop_w400_h400_cT.jpeg');
--- INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (10,7,'c3cc09f2-5c09-482c-a33a-290a48519dc8_vn-11134517-7r98o-lteb7agjohc461@resize_ss400x400!@crop_w400_h400_cT.jpeg');
-
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (202,99,'91535469-c19e-46f0-ad34-6ee037c7fba1_chan ga.jpeg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (203,99,'5cd21751-7b61-48d3-a020-bc022d83c508_1-1.jpg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (204,99,'d3a0cc1e-8ec2-48b3-a7b4-a2e8fcd7d55e_5551d8a4d6358dd3835b59b4c9c746ad.jpg_720x720q80.jpg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (205,100,'9cce6a6e-85e6-4d71-963a-7368b840cfc5_vn-11134517-7r98o-lr0768nm4tl078@resize_ss400x400!@crop_w400_h400_cT.jpeg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (206,100,'c4c21307-03c4-413d-88f5-328eee1ba008_vn-11134517-7r98o-lteb7agjohc461@resize_ss400x400!@crop_w400_h400_cT.jpeg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (207,101,'ccf4d3aa-f320-4b34-bde5-327e56c75fbf_Blueberry-ice-cream-5-500x500.webp');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (208,101,'e49a3fce-0670-4b4a-91fe-9e70aabfc7d3_435381-ice-cream-base-Pam-Ziegler-Lutz-4x3-1-88949560ccf04d0fae12225be5b83fc2.jpg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (209,102,'557ce90d-ab27-419f-a6d3-4efb8dc70b1b_29351737_2152446668377854_356570745477300982_o_2152446668377854.jpg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (210,102,'a875a1fa-d049-4878-b193-b5af57a45a73_sub-buzz-708-1689798620-9.webp');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (211,103,'1365b95f-5675-4113-8657-0d4b823c49a7_vn-11134517-7r98o-lr462kesj7h55d@resize_ss400x400!@crop_w400_h400_cT.jpeg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (212,104,'e3ca6444-469d-4302-93ba-45152c49cc05_FOIC_NZICBLOG1.jpg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (213,105,'3cee2f40-d0fe-4c20-b9e6-477623f7060a_17tootired-grilled-cheese-articleLarge.webp');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (214,106,'8acfd803-1592-4973-8301-029fd237f98f_vn-11134517-7r98o-lqzylifif0zo96@resize_ss400x400!@crop_w400_h400_cT.jpeg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (215,106,'c6bc1b7f-0c09-442a-869a-839faf044d64_z3702048179558_ac1de346eeee627adf17cdb97d628251.jpg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (216,107,'97b744de-ac3e-4485-a32d-0c8a2fe07201_kem-dau.jpg');
+INSERT INTO `product_images` (`id`,`product_id`,`image_url`) VALUES (217,107,'04055501-a444-4faf-ba09-8ce161b0be96_146677-ngay-hoi-kem-tuoi-an-kem-thoa-thich-tai-halloween-ice-cream.jpg');
 
 CREATE TABLE `roles`(
 	id INT PRIMARY KEY ,

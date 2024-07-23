@@ -86,12 +86,14 @@ export const orderSlide = createSlice({
   name: "orderSlide",
   initialState: {
     loading: false,
+    creatingOrder: false,
     listOrder: [],
     listOrderByUserId: [],
     listOrderDetailByOderId: [],
     dataOrderById: {},
     showDrawer: false,
     statusOrder: "",
+    updatingOrder: false,
   },
   reducers: {
     changeShowDrawer: (state, action) => {
@@ -107,14 +109,14 @@ export const orderSlide = createSlice({
   extraReducers: (builder) => {
     // createOrder
     builder.addCase(createOrder.pending, (state, action) => {
-      state.loading = true;
+      state.creatingOrder = true;
     });
     builder.addCase(createOrder.fulfilled, (state, action) => {
-      state.loading = false;
+      state.creatingOrder = false;
       //state.listOrder = action.payload;
     });
     builder.addCase(createOrder.rejected, (state, action) => {
-      state.loading = false;
+      state.creatingOrder = false;
     });
 
     // get all order
@@ -154,14 +156,14 @@ export const orderSlide = createSlice({
 
     // update order
     builder.addCase(updateOrder.pending, (state, action) => {
-      state.loading = true;
+      state.updatingOrder = true;
     });
     builder.addCase(updateOrder.fulfilled, (state, action) => {
-      state.loading = false;
+      state.updatingOrder = false;
       // state.listOrderDetailByOderId = action.payload;
     });
     builder.addCase(updateOrder.rejected, (state, action) => {
-      state.loading = false;
+      state.updatingOrder = false;
     });
 
     // get order by id

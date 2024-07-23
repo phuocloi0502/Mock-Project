@@ -42,6 +42,7 @@ export const userSlide = createSlice({
     userId: "",
     userById: {},
     listUser: [],
+    role: "",
   },
   reducers: {
     changeIsLogin: (state, action) => {
@@ -53,6 +54,9 @@ export const userSlide = createSlice({
     },
     setUserId: (state, action) => {
       state.userId = action.payload;
+    },
+    setRole: (state, action) => {
+      state.role = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -91,5 +95,6 @@ export const userSlide = createSlice({
     });
   },
 });
-export const { changeIsLogin, changeUserName, setUserId } = userSlide.actions;
+export const { changeIsLogin, changeUserName, setUserId, setRole } =
+  userSlide.actions;
 export default userSlide.reducer;

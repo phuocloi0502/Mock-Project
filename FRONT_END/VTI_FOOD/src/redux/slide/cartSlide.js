@@ -9,11 +9,15 @@ export const addProductsToCart = createAsyncThunk(
   async (body, thunkAPI) => {
     try {
       const data = (await cartService.create(body)).data;
-      console.log(data, "data cart added");
+      // console.log(data, "data cart added");
       toast.success("Đã thêm");
       return data;
     } catch (error) {
-      console.log(error);
+      if (error?.message == "Request failed with status code 500") {
+        toast.error("Admin không thể thêm sản phẩm vào giỏ hàng !");
+      } else {
+        toast.error(error?.message);
+      }
     }
   }
 );

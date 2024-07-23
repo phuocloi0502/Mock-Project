@@ -3,7 +3,7 @@ import { Button, Space } from "antd";
 import "./status_filter.scss";
 import { changeStatusOrder } from "../../../redux/slide/orderSlide";
 import { useDispatch } from "react-redux";
-export const StatusFilter = () => {
+export const StatusFilter = (props) => {
   const dispatch = useDispatch();
   const [selectedStatus, setSelectedStatus] = useState("Tất cả trạng thái");
 
@@ -30,8 +30,9 @@ export const StatusFilter = () => {
             type={selectedStatus === status ? "primary" : "default"}
             onClick={() => handleStatusChange(status)}
             style={{
-              backgroundColor: selectedStatus === status ? "#f4ecfb" : "",
-              color: selectedStatus === status ? "#722ed1" : "",
+              backgroundColor:
+                selectedStatus === status ? props?.backgroundColor : "", //#f4ecfb
+              color: selectedStatus === status ? props?.color : "", //#722ed1
             }}
           >
             {status}

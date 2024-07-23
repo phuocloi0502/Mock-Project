@@ -8,20 +8,22 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dataTable } from "../../utils/constant";
 import { getOrderByUserId } from "../../redux/slide/orderSlide";
+import { StatusFilter } from "../../components/admin_components/StatusFilter/StatusFilter";
 export const MyOrder = (props) => {
   const nav = useNavigate();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.userSlide.userId);
 
   const rawData = useSelector((state) => state.orderSlide.listOrderByUserId);
-  const dataSource = dataTable(rawData);
+  const creatingOrder = useSelector((state) => state.orderSlide.creatingOrder);
+  const data = dataTable(rawData);
   useEffect(() => {
     console.log("userId", userId);
     if (userId) {
       dispatch(getOrderByUserId(userId));
     }
-  }, [userId]);
-  console.log(dataSource, "dataSource");
+  }, [userId, creatingOrder]);
+
   const columns = [
     {
       title: "ID ĐƠN HÀNG",
@@ -94,78 +96,17 @@ export const MyOrder = (props) => {
       ),
     },
   ];
-  const data = [
-    {
-      key: 1,
-      order_id: "2123121",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "ĐÃ HỦY",
-    },
-    {
-      key: 2,
-      order_id: "2123222",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "HOÀN THÀNH",
-    },
-    {
-      key: 3,
-      order_id: "2123223",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "TRONG TIẾN TRÌNH",
-    },
-    {
-      key: 4,
-      order_id: "2123124",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "ĐÃ HỦY",
-    },
-    {
-      key: 5,
-      order_id: "212322",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "HOÀN THÀNH",
-    },
-    {
-      key: 6,
-      order_id: "#2123225",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "TRONG TIẾN TRÌNH",
-    },
-    {
-      key: 7,
-      order_id: "2123226",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "TRONG TIẾN TRÌNH",
-    },
-    {
-      key: 8,
-      order_id: "2123127",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "ĐÃ HỦY",
-    },
-    {
-      key: 9,
-      order_id: "#212322",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "HOÀN THÀNH",
-    },
-    {
-      key: 10,
-      order_id: "2123228",
-      created_at: "2024/7/3",
-      payment_amount: 100.0,
-      delivery_status: "TRONG TIẾN TRÌNH",
-    },
-  ];
+
+  const status = useSelector((state) => state.orderSlide.statusOrder);
+  const [dataSource, setDataSource] = useState(data);
+  useEffect(() => {
+    if (status == "" || status == "Tất cả trạng thái") {
+      setDataSource(data);
+    } else {
+      //dataOderByUserId.filter((item) => item.id == orderId)
+      setDataSource(data.filter((item) => item.orderStatus == status));
+    }
+  }, [status, rawData]);
   return (
     <div className="my-order content-container">
       <p>
@@ -175,6 +116,7 @@ export const MyOrder = (props) => {
       <Divider orientation="center">
         <h2>Lịch sử đặt hàng</h2>
       </Divider>
+      <StatusFilter backgroundColor="#2da5f3" color="#ffff" />
       <Table
         columns={columns}
         dataSource={dataSource}

@@ -23,7 +23,13 @@ export const SignIn = () => {
       nav("/");
       toast.success("Đăng nhập thành công !!!");
     } catch (error) {
-      toast.error(error?.message);
+      if (error?.message == "wrong username or password") {
+        toast.error("Username hoặc mật khẩu không đúng");
+      } else {
+        toast.error(error?.message);
+      }
+
+      //console.log(error?.message);
     }
   };
   return (

@@ -18,6 +18,7 @@ import {
   changeIsLogin,
   changeUserName,
   setUserId,
+  setRole,
 } from "../../redux/slide/userSlide";
 import toast, { Toaster } from "react-hot-toast";
 import { getToken } from "../../utils/helpers";
@@ -33,6 +34,7 @@ export const Header = () => {
   const dispatch = useDispatch();
   const listCategory = useSelector((state) => state.categorySlide.listCategory);
   const loading = useSelector((state) => state.categorySlide.loading);
+  const roleName = useSelector((state) => state.userSlide.role);
   // isLogin
 
   const token = getToken();
@@ -43,9 +45,10 @@ export const Header = () => {
         dispatch(changeIsLogin(true));
 
         const decoded = jwtDecode(token);
-        // console.log(decoded); // show decoded
+        console.log(decoded); // show decoded
         dispatch(changeUserName(decoded?.username));
         dispatch(setUserId(decoded?.userId));
+        dispatch(setRole(decoded?.role));
       } catch (error) {
         console.log(error);
       }
@@ -123,7 +126,7 @@ export const Header = () => {
     };
   }, []);
 
-  console.log("resultProduct", resultProduct);
+  //console.log("resultProduct", resultProduct);
   return (
     <div className="wrapper-header">
       <Spin tip="Loading..." fullscreen spinning={loading} />
@@ -189,12 +192,20 @@ export const Header = () => {
                 </li>
               </ul>
             </li>
+            {roleName == "admin" ? (
+              <li className="item">
+                <Link to="/admin">DashBoard</Link>
+              </li>
+            ) : (
+              <></>
+            )}
             <li className="item">
               <Link
                 onClick={() => {
                   dispatch(changeIsLogin(false));
                   dispatch(changeUserName(""));
                   dispatch(setUserId(""));
+                  dispatch(setRole(""));
                   setStyleHide({ display: "none" });
                   localStorage.removeItem("token");
                 }}

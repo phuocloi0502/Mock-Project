@@ -40,9 +40,14 @@ export const upLoadProductImage = createAsyncThunk(
       const state = thunkAPI.getState();
       const totalElements = state.productSlide.totalElements;
       console.log(totalElements, "totalElements");
+      if (totalElements % 8 == 0) {
+        thunkAPI.dispatch(changePageCurrent(Math.floor(totalElements / 8)));
+      } else {
+        const page = Math.floor(totalElements / 8) + 1;
+        thunkAPI.dispatch(changePageCurrent(page));
+      }
       const page = Math.floor(totalElements / 8) + 1;
       thunkAPI.dispatch(changePageCurrent(page));
-      console.log("page", page);
       thunkAPI.dispatch(getAllProducts({ pageNumber: page, search: "" }));
       return data;
     } catch (error) {

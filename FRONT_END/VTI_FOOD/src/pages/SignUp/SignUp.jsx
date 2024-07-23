@@ -102,6 +102,8 @@ export const SignUp = () => {
                   required: true,
                   message: "Vui lòng nhập user name !",
                 },
+                { min: 5, message: "User name  phải nhập ít nhất 5 kí tự !" },
+                { max: 50, message: "User name  phải nhập ít hơn 50 kí tự !" },
               ]}
             >
               <Input

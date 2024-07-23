@@ -34,7 +34,7 @@ export const ViewAdOrder = (props) => {
   useEffect(() => {
     dispatch(getAllOrder());
   }, []);
-  console.log(rawData);
+
   const columns = [
     {
       title: "ID Đặt hàng",
@@ -137,9 +137,6 @@ export const ViewAdOrder = (props) => {
       ),
     },
   ];
-  // handle filter
-
-  console.log("status", status);
 
   return (
     <div className="admin-order-wrap">
@@ -147,7 +144,7 @@ export const ViewAdOrder = (props) => {
         <h2>LIST ORDER</h2>
       </Divider>
       <div className="header-order-area">
-        <StatusFilter />
+        <StatusFilter backgroundColor="#f4ecfb" color="#722ed1" />
         <Search
           placeholder="Search ..."
           allowClear
