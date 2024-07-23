@@ -13,7 +13,7 @@ export const getById = createAsyncThunk("getCategoryById", async (id) => {
 
 // create
 export const createCategory = createAsyncThunk(
-  "create",
+  "createCategory",
   async (body, thunkAPI) => {
     const data = (await categoryService.create(body)).data;
     thunkAPI.dispatch(getAll());

@@ -9,7 +9,7 @@ const categoryService = {
     return api.get(ENDPOINT + "/" + id);
   },
   create(body) {
-    return api.post(body);
+    return api.post(ENDPOINT, body);
   },
   update(id, body) {
     return api.put(ENDPOINT + id, body);
